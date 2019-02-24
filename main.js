@@ -9,6 +9,18 @@ let rectangleRatio = 0.6666667; //the width to height ratio or rectangles is gen
 let gridColumns;
 let gridRows;
 
+let width, height;
+
+let smallImages = {};
+let largeImages = {};
+
+let holder;
+let magnifier;
+let ctx;
+
+let magnifierCtx;
+
+
 window.onload =function(e){
 	setup();
 }
@@ -46,16 +58,25 @@ function xml_http_post(url, data, callback) {
 }
 
 function setup(){
-	let width = d3.select(".main").node().getBoundingClientRect().width;
-	let height = d3.select(".main").node().getBoundingClientRect().height;
+	width = d3.select(".main").node().getBoundingClientRect().width;
+	height = d3.select(".main").node().getBoundingClientRect().height;
+	holder = d3.select(".main").select("#mainCanvas");
+	holder.attr("width", width);
+	holder.attr("height", height);
+
+	magnifier = d3.select(".main").select("#magnifier");
+	magnifier.attr("width", 200);
+	magnifier.attr("height", 200);
+
+
+
+	ctx = holder.node().getContext('2d');
+
+
+
 	d3.json("./full_json_output.json").then(function(loaded_data) {
 		getRatio(width, height, loaded_data.length);
-	// 	d3.select(".blocker").style("display", "none");
-	// 	d3.selectAll("input").on("change", changeSelection);
-	// 	loaded_data.forEach(function(e){ return e.is_opaque = 100})
-	// 	data = loaded_data;
-	//   	draw();
-
+		d3.select("canvas").node().addEventListener('mousemove', moveMagnifier, false);
 	});
 }
 
@@ -72,84 +93,39 @@ function getRatio(wid, hei, numRectangles){
 
 
 function draw(){
-		let width = d3.select(".main").node().getBoundingClientRect().width;
-		let height = d3.select(".main").node().getBoundingClientRect().height;
 
-		let holder = d3.select(".main").select("canvas");
-		holder.attr("width", width);
-		holder.attr("height", height);
+	let rectWidth = width/gridColumns;
+	let rectHeight = height/gridRows;
+  	ctx.save();
 
-		let rectWidth = width/gridColumns;
-		let rectHeight = height/gridRows;
-
-		const ctx = holder.node().getContext('2d');
-  		ctx.save();
-  		
-
-  		for (var i = 0; i < data.length; i++){
-
-  			if (i == 250) {
-  				console.log(data[i]);
-  			}
-  			const point = data[i];
-		    ctx.fillStyle = d3.hsl(point.hue/2, point.saturation/255, point.value/255);
-		    if (point.grid_point){
-		    	// ctx.fillRect(point.grid_point[0]/100 * width, point.grid_point[1]/100 * height, 5, 5);
+  	for (var i = 0; i < data.length; i++){
+  		const point = data[i];
+	    ctx.fillStyle = d3.hsl(point.hue/2, point.saturation/255, point.value/255);
+	    if (point.grid_point){
+	    	if (smallImages[point["isbn13"]]){
+	    		ctx.drawImage(smallImages[point["isbn13"]], point.grid_point[0] * rectWidth, point.grid_point[1] * rectHeight, rectWidth, rectHeight); // Or at whatever offset you like
+	    	} else {
 		    	let base_image = new Image();
 		    	let url = "./small_images/" + point.book_image.split("/")[point.book_image.split("/").length-1];
 		    	base_image.src = url;
 		    	base_image.onload = function(){
-				  ctx.drawImage(base_image, point.grid_point[0] * rectWidth, point.grid_point[1] * rectHeight, rectWidth, rectHeight); // Or at whatever offset you like
+		    		smallImages[point["isbn13"]] = base_image;
+				  	ctx.drawImage(base_image, point.grid_point[0] * rectWidth, point.grid_point[1] * rectHeight, rectWidth, rectHeight); // Or at whatever offset you like
 				};
-		    }
-  		}
+			}
 
+	    }
+  	}
 
+	ctx.restore();
+}
 
-		// let books = holder.selectAll(".book")
-		//   			.data(data, function(id){ return id.isbn13})
-
-		// books
-		// 	.style("display", function(d){ return d.is_opaque === 100 ? "block" : "none"})
-
-		// books.enter().append("image")
-		//   	.attr("class", "book")
-		//   	.attr("x", function(book){ 
-		//   		if (book.grid_point){
-		//   			return "calc(100% / 90 * " + book.grid_point[0] + ")";
-		//   		} else {
-		//   			return "-500px";
-		//   		}
-		//   	})
-		//   	.attr("y", function(book){ 
-		//   	if (book.grid_point){
-		//   		return "calc(100% / 61 * " + book.grid_point[1] + ")";
-		//   		} else {
-		//   			return "-500px";
-		//   		}
-		//   	})
-		//   	.style("display", function(d){ return d.is_opaque === 100 ? "block" : "none"})
-		//   	.style("background-color", function(book){ return d3.hsl(book.hue/2, book.saturation/255, book.value/255)})
-		//   	// .on("mouseenter", function(d){
-		//   	// 	d3.select(this).classed("large", true);
-		//   	// 	d3.select(this).select("img").attr("src", function(e){ return e.book_image});
-		//   	// })
-		//   	// .on("mouseout", function(d){
-		//   	// 	d3.select(this).classed("large", false);
-		//   	// 	d3.select(this).select("img").attr("src", function(e){ 
-		//   	// 		let url = e.book_image.split("/")[e.book_image.split("/").length-1];
-		//   	//  		return "./small_images/" + url;
-		//   	// 	});
-		//   	// })
-		  	
-		//   	.attr("xlink:href", function(d){
-		//   		let url = d.book_image.split("/")[d.book_image.split("/").length-1];
-		//   	 	return "./small_images/" + url;
-		//   	 })
-	 //  		// .attr("src", function(d){ return d.book_image})
-
-	 ctx.restore();
-
+function getMousePos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: (evt.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
+        y: (evt.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
+    };
 }
 
 function changeSelection(){
