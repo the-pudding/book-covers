@@ -57,6 +57,24 @@ function xml_http_post(url, data, callback) {
     req.send(data);
 }
 
+
+function preloadLargeImages(){
+	for (var i = 0; i < data.length; i++){
+		let point = data[i];
+			if (point["grid_point"]){
+				if (!largeImages[point["isbn13"]]){
+					let base_image = new Image();
+				    let url = point.book_image;
+				    base_image.src = url;
+				    base_image.onload = function(){
+				    	largeImages[point["isbn13"]] = base_image;
+					};
+			}
+
+		}
+	}
+}
+
 function setup(){
 	width = d3.select(".main").node().getBoundingClientRect().width;
 	height = d3.select(".main").node().getBoundingClientRect().height;
@@ -65,17 +83,15 @@ function setup(){
 	holder.attr("height", height);
 
 	magnifier = d3.select(".main").select("#magnifier");
-	magnifier.attr("width", 200);
-	magnifier.attr("height", 200);
-
-
-
+	magnifier.attr("width", 300);
+	magnifier.attr("height", 300);
 	ctx = holder.node().getContext('2d');
 
 
 
 	d3.json("./full_json_output.json").then(function(loaded_data) {
 		getRatio(width, height, loaded_data.length);
+		preloadLargeImages();
 		window.addEventListener('mousemove', moveMagnifier, false);
 	});
 }
