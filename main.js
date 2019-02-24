@@ -76,7 +76,7 @@ function setup(){
 
 	d3.json("./full_json_output.json").then(function(loaded_data) {
 		getRatio(width, height, loaded_data.length);
-		d3.select("canvas").node().addEventListener('mousemove', moveMagnifier, false);
+		window.addEventListener('mousemove', moveMagnifier, false);
 	});
 }
 
@@ -120,11 +120,12 @@ function draw(){
 	ctx.restore();
 }
 
-function getMousePos(canvas, evt) {
-    var rect = canvas.getBoundingClientRect();
+function getMousePos(evt) {
+    var rect = holder.node().getBoundingClientRect();
+
     return {
-        x: (evt.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
-        y: (evt.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
+        x: (evt.clientX - rect.left) / (rect.right - rect.left) * holder.node().width,
+        y: (evt.clientY - rect.top) / (rect.bottom - rect.top) * holder.node().height
     };
 }
 
