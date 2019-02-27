@@ -11,6 +11,7 @@ let gridRows;
 
 let width, height;
 
+let spriteSheets = {}
 let smallImages = {};
 let largeImages = {};
 
@@ -75,6 +76,16 @@ function preloadLargeImages(){
 	}
 }
 
+function loadSpriteSheet(file, objName, func){
+	let sSheet = new Image();
+	let url = file;
+	sSheet.src = url;
+	sSheet.onload = function(){
+		spriteSheets[objName] = sSheet;
+		func();
+	};
+}
+
 function setup(){
 	width = d3.select(".main").node().getBoundingClientRect().width;
 	height = d3.select(".main").node().getBoundingClientRect().height;
@@ -90,8 +101,14 @@ function setup(){
 
 
 	d3.json("./full_json_output.json").then(function(loaded_data) {
-		getRatio(width, height, loaded_data.length);
-		preloadLargeImages();
+
+
+		loadSpriteSheet("sprite_sheet_1.jpg", "one", () => loadSpriteSheet("sprite_sheet_2.jpg", "two", load));
+
+		function load(){
+			getRatio(width, height, loaded_data.length);
+			preloadLargeImages();
+		}
 		window.addEventListener('mousemove', moveMagnifier, false);
 	});
 }
@@ -113,23 +130,17 @@ function draw(){
 	let rectWidth = width/gridColumns;
 	let rectHeight = height/gridRows;
   	ctx.save();
-
+  	
   	for (var i = 0; i < data.length; i++){
   		const point = data[i];
 	    ctx.fillStyle = d3.hsl(point.hue/2, point.saturation/255, point.value/255);
 	    if (point.grid_point){
-	    	if (smallImages[point["isbn13"]]){
-	    		ctx.drawImage(smallImages[point["isbn13"]], point.grid_point[0] * rectWidth, point.grid_point[1] * rectHeight, rectWidth, rectHeight); // Or at whatever offset you like
+	    	if (i < 2500){
+	    		ctx.drawImage(spriteSheets["one"], i * 20, 0, 20, 30, point.grid_point[0] * rectWidth, point.grid_point[1] * rectHeight, rectWidth, rectHeight); //
 	    	} else {
-		    	let base_image = new Image();
-		    	let url = "./small_images/" + point.book_image.split("/")[point.book_image.split("/").length-1];
-		    	base_image.src = url;
-		    	base_image.onload = function(){
-		    		smallImages[point["isbn13"]] = base_image;
-				  	ctx.drawImage(base_image, point.grid_point[0] * rectWidth, point.grid_point[1] * rectHeight, rectWidth, rectHeight); // Or at whatever offset you like
-				};
-			}
-
+	    		ctx.drawImage(spriteSheets["two"], (i - 2500) * 20, 0, 20, 30, point.grid_point[0] * rectWidth, point.grid_point[1] * rectHeight, rectWidth, rectHeight); //
+	    	}
+	    	
 	    }
   	}
 

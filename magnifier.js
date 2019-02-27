@@ -46,12 +46,21 @@ function moveMagnifier(e){
 			    base_image.onload = function(){
 			    	largeImages[point["isbn13"]] = base_image;
 				};
-				if (smallImages[point["isbn13"]]){
-					magnifierCtx.drawImage(smallImages[point["isbn13"]],
-					  	150 - rectWidth * 4 + ((colWeAreOn - point.grid_point[0]) * rectWidth * scale), 
-					  	150 - rectHeight * 4 + ((rowWeAreOn - point.grid_point[1]) * rectHeight * scale),
-					  	rectWidth * scale, rectHeight * scale); // Or at whatever offset you like
+
+				if (point["index"] < 2500){
+					magnifierCtx.drawImage(spriteSheets["one"], 
+						point["index"] * 20, 0, 20, 30,
+						150 - rectWidth * 4 + ((colWeAreOn - point.grid_point[0]) * rectWidth * scale),
+						150 - rectHeight * 4 + ((rowWeAreOn - point.grid_point[1]) * rectHeight * scale),
+						rectWidth * scale, rectHeight * scale); 
+				} else {
+					magnifierCtx.drawImage(spriteSheets["two"], 
+						(2500 - point["index"]) * 20, 0, 20, 30,
+						150 - rectWidth * 4 + ((colWeAreOn - point.grid_point[0]) * rectWidth * scale),
+						150 - rectHeight * 4 + ((rowWeAreOn - point.grid_point[1]) * rectHeight * scale),
+						rectWidth * scale, rectHeight * scale);
 				}
+
 			}
 
 	}
