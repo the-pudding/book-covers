@@ -1,4 +1,4 @@
-import {moveMagnifier} from "./magnifier.js";
+import Magnifier from "./magnifier.js";
 
 let data = [];
 
@@ -15,13 +15,12 @@ let width, height;
 
 let spriteSheets = {}
 let smallImages = {};
-let largeImages = {};
 
 let holder;
-let magnifier;
 let ctx;
 
-let magnifierCtx;
+
+let mag = new Magnifier();
 
 
 window.onload =function(e){
@@ -45,8 +44,7 @@ function xml_http_post(url, data, callback) {
                 req = new ActiveXObject("Microsoft.XMLHTTP");
             }
             catch (e) {
-            	console.log(e);
-                // alert("Your browser does not support AJAX!");
+                alert("Your browser does not support AJAX!");
                 return false;
             }
         }
@@ -58,24 +56,6 @@ function xml_http_post(url, data, callback) {
         }
     }
     req.send(data);
-}
-
-
-function preloadLargeImages(){
-	for (var i = 0; i < data.length; i++){
-		let point = data[i];
-			if (point["grid_point"]){
-				if (!largeImages[point["isbn13"]]){
-					let base_image = new Image();
-				    let url = point.book_image;
-				    base_image.src = url;
-				    base_image.onload = function(){
-				    	largeImages[point["isbn13"]] = base_image;
-					};
-			}
-
-		}
-	}
 }
 
 function loadSpriteSheet(file, objName, func){
@@ -94,13 +74,10 @@ function setup(){
 	holder = d3.select(".main").select("#mainCanvas");
 	holder.attr("width", width);
 	holder.attr("height", height);
-
-	magnifier = d3.select(".main").select("#magnifier");
-	magnifier.attr("width", 300);
-	magnifier.attr("height", 300);
 	ctx = holder.node().getContext('2d');
+	mag.init();
 
-
+	window.addEventListener('mousemove', mag.moveMagnifier, false);
 
 	d3.json("./../data/full_json_output.json").then(function(loaded_data) {
 
@@ -109,9 +86,10 @@ function setup(){
 
 		function load(){
 			getRatio(width, height, loaded_data.length);
-			preloadLargeImages();
+			mag.setSpriteSheets(spriteSheets, loaded_data);
+
 		}
-		window.addEventListener('mousemove', moveMagnifier, false);
+
 	});
 }
 
@@ -122,6 +100,8 @@ function getRatio(wid, hei, numRectangles){
 
 	xml_http_post("http://localhost:8070", [gridColumns, gridRows], function (req) {
         data = JSON.parse(req.responseText);
+        mag.setData(data);
+        mag.setDimensions(width, height, gridRows, gridColumns);
         draw();
     })
 }
@@ -147,15 +127,6 @@ function draw(){
   	}
 
 	ctx.restore();
-}
-
-function getMousePos(evt) {
-    var rect = holder.node().getBoundingClientRect();
-
-    return {
-        x: (evt.clientX - rect.left) / (rect.right - rect.left) * holder.node().width,
-        y: (evt.clientY - rect.top) / (rect.bottom - rect.top) * holder.node().height
-    };
 }
 
 function changeSelection(){
