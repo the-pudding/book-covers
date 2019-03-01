@@ -81,7 +81,6 @@ function setup(){
 
 	d3.json("./../data/full_json_output.json").then(function(loaded_data) {
 
-
 		loadSpriteSheet("./../images/sprite_sheet_1.jpg", "one", () => loadSpriteSheet("./../images/sprite_sheet_2.jpg", "two", load));
 
 		function load(){

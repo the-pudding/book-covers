@@ -4,14 +4,14 @@
 			margin:0 auto;
 			padding: 0px;
 			font-family: 'Work Sans', sans-serif;
-			background-color: #ccc;
+			background-color: #444;
 		}
 
 		.main {
 			position: absolute;
 			left: 0px;
-			width: 100%;
-			/*width: calc(100% - 325px);*/
+			/*width: 100%;*/
+			width: calc(100% - 375px);
 			overflow: hidden;
 		}
 
@@ -33,33 +33,40 @@
 			box-shadow:inset 0px 0px 30px 20px rgba(0,0,0,0.1), 0px 0px 10px 0px rgba(0,0,0,.6);
 		}
 
-		
-
+	
 		.controls {
 			padding: 10px 5px 20px 20px;
 			position: fixed;
 			right: 0px;
 			top: 0px;
-			width: 300px;
+			width: 350px;
 			height: 100%;
-			background-color: rgba(255, 255, 0, 0.75);
-			transition: right 2s;
+			background-color: rgba(255, 255, 0, 1);
+			font-size: 60%;
 		}
 
-		form div {
-			display: inline-block;
-    		width: 145px;
+		.controls .halfWidth {
+			width: 50%;
+			float: left;
 		}
 
-		.blocker {
+		.controls .halfWidth:after {
+			content: ".";
+			visibility: hidden;
+			display: block;
+			height: 0;
+			clear: both;
+		}
+
+		.controls svg {
 			width: 100%;
-			height: 100%;
-			position: fixed;
-			top:0px;
-			left: 0px;
-			background-color: rgba(0,0,0,0.5);
-			font-size: 300px;
-			color: #fff;
-			text-align: center;
-			line-height: 50%;
 		}
+
+		.controls svg:not(.table){
+			height: 65px;
+		}
+
+		.controls h1, h2 {
+			margin-top: 0px;
+		}
+
