@@ -2,9 +2,7 @@
 <html>
 <head>
 	<title>Cover Matters</title>
-	<link href="https://fonts.googleapis.com/css?family=Work+Sans" rel="stylesheet">
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.0/d3.min.js"></script>
-	<link href="./../css/main.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Work+Sans:400,700" rel="stylesheet">
 </head>
 <body>
 	<div class="main">
@@ -12,70 +10,55 @@
 		<canvas id="magnifier"></canvas>
 	</div>
 	<div class="controls">
-		<div id="genderChart" class="widgetHolder">
+		<div id="genderChart" class="widgetHolder table">
 			<h1>Gender</h1>
-			<svg></svg>
-		</div>
-
-		<div>
-			<div class="halfWidth">
-				<div>
-					<h1>Fiction</h1>
-				</div>
-			</div>
-
-			<div class="halfWidth">
-				<div>
-					<h1>Non-fiction</h1>
-				</div>
+			<div class="tableHolder">
+				<table></table>
 			</div>
 		</div>
 
-		<div id="ficOrNotChart" class="widgetHolder">
-			<svg></svg>
-		</div>
-
-		<div>
-			<div class="halfWidth">
-				<div id="fictionGenreChart" class="widgetHolder table">
-					<h2>Fictional Genres</h2>
-					<svg></svg>
-				</div>
-			</div>
-
-			<div class="halfWidth">
-				<div id="nonfictionGenreChart" class="widgetHolder table">
-					<h2>Non-fiction Genres</h2>
-					<svg></svg>
-				</div>
+		<div id="ficOrNotChart" class="widgetHolder table">
+			<h1>Fiction or Non-fiction</h1>
+			<div class="tableHolder">
+				<table></table>
 			</div>
 		</div>
 
-		<div>
+		<div id="genreChart" class="widgetHolder table">
+			<h1>Genre</h1>
+			<div class="tableHolder">
+				<table></table>
+			</div>
+		</div>
+
+
+		<!-- <div>
 			<h1>Imagery</h1>
 			<div class="halfWidth">
-				<div id="numFacesChart" class="widgetHolder">
+				<div id="numFacesChart" class="widgetHolder table">
 					<h2>Number of Faces</h2>
-					<svg></svg>
+					<table></table>
 				</div>
 			</div>
 
 			<div class="halfWidth">
-				<div id="sizeFacesChart" class="widgetHolder">
+				<div id="sizeFacesChart" class="widgetHolder table">
 					<h2>Size of Face</h2>
-					<svg></svg>
+					<table></table>
 				</div>
 			</div>
-		</div>
+		</div> -->
 
-		<div id="fontChart" class="widgetHolder table">
-			<h2>Size of Font</h2>
-			<svg></svg>
-		</div>
+<!-- 		<div id="fontChart" class="widgetHolder table">
+			<h2>Size of Text</h2>
+			<table></table>
+		</div> -->
 
 		<div id="motifsChart" class="widgetHolder table">
 			<h2>Motifs</h2>
-			<svg></svg>
+			<div class="tableHolder">
+				<table></table>
+			</div>
 		</div>
 
 	</div>

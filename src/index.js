@@ -1,11 +1,24 @@
+import * as d3 from 'd3';
+import countby from 'lodash.countby';
+
 import Magnifier from "./magnifier.js";
+import SortableTable from "./sortableTable.js";
+import css from './../css/main.css';
+import loaded_data from "./../data/full_json_output.json";
+import sprite1 from "./../images/sprite_sheet_1.jpg";
+import sprite2 from "./../images/sprite_sheet_2.jpg";
 
 let data = [];
+let filteredData = [];
 
 //selections
-let gender = [];
-let fiction = [];
-let genre = [];
+let selections = 
+{
+	"motifs": [],
+	"genres": [],
+	"fictionality": [],
+	"gender": []
+}
 
 let rectangleRatio = 0.6666667; //the width to height ratio or rectangles is generally around 1.5
 let gridColumns;
@@ -19,9 +32,12 @@ let smallImages = {};
 let holder;
 let ctx;
 
-
 let mag = new Magnifier();
-
+let genreTable = new SortableTable();
+let motifTable = new SortableTable();
+let fictionalityTable = new SortableTable();
+let genderTable = new SortableTable();
+// let numFacesChart = new SortableTable();
 
 window.onload =function(e){
 	setup();
@@ -68,6 +84,69 @@ function loadSpriteSheet(file, objName, func){
 	};
 }
 
+function clickCallback(selectionName, selection){
+	if (!selections[selectionName].find(function(d){ return d === selection})){
+		selections[selectionName].push(selection);
+	} else {
+		let spliceIndex = selections[selectionName].findIndex(function(d){ return d === selection});
+		selections[selectionName].splice(spliceIndex, 1);
+	}
+
+	filterData();
+}
+
+function doSelectionFilter(value, cat){
+	if (selections[value].length > 0){
+		filteredData = filteredData.filter(function(d){
+			if (selections[value].find(function(e) { return e === d[cat]})){
+				return true;
+			} else {
+				return false;
+			}
+		})
+	}
+}
+
+function filterData(){
+	filteredData = data;
+	if (selections["motifs"].length > 0){
+		filteredData = filteredData.filter(function(d){
+			if (selections["motifs"].find(function(e) { 
+				if (d["labels"].find(function(f){
+					return f === e;
+				})) {
+					return true;
+				} else {
+					return false;
+				}
+			})){
+				return true;
+			} else {
+				return false;
+			}
+		})
+	} 
+
+	doSelectionFilter("genres", "main_genre");
+	doSelectionFilter("gender", "gender");
+
+	if (selections["fictionality"].length === 1){
+		filteredData = filteredData.filter(function(d){
+			if (selections["fictionality"][0] === "fiction"){
+				return d["is_fiction"] === 1;
+			} else {
+				return d["is_fiction"] === 0;
+			}
+
+		})
+	}
+
+
+	drawCharts();
+	draw();
+	mag.setData(filteredData);
+}
+
 function setup(){
 	width = d3.select(".main").node().getBoundingClientRect().width;
 	height = d3.select(".main").node().getBoundingClientRect().height;
@@ -79,17 +158,13 @@ function setup(){
 
 	window.addEventListener('mousemove', mag.moveMagnifier, false);
 
-	d3.json("./../data/full_json_output.json").then(function(loaded_data) {
+	loadSpriteSheet(sprite1, "one", () => loadSpriteSheet(sprite2, "two", load));
 
-		loadSpriteSheet("./../images/sprite_sheet_1.jpg", "one", () => loadSpriteSheet("./../images/sprite_sheet_2.jpg", "two", load));
+	function load(){
+		getRatio(width, height, loaded_data.length);
+		mag.setSpriteSheets(spriteSheets, loaded_data);
+	}
 
-		function load(){
-			getRatio(width, height, loaded_data.length);
-			mag.setSpriteSheets(spriteSheets, loaded_data);
-
-		}
-
-	});
 }
 
 function getRatio(wid, hei, numRectangles){
@@ -99,10 +174,97 @@ function getRatio(wid, hei, numRectangles){
 
 	xml_http_post("http://localhost:8070", [gridColumns, gridRows], function (req) {
         data = JSON.parse(req.responseText);
+        filteredData = data;
         mag.setData(data);
         mag.setDimensions(width, height, gridRows, gridColumns);
         draw();
+        initControls(data, filteredData);
     })
+}
+
+function rollupAndCount(attribute, data){
+	let thisData = d3.nest()
+					.key(function(d){ return d[attribute]})
+					.rollup(function(ids) {
+						return ids.length; 
+					})
+					.entries(data);
+	return thisData;
+
+}
+
+function formatMotifs(array){
+	let newArray = [];
+	for (var i = 0; i < array.length; i++){
+		let matched = newArray.find(function(d){ return d.key === array[i]});
+		if (matched) {
+			matched["value"] ++;
+		} else {
+			let newObj = {"key": array[i], "value": 1};
+			newArray.push(newObj);
+		}
+	}
+
+	newArray = newArray.filter(function(d){
+		return d.value > 1;
+	})
+
+	return newArray;
+}
+
+function formatFictionality(array){
+	let fictional = 0;
+	let nonfictional = 0;
+
+	for (var i = 0; i < array.length; i++){
+		if (array[i]["is_fiction"] === 1){
+			fictional++;
+		} else {
+			nonfictional++;
+		}
+	}
+
+	return [{"key": "fiction", "value": fictional}, {"key": "nonfiction", "value": nonfictional}]
+}
+
+function initControls(data, filteredData){
+	genreTable.init(d3.select("#genreChart").select("table"));
+	
+	motifTable.init(d3.select("#motifsChart").select("table"));	
+
+	fictionalityTable.init(d3.select("#ficOrNotChart").select("table"));
+
+	genderTable.init(d3.select("#genderChart").select("table"));
+
+	// numFacesChart.init(d3.select("#numFacesChart").select("table"));
+
+	drawCharts();
+}
+
+function drawCharts(){
+
+	let genresFiltered = rollupAndCount("main_genre", data);
+	let genresTotal = rollupAndCount("main_genre", filteredData);
+	genreTable.setData(genresTotal, genresFiltered, selections["genres"]);
+	genreTable.draw((newVal) => clickCallback("genres", newVal));
+
+	let flatMotifsTotal = data.map(function(d){ return d.labels}).flat();
+	flatMotifsTotal = formatMotifs(flatMotifsTotal);
+	
+	let flatMotifsFiltered = filteredData.map(function(d){ return d.labels}).flat();
+	flatMotifsFiltered = formatMotifs(flatMotifsFiltered);
+	motifTable.setData(flatMotifsTotal, flatMotifsFiltered, selections["motifs"]);
+	motifTable.draw((newVal) => clickCallback("motifs", newVal));
+
+	let fictionalityTotal = formatFictionality(data);
+	let fictionalityFiltered = formatFictionality(filteredData);
+	fictionalityTable.setData(fictionalityTotal, fictionalityFiltered, selections["fictionality"]);
+	fictionalityTable.draw((newVal) => clickCallback("fictionality", newVal));
+
+	let genderTotal = rollupAndCount("gender", data);
+	let genderFiltered = rollupAndCount("gender", filteredData);
+	genderTable.setData(genderTotal, genderFiltered, selections["gender"]);
+	genderTable.draw((newVal) => clickCallback("gender", newVal));
 }
 
 
@@ -111,15 +273,17 @@ function draw(){
 	let rectWidth = width/gridColumns;
 	let rectHeight = height/gridRows;
   	ctx.save();
+  	ctx.clearRect(0,0,width,height);
+
   	
-  	for (var i = 0; i < data.length; i++){
-  		const point = data[i];
+  	for (var i = 0; i < filteredData.length; i++){
+  		const point = filteredData[i];
 	    ctx.fillStyle = d3.hsl(point.hue/2, point.saturation/255, point.value/255);
 	    if (point.grid_point){
-	    	if (i < 2500){
-	    		ctx.drawImage(spriteSheets["one"], i * 20, 0, 20, 30, point.grid_point[0] * rectWidth, point.grid_point[1] * rectHeight, rectWidth, rectHeight); //
+	    	if (point["index"] < 2500){
+	    		ctx.drawImage(spriteSheets["one"], point["index"] * 20, 0, 20, 30, point.grid_point[0] * rectWidth, point.grid_point[1] * rectHeight, rectWidth, rectHeight); //
 	    	} else {
-	    		ctx.drawImage(spriteSheets["two"], (i - 2500) * 20, 0, 20, 30, point.grid_point[0] * rectWidth, point.grid_point[1] * rectHeight, rectWidth, rectHeight); //
+	    		ctx.drawImage(spriteSheets["two"], (point["index"] - 2500) * 20, 0, 20, 30, point.grid_point[0] * rectWidth, point.grid_point[1] * rectHeight, rectWidth, rectHeight); //
 	    	}
 	    	
 	    }
@@ -128,64 +292,3 @@ function draw(){
 	ctx.restore();
 }
 
-function changeSelection(){
-	gender = [];
-	fiction = [];
-	genre = [];
-
-	let genderSelection = d3.select("#gender").selectAll("input").each(function(e){
-		if (d3.select(this).property("checked")){
-			gender.push(d3.select(this).attr("value"));
-		}
-	});
-
-	let fictionSelection = d3.select("#fictional").selectAll("input").each(function(e){
-		if (d3.select(this).property("checked")){
-			fiction.push(d3.select(this).attr("value"));
-		}
-	});
-
-	let genreFiction = d3.select("#f_genres").selectAll("input").each(function(e){
-		if (d3.select(this).property("checked")){
-			genre.push(d3.select(this).attr("value"));
-		}
-	});
-
-	let genreNonFiction = d3.select("#n_genres").selectAll("input").each(function(e){
-		if (d3.select(this).property("checked")){
-			genre.push(d3.select(this).attr("value"));
-		}
-	});
-
-	for (var i = 0; i < data.length; i++){
-		data[i]["is_opaque"] = determineOpacity(data[i]);
-	}
-
-	draw();
-
-}
-
-
-
-function determineOpacity(d){
-	if (gender.length > 0){
-		if (!gender.includes(d["gender"])){
-			return 0;
-		}
-	} 
-
-	if (fiction.length > 0){
-		if (!fiction.includes("" + d["is_fiction"])){
-			return 0;
-		}
-	}
-
-	//need to distinguish between fiction crime and non-fiction crime etc.
-	if (genre.length > 0){
-		if (!genre.includes(d["main_genre"])){
-			return 0;
-		}
-	}
-	return 100;
-
-}

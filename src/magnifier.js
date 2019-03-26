@@ -1,3 +1,5 @@
+import * as d3 from 'd3';
+
 class Magnifier {
     constructor() {
     	this.holder;
@@ -74,6 +76,7 @@ class Magnifier {
 
 	moveMagnifier(e){
 	  	this.ctx.save();
+	  	this.ctx.clearRect(0,0,this.width,this.height);
 
 	  	let rectWidth = this.width/this.gridColumns;
 		let rectHeight = this.height/this.gridRows;

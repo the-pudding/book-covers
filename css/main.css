@@ -60,13 +60,27 @@
 
 		.controls svg {
 			width: 100%;
-		}
-
-		.controls svg:not(.table){
-			height: 65px;
+			height: 50px;
 		}
 
 		.controls h1, h2 {
 			margin-top: 0px;
+			font-weight: normal;
 		}
 
+		.table {
+			max-height: 160px;
+			margin-bottom: 15px;
+			cursor: pointer;
+			float: left;
+		}
+
+		.tableHolder {
+			height: 130px;
+			overflow: scroll;
+		}
+
+		.controls tr svg {
+			height: 10px;
+			width: 100%;
+		}
