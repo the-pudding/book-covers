@@ -41,7 +41,7 @@
 			top: 0px;
 			width: 350px;
 			height: 100%;
-			background-color: rgba(255, 255, 0, 1);
+			background-color: #d1d1d1;
 			font-size: 60%;
 		}
 
@@ -69,18 +69,62 @@
 		}
 
 		.table {
-			max-height: 160px;
 			margin-bottom: 15px;
 			cursor: pointer;
 			float: left;
+			overflow: hidden;
 		}
 
 		.tableHolder {
-			height: 130px;
 			overflow: scroll;
+			max-height: 300px;
 		}
 
 		.controls tr svg {
 			height: 10px;
 			width: 100%;
+		}
+
+		.widgetHolder {
+			width: 100%;
+		}
+
+		.filterBar {
+			stroke: #ea0051;
+			stroke-width: 2px;
+		}
+
+		#stripe path {
+			stroke: #ea0051;
+			stroke-width: 2px;
+		}
+
+		.widgetHolder svg foreignObject p {
+			margin: 0px;
+			display: inline;
+		}
+
+		.widgetHolder svg .selected {
+			font-weight: bold;
+		}
+
+		.widgetHolder svg .selected .barName p {
+			border-bottom: 2px solid #ea0051;
+		}
+
+		.barFilteredNum, .barTotalNum {
+			text-align: right;
+		}
+
+		.barFilteredNum {
+			color: #ea0051;
+		}
+
+		.controlsHolder {
+			width: 100%;
+		}
+
+		.controlsHolder.closed{
+			height: 0px;
+			overflow: hidden;
 		}

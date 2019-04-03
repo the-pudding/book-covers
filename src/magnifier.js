@@ -81,7 +81,7 @@ class Magnifier {
 	  	let rectWidth = this.width/this.gridColumns;
 		let rectHeight = this.height/this.gridRows;
 
-		let scale = 6;
+		let scale = 8;
 
 		let pos = this.getMousePos(e);
 		let colWeAreOn = pos["x"]/this.width * this.gridColumns;
@@ -110,9 +110,10 @@ class Magnifier {
 			let point = imagesToLoad[i];
 			if (this.largeImages[point["isbn13"]]){
 				this.ctx.drawImage(this.largeImages[point["isbn13"]],
-					150 - rectWidth * 4 + ((colWeAreOn - point.grid_point[0]) * rectWidth * scale),
-					150 - rectHeight * 4 + ((rowWeAreOn - point.grid_point[1]) * rectHeight * scale), 
+					150 - rectWidth * 4 - ((colWeAreOn - point.grid_point[0]) * rectWidth * scale),
+					150 - rectHeight * 4 - ((rowWeAreOn - point.grid_point[1]) * rectHeight * scale), 
 					rectWidth * scale, rectHeight * scale); // Or at whatever offset you like
+
 		    } else {
 				let base_image = new Image();
 			    let url = point.book_image;
@@ -123,15 +124,15 @@ class Magnifier {
 				};
 				if (point["index"] < 2500){
 					this.ctx.drawImage(this.spriteSheets["one"], 
-						point["index"] * 20, 0, 20, 30,
-						150 - rectWidth * 4 + ((colWeAreOn - point.grid_point[0]) * rectWidth * scale),
-						150 - rectHeight * 4 + ((rowWeAreOn - point.grid_point[1]) * rectHeight * scale),
+						(point["index"]) * 20, 0, 20, 30,
+						150 - rectWidth * 4 - ((colWeAreOn - point.grid_point[0]) * rectWidth * scale),
+						150 - rectHeight * 4 - ((rowWeAreOn - point.grid_point[1]) * rectHeight * scale),
 						rectWidth * scale, rectHeight * scale); 
 				} else {
 					this.ctx.drawImage(this.spriteSheets["two"], 
-						(point["index"] - 2500) * 20, 0, 20, 30,
-						150 - rectWidth * 4 + ((colWeAreOn - point.grid_point[0]) * rectWidth * scale),
-						150 - rectHeight * 4 + ((rowWeAreOn - point.grid_point[1]) * rectHeight * scale),
+						((point["index"]) - 2500) * 20, 0, 20, 30,
+						150 - rectWidth * 4 - ((colWeAreOn - point.grid_point[0]) * rectWidth * scale),
+						150 - rectHeight * 4 - ((rowWeAreOn - point.grid_point[1]) * rectHeight * scale),
 						rectWidth * scale, rectHeight * scale);
 				}
 			}

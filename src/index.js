@@ -141,7 +141,7 @@ function filterData(){
 		})
 	}
 
-
+	console.log(selections, filteredData.map(function(e){ return [e.title, e.book_image]}));
 	drawCharts();
 	draw();
 	mag.setData(filteredData);
@@ -228,13 +228,13 @@ function formatFictionality(array){
 }
 
 function initControls(data, filteredData){
-	genreTable.init(d3.select("#genreChart").select("table"));
+	genreTable.init(d3.select("#genreChart").select("svg"));
 	
-	motifTable.init(d3.select("#motifsChart").select("table"));	
+	motifTable.init(d3.select("#motifsChart").select("svg"));	
 
-	fictionalityTable.init(d3.select("#ficOrNotChart").select("table"));
+	fictionalityTable.init(d3.select("#ficOrNotChart").select("svg"));
 
-	genderTable.init(d3.select("#genderChart").select("table"));
+	genderTable.init(d3.select("#genderChart").select("svg"));
 
 	// numFacesChart.init(d3.select("#numFacesChart").select("table"));
 
@@ -243,8 +243,8 @@ function initControls(data, filteredData){
 
 function drawCharts(){
 
-	let genresFiltered = rollupAndCount("main_genre", data);
-	let genresTotal = rollupAndCount("main_genre", filteredData);
+	let genresFiltered = rollupAndCount("main_genre", filteredData);
+	let genresTotal = rollupAndCount("main_genre", data);
 	genreTable.setData(genresTotal, genresFiltered, selections["genres"]);
 	genreTable.draw((newVal) => clickCallback("genres", newVal));
 
@@ -281,9 +281,10 @@ function draw(){
 	    ctx.fillStyle = d3.hsl(point.hue/2, point.saturation/255, point.value/255);
 	    if (point.grid_point){
 	    	if (point["index"] < 2500){
-	    		ctx.drawImage(spriteSheets["one"], point["index"] * 20, 0, 20, 30, point.grid_point[0] * rectWidth, point.grid_point[1] * rectHeight, rectWidth, rectHeight); //
+	    		//index is one too many
+	    		ctx.drawImage(spriteSheets["one"], (point["index"]) * 20, 0, 20, 30, point.grid_point[0] * rectWidth, point.grid_point[1] * rectHeight, rectWidth, rectHeight); //
 	    	} else {
-	    		ctx.drawImage(spriteSheets["two"], (point["index"] - 2500) * 20, 0, 20, 30, point.grid_point[0] * rectWidth, point.grid_point[1] * rectHeight, rectWidth, rectHeight); //
+	    		ctx.drawImage(spriteSheets["two"], ((point["index"]) - 2500) * 20, 0, 20, 30, point.grid_point[0] * rectWidth, point.grid_point[1] * rectHeight, rectWidth, rectHeight); //
 	    	}
 	    	
 	    }

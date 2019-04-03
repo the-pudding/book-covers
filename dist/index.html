@@ -10,54 +10,77 @@
 		<canvas id="magnifier"></canvas>
 	</div>
 	<div class="controls">
-		<div id="genderChart" class="widgetHolder table">
-			<h1>Gender</h1>
-			<div class="tableHolder">
-				<table></table>
-			</div>
-		</div>
-
-		<div id="ficOrNotChart" class="widgetHolder table">
-			<h1>Fiction or Non-fiction</h1>
-			<div class="tableHolder">
-				<table></table>
-			</div>
-		</div>
-
-		<div id="genreChart" class="widgetHolder table">
-			<h1>Genre</h1>
-			<div class="tableHolder">
-				<table></table>
-			</div>
-		</div>
-
-
-		<!-- <div>
-			<h1>Imagery</h1>
-			<div class="halfWidth">
-				<div id="numFacesChart" class="widgetHolder table">
-					<h2>Number of Faces</h2>
-					<table></table>
+		<div class="controlsHolder open">
+			<div id="genderChart" class="widgetHolder table">
+				<h1>Gender</h1>
+				<div class="tableHolder">
+					<svg>
+						<defs>
+						  <pattern id="stripe" patternUnits="userSpaceOnUse" width="4" height="4">
+						    <path d="M-1,1 l2,-2
+						             M0,4 l4,-4
+						             M3,5 l2,-2" />
+						  </pattern>
+						  <mask id="mask">
+						    <rect height="100%" width="100%" style="fill: url(#stripe)" />
+						  </mask>
+						</defs>
+					</svg>
 				</div>
 			</div>
 
-			<div class="halfWidth">
-				<div id="sizeFacesChart" class="widgetHolder table">
-					<h2>Size of Face</h2>
-					<table></table>
+			<div id="ficOrNotChart" class="widgetHolder table">
+				<h1>Fiction or Non-fiction</h1>
+				<div class="tableHolder">
+					<svg>
+						<defs>
+						  <pattern id="stripe" patternUnits="userSpaceOnUse" width="4" height="4">
+						    <path d="M-1,1 l2,-2
+						             M0,4 l4,-4
+						             M3,5 l2,-2" />
+						  </pattern>
+						  <mask id="mask">
+						    <rect height="100%" width="100%" style="fill: url(#stripe)" />
+						  </mask>
+						</defs>
+					</svg>
 				</div>
 			</div>
-		</div> -->
 
-<!-- 		<div id="fontChart" class="widgetHolder table">
-			<h2>Size of Text</h2>
-			<table></table>
-		</div> -->
-
-		<div id="motifsChart" class="widgetHolder table">
-			<h2>Motifs</h2>
-			<div class="tableHolder">
-				<table></table>
+			<div id="genreChart" class="widgetHolder table">
+				<h1>Genre</h1>
+				<div class="tableHolder">
+					<svg>
+						<defs>
+						  <pattern id="stripe" patternUnits="userSpaceOnUse" width="4" height="4">
+						    <path d="M-1,1 l2,-2
+						             M0,4 l4,-4
+						             M3,5 l2,-2" />
+						  </pattern>
+						  <mask id="mask">
+						    <rect height="100%" width="100%" style="fill: url(#stripe)" />
+						  </mask>
+						</defs>
+					</svg>
+				</div>
+			</div>
+		<div class="controlsHolder closed">
+			<div id="motifsChart" class="widgetHolder table">
+				<h2>Motifs</h2>
+				<div class="tableHolder">
+					<svg>
+						<defs>
+						  <pattern id="stripe" patternUnits="userSpaceOnUse" width="4" height="4">
+						    <path d="M-1,1 l2,-2
+						             M0,4 l4,-4
+						             M3,5 l2,-2" />
+						  </pattern>
+						  <mask id="mask">
+						    <rect height="100%" width="100%" style="fill: url(#stripe)" />
+						  </mask>
+						</defs>
+					</svg>
+				</div>
 			</div>
 		</div>
 
