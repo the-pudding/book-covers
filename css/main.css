@@ -103,10 +103,32 @@ html, body, .main {
 	border-color: #000;
 	border-style: solid;
 	margin-bottom: 10px;
+	position: relative;
 }
 
 .controlsHolder .controlsHeader h1 {
 	margin: 5px 0px;
+}
+
+.controlsHolder .closer{
+	height: 50px;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+}
+
+.controlsHolder .closer:before{
+	font-size: 14px;
+	line-height: 30px;
+}
+
+/*placeholder close/open*/
+.controlsHolder.open .closer:before{
+	content: "X";
+}
+
+.controlsHolder.closed .closer:before{
+	content: "+";
 }
 
 .table {
@@ -118,7 +140,7 @@ html, body, .main {
 
 .tableHolder {
 	overflow: scroll;
-	max-height: 275px;
+	max-height: 220px;
 	width: 100%;
 }
 

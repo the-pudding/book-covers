@@ -3,6 +3,8 @@ import countby from 'lodash.countby';
 
 import Magnifier from "./magnifier.js";
 import SortableTable from "./sortableTable.js";
+import CircleGraph from "./circleGraph.js";
+
 import css from './../css/main.css';
 import loaded_data from "./../data/full_json_output.json";
 import sprite1 from "./../images/sprite_sheet_1.jpg";
@@ -35,7 +37,7 @@ let ctx;
 let mag = new Magnifier();
 let genreTable = new SortableTable();
 let motifTable = new SortableTable();
-let fictionalityTable = new SortableTable();
+let fictionalityTable = new CircleGraph();
 let genderTable = new SortableTable();
 // let numFacesChart = new SortableTable();
 
@@ -141,7 +143,6 @@ function filterData(){
 		})
 	}
 
-	console.log(selections, filteredData.map(function(e){ return [e.title, e.book_image]}));
 	drawCharts();
 	draw();
 	mag.setData(filteredData);
