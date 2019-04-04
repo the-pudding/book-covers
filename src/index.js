@@ -157,6 +157,14 @@ function setup(){
 	ctx = holder.node().getContext('2d');
 	mag.init();
 
+	//toggle accordians open and close
+	d3.selectAll(".controlsHolder").on("click", function(){
+		d3.selectAll(".controlsHolder").classed("closed", function () {
+			return !d3.select(this).classed("closed");
+		});
+	})
+
+
 	window.addEventListener('mousemove', mag.moveMagnifier, false);
 
 	loadSpriteSheet(sprite1, "one", () => loadSpriteSheet(sprite2, "two", load));

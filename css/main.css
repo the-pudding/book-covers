@@ -104,6 +104,7 @@ html, body, .main {
 	border-style: solid;
 	margin-bottom: 10px;
 	position: relative;
+	cursor: pointer;
 }
 
 .controlsHolder .controlsHeader h1 {
@@ -117,13 +118,10 @@ html, body, .main {
 	top: 0px;
 }
 
+/*placeholder close/open*/
 .controlsHolder .closer:before{
 	font-size: 14px;
 	line-height: 30px;
-}
-
-/*placeholder close/open*/
-.controlsHolder.open .closer:before{
 	content: "X";
 }
 
@@ -133,7 +131,6 @@ html, body, .main {
 
 .table {
 	margin-bottom: 15px;
-	cursor: pointer;
 	float: left;
 	overflow: hidden;
 }
@@ -146,6 +143,10 @@ html, body, .main {
 
 .widgetHolder svg {
 	width: 100%;
+}
+
+.widgetHolder svg g {
+	cursor: pointer;
 }
 
 .widgetHolder svg foreignObject p {
