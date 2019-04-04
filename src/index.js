@@ -4,6 +4,7 @@ import countby from 'lodash.countby';
 import Magnifier from "./magnifier.js";
 import SortableTable from "./sortableTable.js";
 import CircleGraph from "./circleGraph.js";
+import AreaChart from "./areaChart.js";
 
 import css from './../css/main.css';
 import loaded_data from "./../data/full_json_output.json";
@@ -19,7 +20,8 @@ let selections =
 	"motifs": [],
 	"genres": [],
 	"fictionality": [],
-	"gender": []
+	"gender": [],
+	"textCover": []
 }
 
 let rectangleRatio = 0.6666667; //the width to height ratio or rectangles is generally around 1.5
@@ -39,7 +41,7 @@ let genreTable = new SortableTable();
 let motifTable = new SortableTable();
 let fictionalityTable = new CircleGraph();
 let genderTable = new SortableTable();
-// let numFacesChart = new SortableTable();
+let textPercentGraph = new AreaChart();
 
 window.onload =function(e){
 	setup();
@@ -158,7 +160,7 @@ function setup(){
 	mag.init();
 
 	//toggle accordians open and close
-	d3.selectAll(".controlsHolder").on("click", function(){
+	d3.selectAll(".controlsHeader").on("click", function(){
 		d3.selectAll(".controlsHolder").classed("closed", function () {
 			return !d3.select(this).classed("closed");
 		});
@@ -237,43 +239,51 @@ function formatFictionality(array){
 }
 
 function initControls(data, filteredData){
+	//bar charts
 	genreTable.init(d3.select("#genreChart").select("svg"));
-	
 	motifTable.init(d3.select("#motifsChart").select("svg"));	
-
-	fictionalityTable.init(d3.select("#ficOrNotChart").select("svg"));
-
 	genderTable.init(d3.select("#genderChart").select("svg"));
 
-	// numFacesChart.init(d3.select("#numFacesChart").select("table"));
+	//circle charts
+	fictionalityTable.init(d3.select("#ficOrNotChart").select("svg"));
+
+	//area charts
+	textPercentGraph.init(d3.select("#coverText").select("svg"));
 
 	drawCharts();
 }
 
 function drawCharts(){
-
+	//bar charts
 	let genresFiltered = rollupAndCount("main_genre", filteredData);
 	let genresTotal = rollupAndCount("main_genre", data);
 	genreTable.setData(genresTotal, genresFiltered, selections["genres"]);
 	genreTable.draw((newVal) => clickCallback("genres", newVal));
 
 	let flatMotifsTotal = data.map(function(d){ return d.labels}).flat();
-	flatMotifsTotal = formatMotifs(flatMotifsTotal);
-	
+	flatMotifsTotal = formatMotifs(flatMotifsTotal);	
 	let flatMotifsFiltered = filteredData.map(function(d){ return d.labels}).flat();
 	flatMotifsFiltered = formatMotifs(flatMotifsFiltered);
 	motifTable.setData(flatMotifsTotal, flatMotifsFiltered, selections["motifs"]);
 	motifTable.draw((newVal) => clickCallback("motifs", newVal));
 
+	let genderTotal = rollupAndCount("gender", data);
+	let genderFiltered = rollupAndCount("gender", filteredData);
+	genderTable.setData(genderTotal, genderFiltered, selections["gender"]);
+	genderTable.draw((newVal) => clickCallback("gender", newVal));
+
+	//circle charts
 	let fictionalityTotal = formatFictionality(data);
 	let fictionalityFiltered = formatFictionality(filteredData);
 	fictionalityTable.setData(fictionalityTotal, fictionalityFiltered, selections["fictionality"]);
 	fictionalityTable.draw((newVal) => clickCallback("fictionality", newVal));
 
-	let genderTotal = rollupAndCount("gender", data);
-	let genderFiltered = rollupAndCount("gender", filteredData);
-	genderTable.setData(genderTotal, genderFiltered, selections["gender"]);
-	genderTable.draw((newVal) => clickCallback("gender", newVal));
+	//area charts
+	let textCoverTotal = rollupAndCount("text", data);
+	let textCoverFiltered = rollupAndCount("text", filteredData);
+	textPercentGraph.setData(textCoverTotal, textCoverFiltered, selections["textCover"]);
+	textPercentGraph.draw((newVal) => clickCallback("textCover", newVal));
+	
 }
 
 

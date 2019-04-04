@@ -16,7 +16,7 @@
 				<div class="closer"></div>
 			</div>
 			<div class="controlPanel">
-				<div id="genderChart" class="widgetHolder table">
+				<div id="genderChart" class="widgetHolder">
 					<h2>Gender</h2>
 					<div class="tableHolder">
 						<svg>
@@ -34,7 +34,7 @@
 					</div>
 				</div>
 
-				<div id="ficOrNotChart" class="widgetHolder table">
+				<div id="ficOrNotChart" class="widgetHolder">
 					<h2>Fiction or Non-fiction</h2>
 					<div class="tableHolder">
 						<svg>
@@ -52,7 +52,7 @@
 					</div>
 				</div>
 
-				<div id="genreChart" class="widgetHolder table">
+				<div id="genreChart" class="widgetHolder">
 					<h2>Genre</h2>
 					<div class="tableHolder">
 						<svg>
@@ -79,7 +79,24 @@
 				<div class="closer"></div>
 			</div>
 			<div class="controlPanel">
-				<div id="motifsChart" class="widgetHolder table">
+				<div id="coverText" class="widgetHolder halfWidth">
+					<h3>% of Cover Containing Text</h3>
+					<div class="areaChartHolder">
+						<svg>
+							<defs>
+							  <pattern id="stripe" patternUnits="userSpaceOnUse" width="4" height="4">
+							    <path d="M-1,1 l2,-2
+							             M0,4 l4,-4
+							             M3,5 l2,-2" />
+							  </pattern>
+							  <mask id="mask">
+							    <rect height="100%" width="100%" style="fill: url(#stripe)" />
+							  </mask>
+							</defs>
+						</svg>
+					</div>
+				</div>
+				<div id="motifsChart" class="widgetHolder">
 					<h2>Motifs</h2>
 					<div class="tableHolder">
 						<svg>
