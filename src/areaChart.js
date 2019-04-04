@@ -41,14 +41,14 @@ class AreaChart {
         this.filteredData = filteredData;
 
         this.totalData = this.totalData.sort(function(a, b){
-            if (a.key === "") { a.key = 0 }
-            if (b.key === "") { b.key = 0 }
+            if (a.key === "" || a.key === "undefined") { a.key = 0 }
+            if (b.key === "" || b.key === "undefined") { b.key = 0 }
             return a.key - b.key;
         });
 
         this.filteredData = this.filteredData.sort(function(a, b){
-            if (a.key === "") { a.key = 0 }
-            if (b.key === "") { b.key = 0 }
+            if (a.key === "" || a.key === "undefined") { a.key = 0 }
+            if (b.key === "" || b.key === "undefined") { b.key = 0 }
             return a.key - b.key;
         });
 

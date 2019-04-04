@@ -21,7 +21,8 @@ let selections =
 	"genres": [],
 	"fictionality": [],
 	"gender": [],
-	"textCover": []
+	"textCover": [],
+	"faceCover": []
 }
 
 let rectangleRatio = 0.6666667; //the width to height ratio or rectangles is generally around 1.5
@@ -42,6 +43,7 @@ let motifTable = new SortableTable();
 let fictionalityTable = new CircleGraph();
 let genderTable = new SortableTable();
 let textPercentGraph = new AreaChart();
+let facePercentGraph = new AreaChart();
 
 window.onload =function(e){
 	setup();
@@ -89,7 +91,8 @@ function loadSpriteSheet(file, objName, func){
 }
 
 function clickCallback(selectionName, selection){
-	if (selectionName === "textCover"){
+	//we handle the area chart data slightly differently
+	if (selectionName === "textCover" || selectionName === "faceCover"){
 		selections[selectionName] = selection;
 	} else {
 		if (!selections[selectionName].find(function(d){ return d === selection})){
@@ -158,6 +161,17 @@ function filterData(){
 		})
 	}
 
+	if (selections["faceCover"].length > 1){
+		filteredData = filteredData.filter(function(d){
+			if (d["faces"] && d["faces"]["percentage"] 
+				&& d["faces"]["percentage"] >= selections["faceCover"][0] && d["faces"]["percentage"] <= selections["faceCover"][1]){
+				return true;
+			} else {
+				return false;
+			}
+		})
+	}
+
 	drawCharts();
 	draw();
 	mag.setData(filteredData);
@@ -217,6 +231,17 @@ function rollupAndCount(attribute, data){
 
 }
 
+function rollupAndCountNested(attribute1, attribute2, data){
+	let thisData = d3.nest()
+					.key(function(d){ return d[attribute1][attribute2]})
+					.rollup(function(ids) {
+						return ids.length; 
+					})
+					.entries(data);
+	return thisData;
+
+}
+
 function formatMotifs(array){
 	let newArray = [];
 	for (var i = 0; i < array.length; i++){
@@ -262,6 +287,7 @@ function initControls(data, filteredData){
 
 	//area charts
 	textPercentGraph.init(d3.select("#coverText").select("svg"));
+	facePercentGraph.init(d3.select("#faceCover").select("svg"));
 
 	drawCharts();
 }
@@ -296,6 +322,16 @@ function drawCharts(){
 	let textCoverFiltered = rollupAndCount("text", filteredData);
 	textPercentGraph.setData(textCoverTotal, textCoverFiltered, selections["textCover"]);
 	textPercentGraph.draw((newVal) => clickCallback("textCover", newVal));
+
+	//we also filter out 0 values here since there's so many of them they skew the graph
+	let faceCoverTotal = rollupAndCountNested("faces", "percentage", data)
+		.filter(function(d){ return parseInt(d.key) > 0});
+	let faceCoverFiltered = rollupAndCountNested("faces", "percentage", filteredData)
+		.filter(function(d){ return parseInt(d.key) > 0});
+	facePercentGraph.setData(faceCoverTotal, faceCoverFiltered, selections["faceCover"]);
+	facePercentGraph.draw((newVal) => clickCallback("faceCover", newVal));
+
+
 	
 }
 
