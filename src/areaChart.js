@@ -31,6 +31,9 @@ class AreaChart {
             theGroup.append("path")
             .attr("class", "filterBar");
 
+        let brush = this.holder.append("g").attr("class", "brush");
+            
+
     }
 
     setData(totalData, filteredData, selection){
@@ -64,7 +67,7 @@ class AreaChart {
         this.selection = selection;
 
         this.xScale.domain([0, 100])
-                            .range([0,this.holderWidth])
+                            .range([0, this.holderWidth])
                             .clamp(true);
         
 
@@ -78,6 +81,7 @@ class AreaChart {
         let filteredScale = this.filteredScale;
         let filteredData = this.filteredData;
         let selection = this.selection;
+        let xScale = this.xScale;
 
         let area = d3.area()
             .x(d => this.xScale(d.key))
@@ -95,107 +99,21 @@ class AreaChart {
             .datum(this.filteredData)
             .attr("d", area);
 
-        // let rows = this.holder.selectAll(".circle")
-        //     .data(this.totalData, function(d){ return d.key});
+        this.holder.select(".brush")
+            .call(d3.brushX()
+                .extent([[0, 0], [holderWidth, holderHeight * 0.7]])
+                .on("end", brushed));
 
-        // rows.exit();
-
-        // //create elements
-        // rows.enter()
-        //     .append("g")
-        //     .attr("class", "circle")
-        //     .attr("transform", function(d){
-        //         return "translate(" + sortScale(d.key) + ", " + (holderHeight/2 - holderHeight*0.08) + ")";
-        //     })
-        //     .each(function(e){
-
-        //         let thisFilteredValue = filteredData.find(function(f){
-        //             return f.key === e.key;
-        //         });
-        //         if (thisFilteredValue === undefined){
-        //             thisFilteredValue = {"value": 0}
-        //         }
-
-        //         d3.select(this).append("circle")
-        //             .attr("class", "totalBar")
-        //             .attr("r", d => totalScale(d.value));
-
-        //         d3.select(this).append("circle")
-        //             .attr("class", "filterBar")
-        //             .style("fill" , "url(#stripe)")
-        //             .attr("r", function(d){
-        //                 return filteredScale(thisFilteredValue.value) ? filteredScale(thisFilteredValue.value) : 0;
-        //             });
-                
-        //         d3.select(this).append("text")
-        //             .attr("class", "circleName")
-        //             .style("fill", "#fff")
-        //             .attr("text-anchor", "middle")
-        //             .attr("x", 0)
-        //             .attr("y", 3)
-        //             .text(e.key);
-
-        //         d3.select(this).append("foreignObject")
-        //             .attr("class", "barFilteredNum")
-        //             .attr("x",  0 - (holderWidth * 0.1))
-        //             .attr("y", holderHeight* 0.45)
-        //             .attr("width", (holderWidth * 0.1))
-        //             .attr("height", 15)
-        //                 .append('xhtml:div')
-        //                 .append("p")
-        //                 .html(thisFilteredValue.value)
-
-        //         d3.select(this).append("foreignObject")
-        //             .attr("class", "barTotalNum")
-        //             .attr("x", 0)
-        //             .attr("y", holderHeight* 0.45)
-        //             .attr("width", (holderWidth * 0.1))
-        //             .attr("height", 15)
-        //                 .append('xhtml:div')
-        //                 .append("p")
-        //                 .html(e.value)
-        //     })
-        //     .on("click", function(d){
-        //         callback(d.key);
-        //     })
-
-        // //update positions and widths
-        // rows.transition()
-        //     .attr("transform", function(d){
-        //         return "translate(" + sortScale(d.key) + ", " + (holderHeight/2 - holderHeight*0.08) + ")";
-        //     })
-
-        // rows
-        //     .attr("class", function(d){
-        //         if (selection.find(function(f){ return f === d.key})){
-        //             return "selected circle";
-        //         } else {
-        //             return "circle";
-        //         }
-        //     })
-        //     .each(function(e){
-                
-        //         let thisFilteredValue = filteredData.find(function(f){
-        //             return f.key === e.key;
-        //         });
-        //         if (thisFilteredValue === undefined){
-        //             thisFilteredValue = {"value": 0}
-        //         }
-
-        //         d3.select(this).select(".totalBar")
-        //             .attr("r", d => totalScale(d.value));
-
-
-        //         d3.select(this).select(".filterBar")
-        //             .attr("r", function(d){
-        //                 return filteredScale(thisFilteredValue.value) ? filteredScale(thisFilteredValue.value) : 0;
-        //         });
-
-        //         d3.select(this).select(".barFilteredNum")
-        //             .select("p")
-        //             .html(thisFilteredValue.value)
-
-        //     })
+        function brushed() {
+            let value = [];
+            if (d3.event.selection) {
+                let minSelection = xScale.invert(d3.event.selection[0]);
+                let maxSelection = xScale.invert(d3.event.selection[1]);
+                callback([minSelection, maxSelection]);
+            } else {
+                callback([]);
+            }
+        }
     }
 
 }

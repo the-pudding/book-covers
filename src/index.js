@@ -89,13 +89,16 @@ function loadSpriteSheet(file, objName, func){
 }
 
 function clickCallback(selectionName, selection){
-	if (!selections[selectionName].find(function(d){ return d === selection})){
-		selections[selectionName].push(selection);
+	if (selectionName === "textCover"){
+		selections[selectionName] = selection;
 	} else {
-		let spliceIndex = selections[selectionName].findIndex(function(d){ return d === selection});
-		selections[selectionName].splice(spliceIndex, 1);
+		if (!selections[selectionName].find(function(d){ return d === selection})){
+			selections[selectionName].push(selection);
+		} else {
+			let spliceIndex = selections[selectionName].findIndex(function(d){ return d === selection});
+			selections[selectionName].splice(spliceIndex, 1);
+		}
 	}
-
 	filterData();
 }
 
@@ -142,6 +145,16 @@ function filterData(){
 				return d["is_fiction"] === 0;
 			}
 
+		})
+	}
+
+	if (selections["textCover"].length > 1){
+		filteredData = filteredData.filter(function(d){
+			if (d["text"] && d["text"] >= selections["textCover"][0] && d["text"] <= selections["textCover"][1]){
+				return true;
+			} else {
+				return false;
+			}
 		})
 	}
 
