@@ -1,130 +1,144 @@
-		html, body, .main {
-			width: 100%;
-			height: 100%;
-			margin:0 auto;
-			padding: 0px;
-			font-family: 'Work Sans', sans-serif;
-			background-color: #444;
-		}
+html, body, .main {
+	width: 100%;
+	height: 100%;
+	margin:0 auto;
+	padding: 0px;
+	font-family: 'Work Sans', sans-serif;
+	background-color: #444;
+}
 
-		.main {
-			position: absolute;
-			left: 0px;
-			/*width: 100%;*/
-			width: calc(100% - 375px);
-			overflow: hidden;
-		}
+.main {
+	position: absolute;
+	left: 0px;
+	/*width: 100%;*/
+	width: calc(100% - 351px);
+	overflow: hidden;
+}
 
-		.main #mainCanvas {
-			width: 100%;
-			height: 100%;
-		}
+.main #mainCanvas {
+	width: 100%;
+	height: 100%;
+}
 
-		#magnifier {
-			width: 300px;
-			height: 300px;
-			overflow: hidden;
-			position: absolute;
-			background-color: orange;
-			border-radius:150px;
-			border-color: #ffffff;
-			border-width: 5px;
-			border-style: solid;
-			box-shadow:inset 0px 0px 30px 20px rgba(0,0,0,0.1), 0px 0px 10px 0px rgba(0,0,0,.6);
-		}
+#magnifier {
+	width: 300px;
+	height: 300px;
+	overflow: hidden;
+	position: absolute;
+	background-color: orange;
+	border-radius:150px;
+	border-color: #ffffff;
+	border-width: 5px;
+	border-style: solid;
+	box-shadow:inset 0px 0px 30px 20px rgba(0,0,0,0.1), 0px 0px 10px 0px rgba(0,0,0,.6);
+}
 
-	
-		.controls {
-			padding: 10px 5px 20px 20px;
-			position: fixed;
-			right: 0px;
-			top: 0px;
-			width: 350px;
-			height: 100%;
-			background-color: #d1d1d1;
-			font-size: 60%;
-		}
+/*SVG elements CSS*/
 
-		.controls .halfWidth {
-			width: 50%;
-			float: left;
-		}
+.filterBar {
+	stroke: #ea0051;
+	stroke-width: 2px;
+}
 
-		.controls .halfWidth:after {
-			content: ".";
-			visibility: hidden;
-			display: block;
-			height: 0;
-			clear: both;
-		}
+#stripe path {
+	stroke: #ea0051;
+	stroke-width: 2px;
+}
 
-		.controls svg {
-			width: 100%;
-			height: 50px;
-		}
 
-		.controls h1, h2 {
-			margin-top: 0px;
-			font-weight: normal;
-		}
+.barFilteredNum, .barTotalNum {
+	text-align: right;
+}
 
-		.table {
-			margin-bottom: 15px;
-			cursor: pointer;
-			float: left;
-			overflow: hidden;
-		}
+.barFilteredNum {
+	color: #ea0051;
+}
 
-		.tableHolder {
-			overflow: scroll;
-			max-height: 300px;
-		}
+/*Control Panel CSS*/
 
-		.controls tr svg {
-			height: 10px;
-			width: 100%;
-		}
+.controls {
+	padding: 12px 8px 12px 8px;
+	position: fixed;
+	right: 0px;
+	top: 0px;
+	width: 350px;
+	height: 100%;
+	background-color: #d1d1d1;
+	font-size: 60%;
+}
 
-		.widgetHolder {
-			width: 100%;
-		}
+.controls .halfWidth {
+	width: 50%;
+	float: left;
+}
 
-		.filterBar {
-			stroke: #ea0051;
-			stroke-width: 2px;
-		}
+.controls .halfWidth:after {
+	content: ".";
+	visibility: hidden;
+	display: block;
+	height: 0;
+	clear: both;
+}
 
-		#stripe path {
-			stroke: #ea0051;
-			stroke-width: 2px;
-		}
+.controls h1, h2, h3 {
+	font-weight: normal;
+}
 
-		.widgetHolder svg foreignObject p {
-			margin: 0px;
-			display: inline;
-		}
+.controls h2, h3 {
+	margin-top: 0px;
+}
 
-		.widgetHolder svg .selected {
-			font-weight: bold;
-		}
+.controlsHolder {
+	width: 100%;
+	float: left;
+}
 
-		.widgetHolder svg .selected .barName p {
-			border-bottom: 2px solid #ea0051;
-		}
+.controlsHolder.closed .controlPanel{
+	height: 0px;
+	overflow: hidden;
+}
 
-		.barFilteredNum, .barTotalNum {
-			text-align: right;
-		}
+.controlsHolder .controlsHeader {
+	border-width: 2px 0px;
+	border-color: #000;
+	border-style: solid;
+	margin-bottom: 10px;
+}
 
-		.barFilteredNum {
-			color: #ea0051;
-		}
+.controlsHolder .controlsHeader h1 {
+	margin: 5px 0px;
+}
 
-		.controlsHolder {
-			width: 100%;
-		}
+.table {
+	margin-bottom: 15px;
+	cursor: pointer;
+	float: left;
+	overflow: hidden;
+}
 
-		.controlsHolder.closed{
-			height: 0px;
-			overflow: hidden;
-		}
+.tableHolder {
+	overflow: scroll;
+	max-height: 275px;
+	width: 100%;
+}
+
+.widgetHolder svg {
+	width: 100%;
+}
+
+.widgetHolder svg foreignObject p {
+	margin: 0px;
+	display: inline;
+}
+
+.widgetHolder svg .selected {
+	font-weight: bold;
+}
+
+.widgetHolder svg .selected .barName p {
+	border-bottom: 2px solid #ea0051;
+}
+
+.widgetHolder {
+	width: 100%;
+}
