@@ -22,7 +22,8 @@ let selections =
 	"fictionality": [],
 	"gender": [],
 	"textCover": [],
-	"faceCover": []
+	"faceCover": [],
+	"numFaces": []
 }
 
 let rectangleRatio = 0.6666667; //the width to height ratio or rectangles is generally around 1.5
@@ -44,6 +45,7 @@ let fictionalityTable = new CircleGraph();
 let genderTable = new SortableTable();
 let textPercentGraph = new AreaChart();
 let facePercentGraph = new AreaChart();
+let numFaceGraph = new SortableTable();
 
 window.onload =function(e){
 	setup();
@@ -172,6 +174,25 @@ function filterData(){
 		})
 	}
 
+	if (selections["numFaces"].length > 0){
+		filteredData = filteredData.filter(function(d){
+			if (d["faces"] && d["faces"]["totalFaces"] 
+				&& selections["numFaces"].find(function(e) {
+					if (e !== "5+"){
+						return parseInt(e) === parseInt(d["faces"]["totalFaces"]);
+					} else {
+						return d["faces"]["totalFaces"] > 4;
+					}
+				})) {
+				return true;
+			} else {
+				return false;
+			}
+		})
+	}
+
+
+
 	drawCharts();
 	draw();
 	mag.setData(filteredData);
@@ -281,6 +302,7 @@ function initControls(data, filteredData){
 	genreTable.init(d3.select("#genreChart").select("svg"));
 	motifTable.init(d3.select("#motifsChart").select("svg"));	
 	genderTable.init(d3.select("#genderChart").select("svg"));
+	numFaceGraph.init(d3.select("#numFaces").select("svg"));
 
 	//circle charts
 	fictionalityTable.init(d3.select("#ficOrNotChart").select("svg"));
@@ -290,6 +312,22 @@ function initControls(data, filteredData){
 	facePercentGraph.init(d3.select("#faceCover").select("svg"));
 
 	drawCharts();
+}
+
+function formatDataForNumFaces(whichData, cutOff){
+	let arr = rollupAndCountNested("faces", "totalFaces", whichData)
+			.filter(function(d){ return d.key !== "undefined"});
+	let restrictedArray = [];
+	let cutOffTotal = 0;
+	for (var i = 0; i < arr.length; i++){
+		if (parseInt(arr[i].key) <= 4){
+			restrictedArray.push(arr[i]);
+		} else {
+			cutOffTotal++;
+		}
+	}
+	restrictedArray.push({"key": "5+", "value": cutOffTotal});
+	return restrictedArray;
 }
 
 function drawCharts(){
@@ -310,6 +348,11 @@ function drawCharts(){
 	let genderFiltered = rollupAndCount("gender", filteredData);
 	genderTable.setData(genderTotal, genderFiltered, selections["gender"]);
 	genderTable.draw((newVal) => clickCallback("gender", newVal));
+
+	let numFacesTotal = formatDataForNumFaces(data, 5);
+	let numFacesFiltered = formatDataForNumFaces(filteredData, 5);
+	numFaceGraph.setData(numFacesTotal, numFacesFiltered, selections["numFaces"]);
+	numFaceGraph.draw((newVal) => clickCallback("numFaces", newVal));
 
 	//circle charts
 	let fictionalityTotal = formatFictionality(data);

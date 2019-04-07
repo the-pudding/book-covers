@@ -4,12 +4,12 @@ class SortableTable {
     constructor() {
         this.holder;
         this.holderHeight;
-        this.holderWidth = 315;
+        this.holderWidth;
         this.totalData;
         this.filteredData;
         this.totalScale;
         this.filteredScale;
-        this.barHeight = 20;
+        this.barHeight = 18;
         this.sortScale = d3.scaleBand();
 
         this.init = this.init.bind(this);
@@ -22,6 +22,7 @@ class SortableTable {
 
     init(holder){
         this.holder = holder;
+        this.holderWidth = this.holder.node().width.animVal.value;
 
     }
 
@@ -53,16 +54,17 @@ class SortableTable {
         this.holderHeight = this.totalData.length * this.barHeight;
 
         this.holder.style("height", this.holderHeight + "px"); 
+        this.holder.attr("viewBox", "0 0 " + this.holderWidth + " " + this.holderHeight);
 
         this.totalScale = d3.scaleLinear()
                             .domain([0, d3.max(this.totalData, function(e){ return e.value})])
-                            .range([0,this.holderWidth * 0.6]);
+                            .range([0, ((-this.holderWidth * 0.2) + this.holderWidth - 70)]);
 
 
 
         this.filteredScale = d3.scaleLinear()
                             .domain([0, d3.max(this.filteredData, function(e){ return e.value})])
-                            .range([0,this.holderWidth * 0.6]);
+                            .range([0, ((-this.holderWidth * 0.2) + this.holderWidth - 70)]);
 
 
         this.sortData("filter");
@@ -93,7 +95,7 @@ class SortableTable {
             .append("g")
             .attr("class", "bar")
             .attr("transform", function(d){
-                return "translate(" + (holderWidth * 0.25) + ", " + sortScale(d.key) + ")";
+                return "translate(" + (holderWidth * 0.2) + ", " + sortScale(d.key) + ")";
             })
             .each(function(e){
 
@@ -106,45 +108,43 @@ class SortableTable {
 
                 d3.select(this).append("foreignObject")
                     .attr("class", "barName")
-                    .attr("x", -(holderWidth * 0.25))
+                    .attr("x", -(holderWidth * 0.2))
                     .attr("y", 0)
-                    .attr("width", (holderWidth * 0.25))
-                    .attr("height", 15)
+                    .attr("width", (holderWidth * 0.2))
+                    .attr("height", 11)
                         .append('xhtml:div')
                         .append("p")
                         .html(e.key)
 
                 d3.select(this).append("foreignObject")
                     .attr("class", "barFilteredNum")
-                    .attr("x", (holderWidth * 0.6))
+                    .attr("x", ((-holderWidth * 0.2) + holderWidth - 65))
                     .attr("y", 0)
-                    .attr("width", (holderWidth * 0.1))
-                    .attr("height", 15)
+                    .attr("width", 30)
+                    .attr("height", 11)
                         .append('xhtml:div')
                         .append("p")
                         .html(thisFilteredValue.value)
 
                 d3.select(this).append("foreignObject")
                     .attr("class", "barTotalNum")
-                    .attr("x", (holderWidth * 0.71))
+                    .attr("x", ((-holderWidth * 0.2) + holderWidth - 30))
                     .attr("y", 0)
-                    .attr("width", (holderWidth * 0.1))
-                    .attr("height", 15)
+                    .attr("width", 30)
+                    .attr("height", 11)
                         .append('xhtml:div')
                         .append("p")
                         .html(e.value)
 
-
-
                 d3.select(this).append("rect")
                     .attr("class", "totalBar")
-                    .attr("height", 15)
+                    .attr("height", 11)
                     .attr("width", d => totalScale(d.value));
 
                 d3.select(this).append("rect")
                     .attr("class", "filterBar")
                     .style("fill" , "url(#stripe)")
-                    .attr("height", 15)
+                    .attr("height", 11)
                     .attr("width", function(d){
                         return filteredScale(thisFilteredValue.value) ? filteredScale(thisFilteredValue.value) : 0;
                     });
@@ -156,7 +156,7 @@ class SortableTable {
         //update positions and widths
         rows.transition()
             .attr("transform", function(d){
-                return "translate(" + (holderWidth * 0.25) + ", " + sortScale(d.key) + ")";
+                return "translate(" + (holderWidth * 0.2) + ", " + sortScale(d.key) + ")";
             });
 
         rows
