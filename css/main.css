@@ -129,16 +129,21 @@ html, body, .main {
 	content: "+";
 }
 
-.table {
-	margin-bottom: 15px;
-	float: left;
-	overflow: hidden;
+.areaChartHolder{
+	width: 100%;
+	max-height: 100px;
 }
 
 .tableHolder {
 	overflow: scroll;
 	max-height: 220px;
 	width: 100%;
+}
+
+.widgetHolder {
+	margin-bottom: 15px;
+	float: left;
+	overflow: hidden;
 }
 
 .widgetHolder svg {

@@ -4,6 +4,7 @@ import countby from 'lodash.countby';
 import Magnifier from "./magnifier.js";
 import SortableTable from "./sortableTable.js";
 import CircleGraph from "./circleGraph.js";
+import AreaChart from "./areaChart.js";
 
 import css from './../css/main.css';
 import loaded_data from "./../data/full_json_output.json";
@@ -19,7 +20,9 @@ let selections =
 	"motifs": [],
 	"genres": [],
 	"fictionality": [],
-	"gender": []
+	"gender": [],
+	"textCover": [],
+	"faceCover": []
 }
 
 let rectangleRatio = 0.6666667; //the width to height ratio or rectangles is generally around 1.5
@@ -39,7 +42,8 @@ let genreTable = new SortableTable();
 let motifTable = new SortableTable();
 let fictionalityTable = new CircleGraph();
 let genderTable = new SortableTable();
-// let numFacesChart = new SortableTable();
+let textPercentGraph = new AreaChart();
+let facePercentGraph = new AreaChart();
 
 window.onload =function(e){
 	setup();
@@ -87,13 +91,17 @@ function loadSpriteSheet(file, objName, func){
 }
 
 function clickCallback(selectionName, selection){
-	if (!selections[selectionName].find(function(d){ return d === selection})){
-		selections[selectionName].push(selection);
+	//we handle the area chart data slightly differently
+	if (selectionName === "textCover" || selectionName === "faceCover"){
+		selections[selectionName] = selection;
 	} else {
-		let spliceIndex = selections[selectionName].findIndex(function(d){ return d === selection});
-		selections[selectionName].splice(spliceIndex, 1);
+		if (!selections[selectionName].find(function(d){ return d === selection})){
+			selections[selectionName].push(selection);
+		} else {
+			let spliceIndex = selections[selectionName].findIndex(function(d){ return d === selection});
+			selections[selectionName].splice(spliceIndex, 1);
+		}
 	}
-
 	filterData();
 }
 
@@ -143,6 +151,27 @@ function filterData(){
 		})
 	}
 
+	if (selections["textCover"].length > 1){
+		filteredData = filteredData.filter(function(d){
+			if (d["text"] && d["text"] >= selections["textCover"][0] && d["text"] <= selections["textCover"][1]){
+				return true;
+			} else {
+				return false;
+			}
+		})
+	}
+
+	if (selections["faceCover"].length > 1){
+		filteredData = filteredData.filter(function(d){
+			if (d["faces"] && d["faces"]["percentage"] 
+				&& d["faces"]["percentage"] >= selections["faceCover"][0] && d["faces"]["percentage"] <= selections["faceCover"][1]){
+				return true;
+			} else {
+				return false;
+			}
+		})
+	}
+
 	drawCharts();
 	draw();
 	mag.setData(filteredData);
@@ -158,7 +187,7 @@ function setup(){
 	mag.init();
 
 	//toggle accordians open and close
-	d3.selectAll(".controlsHolder").on("click", function(){
+	d3.selectAll(".controlsHeader").on("click", function(){
 		d3.selectAll(".controlsHolder").classed("closed", function () {
 			return !d3.select(this).classed("closed");
 		});
@@ -202,6 +231,17 @@ function rollupAndCount(attribute, data){
 
 }
 
+function rollupAndCountNested(attribute1, attribute2, data){
+	let thisData = d3.nest()
+					.key(function(d){ return d[attribute1][attribute2]})
+					.rollup(function(ids) {
+						return ids.length; 
+					})
+					.entries(data);
+	return thisData;
+
+}
+
 function formatMotifs(array){
 	let newArray = [];
 	for (var i = 0; i < array.length; i++){
@@ -237,43 +277,62 @@ function formatFictionality(array){
 }
 
 function initControls(data, filteredData){
+	//bar charts
 	genreTable.init(d3.select("#genreChart").select("svg"));
-	
 	motifTable.init(d3.select("#motifsChart").select("svg"));	
-
-	fictionalityTable.init(d3.select("#ficOrNotChart").select("svg"));
-
 	genderTable.init(d3.select("#genderChart").select("svg"));
 
-	// numFacesChart.init(d3.select("#numFacesChart").select("table"));
+	//circle charts
+	fictionalityTable.init(d3.select("#ficOrNotChart").select("svg"));
+
+	//area charts
+	textPercentGraph.init(d3.select("#coverText").select("svg"));
+	facePercentGraph.init(d3.select("#faceCover").select("svg"));
 
 	drawCharts();
 }
 
 function drawCharts(){
-
+	//bar charts
 	let genresFiltered = rollupAndCount("main_genre", filteredData);
 	let genresTotal = rollupAndCount("main_genre", data);
 	genreTable.setData(genresTotal, genresFiltered, selections["genres"]);
 	genreTable.draw((newVal) => clickCallback("genres", newVal));
 
 	let flatMotifsTotal = data.map(function(d){ return d.labels}).flat();
-	flatMotifsTotal = formatMotifs(flatMotifsTotal);
-	
+	flatMotifsTotal = formatMotifs(flatMotifsTotal);	
 	let flatMotifsFiltered = filteredData.map(function(d){ return d.labels}).flat();
 	flatMotifsFiltered = formatMotifs(flatMotifsFiltered);
 	motifTable.setData(flatMotifsTotal, flatMotifsFiltered, selections["motifs"]);
 	motifTable.draw((newVal) => clickCallback("motifs", newVal));
 
+	let genderTotal = rollupAndCount("gender", data);
+	let genderFiltered = rollupAndCount("gender", filteredData);
+	genderTable.setData(genderTotal, genderFiltered, selections["gender"]);
+	genderTable.draw((newVal) => clickCallback("gender", newVal));
+
+	//circle charts
 	let fictionalityTotal = formatFictionality(data);
 	let fictionalityFiltered = formatFictionality(filteredData);
 	fictionalityTable.setData(fictionalityTotal, fictionalityFiltered, selections["fictionality"]);
 	fictionalityTable.draw((newVal) => clickCallback("fictionality", newVal));
 
-	let genderTotal = rollupAndCount("gender", data);
-	let genderFiltered = rollupAndCount("gender", filteredData);
-	genderTable.setData(genderTotal, genderFiltered, selections["gender"]);
-	genderTable.draw((newVal) => clickCallback("gender", newVal));
+	//area charts
+	let textCoverTotal = rollupAndCount("text", data);
+	let textCoverFiltered = rollupAndCount("text", filteredData);
+	textPercentGraph.setData(textCoverTotal, textCoverFiltered, selections["textCover"]);
+	textPercentGraph.draw((newVal) => clickCallback("textCover", newVal));
+
+	//we also filter out 0 values here since there's so many of them they skew the graph
+	let faceCoverTotal = rollupAndCountNested("faces", "percentage", data)
+		.filter(function(d){ return parseInt(d.key) > 0});
+	let faceCoverFiltered = rollupAndCountNested("faces", "percentage", filteredData)
+		.filter(function(d){ return parseInt(d.key) > 0});
+	facePercentGraph.setData(faceCoverTotal, faceCoverFiltered, selections["faceCover"]);
+	facePercentGraph.draw((newVal) => clickCallback("faceCover", newVal));
+
+
+	
 }
 
 
