@@ -200,39 +200,39 @@ function filterData(){
 			if (d["hue"]) {
 				if (d["value"] < 50){
 					return selections["colour"].find(function(e){
-						return e === "black";
+						return e === "<span style='color: black'>black</span>";
 					})
 				} else if (d["saturation"] < 15 || (d["saturation"] < 25 && d["value"] > 225) ){
 					return selections["colour"].find(function(e){
-						return e === "white";
+						return e === "<span style='color: white'>white</span>";
 					})
 				} else if (d["saturation"] < 25){
 					return selections["colour"].find(function(e){
-						return e === "grey";
+						return e === "<span style='color: #222'>grey</span>";
 					})
 				} else if (d["hue"] < 7.5 || d["hue"] > 165){
 					return selections["colour"].find(function(e){
-						return e === "red";
+						return e === "<span style='color: red'>red</span>";
 					})
 				} else if (d["hue"] < 15){
 					return selections["colour"].find(function(e){
-						return e === "orange";
+						return e === "<span style='color: orange'>orange</span>";
 					})
 				} else if (d["hue"] < 37.5){
 					return selections["colour"].find(function(e){
-						return e === "yellow";
+						return e === "<span style='color: yellow'>yellow</span>";
 					})
 				} else if (d["hue"] < 80){
 					return selections["colour"].find(function(e){
-						return e === "green";
+						return e === "<span style='color: green'>green</span>";
 					})
 				} else if (d["hue"] < 120){
 					return selections["colour"].find(function(e){
-						return e === "blue";
+						return e === "<span style='color: blue'>blue</span>";
 					})
 				} else if (d["hue"] >= 120 && d["hue"] <= 165){
 					return selections["colour"].find(function(e){
-						return e === "magenta";
+						return e === "<span style='color: magenta'>magenta</span>";
 					})
 				} else {
 					return false;
@@ -388,23 +388,23 @@ function formatColour(whichData){
 	let thisData = d3.nest()
 					.key(function(d){ 
 						if (d["value"] < 50){
-							return "black";
+							return "<span style='color: black'>black</span>";
 						} else if (d["saturation"] < 15 || (d["saturation"] < 25 && d["value"] > 225)){
-							return "white";
+							return "<span style='color: white'>white</span>";
 						} else if (d["saturation"] < 25){
-							return "grey";
+							return "<span style='color: #222'>grey</span>";
 						} else if (d["hue"] > 165 || d["hue"] < 7.5){
-							return "red";
+							return "<span style='color: red'>red</span>";
 						} else if (d["hue"] < 15) {
-							return "orange";
+							return "<span style='color: orange'>orange</span>";
 						} else if (d["hue"] < 37.5) {
-							return "yellow";
+							return "<span style='color: yellow'>yellow</span>";
 						} else if (d["hue"] < 80) {
-							return "green";
+							return "<span style='color: green'>green</span>";
 						} else if (d["hue"] < 120){
-							return "blue";
+							return "<span style='color: blue'>blue</span>";
 						} else {
-							return "magenta";
+							return "<span style='color: magenta'>magenta</span>";
 						}
 					})
 					.rollup(function(ids) {
