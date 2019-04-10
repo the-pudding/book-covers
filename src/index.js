@@ -23,7 +23,8 @@ let selections =
 	"gender": [],
 	"textCover": [],
 	"faceCover": [],
-	"numFaces": []
+	"numFaces": [],
+	"colour": []
 }
 
 let rectangleRatio = 0.6666667; //the width to height ratio or rectangles is generally around 1.5
@@ -46,6 +47,7 @@ let genderTable = new SortableTable();
 let textPercentGraph = new AreaChart();
 let facePercentGraph = new AreaChart();
 let numFaceGraph = new SortableTable();
+let colourGraph = new SortableTable();
 
 window.onload =function(e){
 	setup();
@@ -193,6 +195,56 @@ function filterData(){
 
 
 
+	if (selections["colour"].length > 0){
+		filteredData = filteredData.filter(function(d){
+			if (d["hue"]) {
+				if (d["value"] < 50){
+					return selections["colour"].find(function(e){
+						return e === "black";
+					})
+				} else if (d["saturation"] < 15 || (d["saturation"] < 25 && d["value"] > 225) ){
+					return selections["colour"].find(function(e){
+						return e === "white";
+					})
+				} else if (d["saturation"] < 25){
+					return selections["colour"].find(function(e){
+						return e === "grey";
+					})
+				} else if (d["hue"] < 7.5 || d["hue"] > 165){
+					return selections["colour"].find(function(e){
+						return e === "red";
+					})
+				} else if (d["hue"] < 15){
+					return selections["colour"].find(function(e){
+						return e === "orange";
+					})
+				} else if (d["hue"] < 37.5){
+					return selections["colour"].find(function(e){
+						return e === "yellow";
+					})
+				} else if (d["hue"] < 80){
+					return selections["colour"].find(function(e){
+						return e === "green";
+					})
+				} else if (d["hue"] < 120){
+					return selections["colour"].find(function(e){
+						return e === "blue";
+					})
+				} else if (d["hue"] >= 120 && d["hue"] <= 165){
+					return selections["colour"].find(function(e){
+						return e === "magenta";
+					})
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
+		})
+	}
+
+
+
 	drawCharts();
 	draw();
 	mag.setData(filteredData);
@@ -303,6 +355,7 @@ function initControls(data, filteredData){
 	motifTable.init(d3.select("#motifsChart").select("svg"));	
 	genderTable.init(d3.select("#genderChart").select("svg"));
 	numFaceGraph.init(d3.select("#numFaces").select("svg"));
+	colourGraph.init(d3.select("#bgColour").select("svg"));
 
 	//circle charts
 	fictionalityTable.init(d3.select("#ficOrNotChart").select("svg"));
@@ -330,6 +383,37 @@ function formatDataForNumFaces(whichData, cutOff){
 	return restrictedArray;
 }
 
+function formatColour(whichData){
+
+	let thisData = d3.nest()
+					.key(function(d){ 
+						if (d["value"] < 50){
+							return "black";
+						} else if (d["saturation"] < 15 || (d["saturation"] < 25 && d["value"] > 225)){
+							return "white";
+						} else if (d["saturation"] < 25){
+							return "grey";
+						} else if (d["hue"] > 165 || d["hue"] < 7.5){
+							return "red";
+						} else if (d["hue"] < 15) {
+							return "orange";
+						} else if (d["hue"] < 37.5) {
+							return "yellow";
+						} else if (d["hue"] < 80) {
+							return "green";
+						} else if (d["hue"] < 120){
+							return "blue";
+						} else {
+							return "magenta";
+						}
+					})
+					.rollup(function(ids) {
+						return ids.length; 
+					})
+					.entries(whichData);
+	return thisData;
+}
+
 function drawCharts(){
 	//bar charts
 	let genresFiltered = rollupAndCount("main_genre", filteredData);
@@ -354,6 +438,11 @@ function drawCharts(){
 	numFaceGraph.setData(numFacesTotal, numFacesFiltered, selections["numFaces"]);
 	numFaceGraph.draw((newVal) => clickCallback("numFaces", newVal));
 
+	let colourBgTotal = formatColour(data);
+	let colourFiltered = formatColour(filteredData);
+	colourGraph.setData(colourBgTotal, colourFiltered, selections["colour"]);
+	colourGraph.draw((newVal) => clickCallback("colour", newVal));
+
 	//circle charts
 	let fictionalityTotal = formatFictionality(data);
 	let fictionalityFiltered = formatFictionality(filteredData);
@@ -373,9 +462,6 @@ function drawCharts(){
 		.filter(function(d){ return parseInt(d.key) > 0});
 	facePercentGraph.setData(faceCoverTotal, faceCoverFiltered, selections["faceCover"]);
 	facePercentGraph.draw((newVal) => clickCallback("faceCover", newVal));
-
-
-	
 }
 
 
