@@ -92,7 +92,7 @@ class Magnifier {
 
 	if (this.data){
 		let imagesToLoad = this.data.filter(function(d){
-			if (!d["grid_point"]){
+			if (!d["index"]){
 				return false;
 			}
 			if ((d["grid_point"][0] > (colWeAreOn - 5) && d["grid_point"][0] < (colWeAreOn + 5))
@@ -110,8 +110,8 @@ class Magnifier {
 			let point = imagesToLoad[i];
 			if (this.largeImages[point["isbn13"]]){
 				this.ctx.drawImage(this.largeImages[point["isbn13"]],
-					150 - rectWidth * 4 - ((colWeAreOn - point.grid_point[0]) * rectWidth * scale),
-					150 - rectHeight * 4 - ((rowWeAreOn - point.grid_point[1]) * rectHeight * scale), 
+					150 - rectWidth * 4 - ((colWeAreOn - imagesToLoad[i]["grid_point"][0]) * rectWidth * scale),
+					150 - rectHeight * 4 - ((rowWeAreOn - imagesToLoad[i]["grid_point"][1]) * rectHeight * scale), 
 					rectWidth * scale, rectHeight * scale); // Or at whatever offset you like
 
 		    } else {
@@ -125,14 +125,14 @@ class Magnifier {
 				if (point["index"] < 2500){
 					this.ctx.drawImage(this.spriteSheets["one"], 
 						(point["index"]) * 20, 0, 20, 30,
-						150 - rectWidth * 4 - ((colWeAreOn - point.grid_point[0]) * rectWidth * scale),
-						150 - rectHeight * 4 - ((rowWeAreOn - point.grid_point[1]) * rectHeight * scale),
+						150 - rectWidth * 4 - ((colWeAreOn - imagesToLoad[i]["grid_point"][0]) * rectWidth * scale),
+						150 - rectHeight * 4 - ((rowWeAreOn - imagesToLoad[i]["grid_point"][1]) * rectHeight * scale),
 						rectWidth * scale, rectHeight * scale); 
 				} else {
 					this.ctx.drawImage(this.spriteSheets["two"], 
 						((point["index"]) - 2500) * 20, 0, 20, 30,
-						150 - rectWidth * 4 - ((colWeAreOn - point.grid_point[0]) * rectWidth * scale),
-						150 - rectHeight * 4 - ((rowWeAreOn - point.grid_point[1]) * rectHeight * scale),
+						150 - rectWidth * 4 - ((colWeAreOn - imagesToLoad[i]["grid_point"][0]) * rectWidth * scale),
+						150 - rectHeight * 4 - ((rowWeAreOn - imagesToLoad[i]["grid_point"][1]) * rectHeight * scale),
 						rectWidth * scale, rectHeight * scale);
 				}
 			}

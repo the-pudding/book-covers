@@ -12,6 +12,7 @@ import loaded_data from "./../data/full_json_output.json";
 import sprite1 from "./../images/sprite_sheet_1.jpg";
 import sprite2 from "./../images/sprite_sheet_2.jpg";
 
+
 let data = [];
 let filteredData = [];
 
@@ -56,36 +57,6 @@ window.onload =function(e){
 	setup();
 }
 
-function xml_http_post(url, data, callback) {
-    var req = false;
-    try {
-        // Firefox, Opera 8.0+, Safari
-        req = new XMLHttpRequest();
-        // req.addEventListener("progress", updateProgress, false);
-    }
-    catch (e) {
-        // Internet Explorer
-        try {
-            req = new ActiveXObject("Msxml2.XMLHTTP");
-        }
-        catch (e) {
-            try {
-                req = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            catch (e) {
-                alert("Your browser does not support AJAX!");
-                return false;
-            }
-        }
-    }
-    req.open("POST", url, true);
-    req.onreadystatechange = function() {
-        if (req.readyState == 4) {
-            callback(req);
-        }
-    }
-    req.send(data);
-}
 
 function loadSpriteSheet(file, objName, func){
 	let sSheet = new Image();
@@ -285,17 +256,12 @@ function getRatio(wid, hei, numRectangles){
 	let normalizedAspectRatio = (hei/wid) * rectangleRatio;
 	gridRows = Math.ceil(Math.sqrt(normalizedAspectRatio * numRectangles));
 	gridColumns = Math.ceil(Math.sqrt(numRectangles/normalizedAspectRatio));
-	indexLocations = transformPointCloud2D(loaded_data.map(e => e.grid_point), [gridColumns, gridRows]);
-
-	xml_http_post("http://localhost:8070", [gridColumns, gridRows], function (req) {
-        data = JSON.parse(req.responseText);
-        // console.log(data);
-        filteredData = data;
-        mag.setData(data);
-        mag.setDimensions(width, height, gridRows, gridColumns);
-        draw();
-        initControls(data, filteredData);
-    })
+    data = loaded_data.filter(function(e){ return e["cluster_point"] !== undefined});
+    filteredData = data;
+    mag.setData(data);
+    mag.setDimensions(width, height, gridRows, gridColumns);
+    draw();
+    initControls(data, filteredData);
 }
 
 function rollupAndCount(attribute, data){
@@ -485,9 +451,9 @@ function draw(){
 	    ctx.fillStyle = d3.hsl(point.hue/2, point.saturation/255, point.value/255);
 	    if (point.grid_point){
 	    	if (point["index"] < 2500){
-	    		ctx.drawImage(spriteSheets["one"], (point["index"]) * 20, 0, 20, 30, indexLocations[0][i][0] * rectWidth, indexLocations[0][i][1] * rectHeight, rectWidth, rectHeight); //
+	    		ctx.drawImage(spriteSheets["one"], (point["index"]) * 20, 0, 20, 30, filteredData[i]["grid_point"][0] * rectWidth, filteredData[i]["grid_point"][1] * rectHeight, rectWidth, rectHeight); 
 	    	} else {
-	    		ctx.drawImage(spriteSheets["two"], ((point["index"]) - 2500) * 20, 0, 20, 30, indexLocations[0][i][0] * rectWidth, indexLocations[0][i][1] * rectHeight, rectWidth, rectHeight); //
+	    		ctx.drawImage(spriteSheets["two"], ((point["index"]) - 2500) * 20, 0, 20, 30, filteredData[i]["grid_point"][0] * rectWidth, filteredData[i]["grid_point"][1] * rectHeight, rectWidth, rectHeight); 
 	    	}
 	    	
 	    }

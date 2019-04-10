@@ -72,7 +72,7 @@ export function transformPointCloud2D( points2d, target, autoAdjustCount = true,
     var i = 0;
 
     while (i < quadrants.length && quadrants.length < pointCount){
-        if ( quadrants[i] && quadrants[i]['points'].length > 1 ){
+        if ( quadrants[i]['points'].length > 1 ){
             let slices = sliceQuadrant(quadrants[i]);
             if (slices.length > 1){
                 quadrants = slices;
@@ -84,7 +84,6 @@ export function transformPointCloud2D( points2d, target, autoAdjustCount = true,
         else {
             i++;
         }
-
     }
             
     if (failedSlices > 0){
@@ -92,18 +91,14 @@ export function transformPointCloud2D( points2d, target, autoAdjustCount = true,
     }
 
     let gridPoints2d = Object.assign({}, points2d);
-
     for (let q = 0; q < quadrants.length; q++){
-
-        gridPoints2d[quadrants[q]['indices'][0]] = quadrants[q]['grid'].slice(0,2);
+        gridPoints2d[quadrants[q]['indices'][0]] = np.array(quadrants[q]['grid'].slice(0,2));
     }
-    console.log([gridPoints2d, width, height]);
     return [gridPoints2d, (width, height)];
 }
 
 
 function sliceQuadrant( quadrant){
-    
     let xy = quadrant['points'];
     let grid = quadrant['grid'];
     let indices = quadrant['indices'].selection ? quadrant.indices.selection.data: quadrant.indices;
@@ -148,7 +143,6 @@ function sliceQuadrant( quadrant){
         let sliceObject = {};
         sliceObject["points"] = getSorted(xy, order).slice(i*pointsPerSlice, (i+1)*pointsPerSlice);
         if (sliceObject['points'].length > 0){
-
             sliceObject["indices"] = getSorted(indices, order).slice(i*pointsPerSlice, (i+1)*pointsPerSlice);
             if (splitX) {
                 sliceObject['grid'] = [gridOffset,grid[1],sliceSize,grid[3]];
