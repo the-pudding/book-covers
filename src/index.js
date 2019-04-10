@@ -5,7 +5,6 @@ import Magnifier from "./magnifier.js";
 import SortableTable from "./sortableTable.js";
 import CircleGraph from "./circleGraph.js";
 import AreaChart from "./areaChart.js";
-import FaceChart from "./faceChart.js";
 
 import css from './../css/main.css';
 import loaded_data from "./../data/full_json_output.json";
@@ -49,7 +48,6 @@ let textPercentGraph = new AreaChart();
 let facePercentGraph = new AreaChart();
 let numFaceGraph = new SortableTable();
 let colourGraph = new SortableTable();
-let faceChart = new FaceChart();
 
 window.onload =function(e){
 	setup();
@@ -366,9 +364,6 @@ function initControls(data, filteredData){
 	textPercentGraph.init(d3.select("#coverText").select("svg"));
 	facePercentGraph.init(d3.select("#faceCover").select("svg"));
 
-	//face chart
-	faceChart.init(d3.select("#faceExpression").select("svg"));
-
 	drawCharts();
 }
 
@@ -419,30 +414,6 @@ function formatColour(whichData){
 	return thisData;
 }
 
-function formatFaceExpression(whichData){
-	let surpriseTotal = 0;
-	let joyTotal = 0;
-	let sorrowTotal = 0;
-	let angerTotal = 0;
-
-	for (let i = 0; i < whichData.length; i++){
-		if (whichData[i]["faces"] && whichData[i]["faces"]["totalFaces"] > 0 && whichData[i]["faces"]["emotions"].length > 0){
-			if (whichData[i]["faces"]["emotions"].includes("surprise")){
-				surpriseTotal++;
-			} else if(whichData[i]["faces"]["emotions"].includes("joy")){
-				joyTotal++;
-			} else if(whichData[i]["faces"]["emotions"].includes("sorrow")){
-				sorrowTotal++;
-			} else if(whichData[i]["faces"]["emotions"].includes("anger")){
-				angerTotal++;
-			}
-		}
-	}
-	return [{key: "sorrow", "value": sorrowTotal},
-			{key: "anger", "value": angerTotal},
-			{key: "joy", "value": joyTotal},
-			{key: "surprise", "value": surpriseTotal}]
-}
 
 function drawCharts(){
 	//bar charts
@@ -493,12 +464,6 @@ function drawCharts(){
 	facePercentGraph.setData(faceCoverTotal, faceCoverFiltered, selections["faceCover"]);
 	facePercentGraph.draw((newVal) => clickCallback("faceCover", newVal));
 
-	//face chart
-	let faceExpressionTotal = formatFaceExpression(data);
-	let faceExpressionFiltered = formatFaceExpression(filteredData);
-	console.log(faceExpressionTotal);
-	// console.log(faceExpressionTotal);
-	// faceChart.init(d3.select("#faceExpression").select("svg"));
 }
 
 
