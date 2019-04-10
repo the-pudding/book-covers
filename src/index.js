@@ -1,5 +1,6 @@
 import * as d3 from 'd3';
 import countby from 'lodash.countby';
+import {transformPointCloud2D} from './rf.js';
 
 import Magnifier from "./magnifier.js";
 import SortableTable from "./sortableTable.js";
@@ -38,6 +39,8 @@ let smallImages = {};
 
 let holder;
 let ctx;
+
+let indexLocations = [];
 
 let mag = new Magnifier();
 let genreTable = new SortableTable();
@@ -282,9 +285,11 @@ function getRatio(wid, hei, numRectangles){
 	let normalizedAspectRatio = (hei/wid) * rectangleRatio;
 	gridRows = Math.ceil(Math.sqrt(normalizedAspectRatio * numRectangles));
 	gridColumns = Math.ceil(Math.sqrt(numRectangles/normalizedAspectRatio));
+	indexLocations = transformPointCloud2D(loaded_data.map(e => e.grid_point), [gridColumns, gridRows]);
 
 	xml_http_post("http://localhost:8070", [gridColumns, gridRows], function (req) {
         data = JSON.parse(req.responseText);
+        // console.log(data);
         filteredData = data;
         mag.setData(data);
         mag.setDimensions(width, height, gridRows, gridColumns);
@@ -480,9 +485,9 @@ function draw(){
 	    ctx.fillStyle = d3.hsl(point.hue/2, point.saturation/255, point.value/255);
 	    if (point.grid_point){
 	    	if (point["index"] < 2500){
-	    		ctx.drawImage(spriteSheets["one"], (point["index"]) * 20, 0, 20, 30, point.grid_point[0] * rectWidth, point.grid_point[1] * rectHeight, rectWidth, rectHeight); //
+	    		ctx.drawImage(spriteSheets["one"], (point["index"]) * 20, 0, 20, 30, indexLocations[0][i][0] * rectWidth, indexLocations[0][i][1] * rectHeight, rectWidth, rectHeight); //
 	    	} else {
-	    		ctx.drawImage(spriteSheets["two"], ((point["index"]) - 2500) * 20, 0, 20, 30, point.grid_point[0] * rectWidth, point.grid_point[1] * rectHeight, rectWidth, rectHeight); //
+	    		ctx.drawImage(spriteSheets["two"], ((point["index"]) - 2500) * 20, 0, 20, 30, indexLocations[0][i][0] * rectWidth, indexLocations[0][i][1] * rectHeight, rectWidth, rectHeight); //
 	    	}
 	    	
 	    }
