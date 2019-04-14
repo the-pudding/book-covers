@@ -2,6 +2,8 @@ import * as d3 from 'd3';
 import countby from 'lodash.countby';
 import {transformPointCloud2D} from './rf.js';
 
+import OSD from "./openSeaDragon.js";
+
 import Magnifier from "./magnifier.js";
 import SortableTable from "./sortableTable.js";
 import CircleGraph from "./circleGraph.js";
@@ -53,8 +55,11 @@ let facePercentGraph = new AreaChart();
 let numFaceGraph = new SortableTable();
 let colourGraph = new SortableTable();
 
+let osd = new OSD();
+
 window.onload =function(e){
-	setup();
+	osd.init();
+	// setup();
 }
 
 
