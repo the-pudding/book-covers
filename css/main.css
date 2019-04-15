@@ -171,6 +171,9 @@ html, body, .main {
 	width: 100%;
 }
 
-#overlay {
-	background-color: rgba(255, 0, 0, 0.6);
+.overlay {
+	background-color: #fff;
+	width: 50%;
+    margin-top:-100px;
+    padding: 10px;
 }

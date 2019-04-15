@@ -57,7 +57,7 @@ let colourGraph = new SortableTable();
 let osd = new OSD();
 
 window.onload =function(e){
-	osd.init();
+	osd.init(loaded_data);
 	// setup();
 }
 
