@@ -170,3 +170,7 @@ html, body, .main {
 .widgetHolder {
 	width: 100%;
 }
+
+#overlay {
+	background-color: rgba(255, 0, 0, 0.6);
+}

@@ -1,6 +1,5 @@
 import * as d3 from 'd3';
 import countby from 'lodash.countby';
-import {transformPointCloud2D} from './rf.js';
 
 import OSD from "./openSeaDragon.js";
 
