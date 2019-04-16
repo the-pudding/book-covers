@@ -3,15 +3,12 @@ import countby from 'lodash.countby';
 
 import OSD from "./openSeaDragon.js";
 
-import Magnifier from "./magnifier.js";
 import SortableTable from "./sortableTable.js";
 import CircleGraph from "./circleGraph.js";
 import AreaChart from "./areaChart.js";
 
 import css from './../css/main.css';
 import loaded_data from "./../data/full_json_output.json";
-import sprite1 from "./../images/sprite_sheet_1.jpg";
-import sprite2 from "./../images/sprite_sheet_2.jpg";
 
 
 let data = [];
@@ -44,7 +41,6 @@ let ctx;
 
 let indexLocations = [];
 
-let mag = new Magnifier();
 let genreTable = new SortableTable();
 let motifTable = new SortableTable();
 let fictionalityTable = new CircleGraph();
@@ -58,19 +54,10 @@ let osd = new OSD();
 
 window.onload =function(e){
 	osd.init(loaded_data);
-	// setup();
+	setup();
 }
 
 
-function loadSpriteSheet(file, objName, func){
-	let sSheet = new Image();
-	let url = file;
-	sSheet.src = url;
-	sSheet.onload = function(){
-		spriteSheets[objName] = sSheet;
-		func();
-	};
-}
 
 function clickCallback(selectionName, selection){
 	//we handle the area chart data slightly differently
@@ -224,18 +211,9 @@ function filterData(){
 
 
 	drawCharts();
-	draw();
-	mag.setData(filteredData);
 }
 
 function setup(){
-	width = d3.select(".main").node().getBoundingClientRect().width;
-	height = d3.select(".main").node().getBoundingClientRect().height;
-	holder = d3.select(".main").select("#mainCanvas");
-	holder.attr("width", width);
-	holder.attr("height", height);
-	ctx = holder.node().getContext('2d');
-	mag.init();
 
 	//toggle accordians open and close
 	d3.selectAll(".controlsHeader").on("click", function(){
@@ -244,29 +222,12 @@ function setup(){
 		});
 	})
 
-
-	window.addEventListener('mousemove', mag.moveMagnifier, false);
-
-	loadSpriteSheet(sprite1, "one", () => loadSpriteSheet(sprite2, "two", load));
-
-	function load(){
-		getRatio(width, height, loaded_data.length);
-		mag.setSpriteSheets(spriteSheets, loaded_data);
-	}
-
-}
-
-function getRatio(wid, hei, numRectangles){
-	let normalizedAspectRatio = (hei/wid) * rectangleRatio;
-	gridRows = Math.ceil(Math.sqrt(normalizedAspectRatio * numRectangles));
-	gridColumns = Math.ceil(Math.sqrt(numRectangles/normalizedAspectRatio));
-    data = loaded_data.filter(function(e){ return e["cluster_point"] !== undefined});
+	data = loaded_data.filter(function(e){ return e["cluster_point"] !== undefined});
     filteredData = data;
-    mag.setData(data);
-    mag.setDimensions(width, height, gridRows, gridColumns);
-    draw();
     initControls(data, filteredData);
+
 }
+
 
 function rollupAndCount(attribute, data){
 	let thisData = d3.nest()
@@ -442,27 +403,4 @@ function drawCharts(){
 }
 
 
-function draw(){
-
-	let rectWidth = width/gridColumns;
-	let rectHeight = height/gridRows;
-  	ctx.save();
-  	ctx.clearRect(0,0,width,height);
-
-  	
-  	for (var i = 0; i < filteredData.length; i++){
-  		const point = filteredData[i];
-	    ctx.fillStyle = d3.hsl(point.hue/2, point.saturation/255, point.value/255);
-	    if (point.grid_point){
-	    	if (point["index"] < 2500){
-	    		ctx.drawImage(spriteSheets["one"], (point["index"]) * 20, 0, 20, 30, filteredData[i]["grid_point"][0] * rectWidth, filteredData[i]["grid_point"][1] * rectHeight, rectWidth, rectHeight); 
-	    	} else {
-	    		ctx.drawImage(spriteSheets["two"], ((point["index"]) - 2500) * 20, 0, 20, 30, filteredData[i]["grid_point"][0] * rectWidth, filteredData[i]["grid_point"][1] * rectHeight, rectWidth, rectHeight); 
-	    	}
-	    	
-	    }
-  	}
-
-	ctx.restore();
-}
 

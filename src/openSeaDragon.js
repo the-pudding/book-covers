@@ -14,9 +14,9 @@ class OSD{
 
 	init(data){
 		this.data = data;
-		this.holder = document.getElementById("openseadragon1");
+		this.holder = document.getElementById("openseadragon");
 		this.viewer  = OpenSeadragon({
-		    id:                 'openseadragon1',
+		    id:                 'openseadragon',
 		    prefixUrl:          'TileGroup/',
 		    showNavigator:      false,
 		    wrapHorizontal:     false,
@@ -42,7 +42,7 @@ class OSD{
 		this.viewer.addOnceHandler('open', function(event) {
 		    // MouseTracker is required for links to function in overlays
 		    new OpenSeadragon.MouseTracker({
-		        element: 'openseadragon1',
+		        element: 'openseadragon',
 		        scrollHandler: function(event) {
 		        	let openHandler = document.querySelector(".overlay");
 		        	if (openHandler){
