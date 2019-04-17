@@ -53,7 +53,7 @@ let colourGraph = new SortableTable();
 let osd = new OSD();
 
 window.onload =function(e){
-	osd.init(loaded_data);
+	osd.init(loaded_data, []);
 	setup();
 }
 
@@ -208,8 +208,9 @@ function filterData(){
 		})
 	}
 
+	let unfilteredData = data.filter(x => !filteredData.includes(x));
 
-	osd.updateData(filteredData);
+	osd.updateData(filteredData, unfilteredData);
 	drawCharts();
 }
 

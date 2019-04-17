@@ -7,7 +7,8 @@ class OSD{
 		this.viewer;
 		this.holder;
 		this.currentPos = [];
-		this.data;
+		this.filteredData; //data that has been filtered out
+		this.unfilteredData; //data that is visible
 		this.canvas;
 
 		this.handleClick = this.handleClick.bind(this);
@@ -15,8 +16,9 @@ class OSD{
 		this.updateFilterOverlays = this.updateFilterOverlays.bind(this);
 	}
 
-	init(data){
-		this.data = data;
+	init(unfilteredData, filteredData){
+		this.filteredData = filteredData;
+		this.unfilteredData = unfilteredData;
 		this.holder = document.getElementById("openseadragon");
 		this.viewer  = OpenSeadragon({
 		    id:                 'openseadragon',
@@ -66,22 +68,23 @@ class OSD{
 
 	}
 
-	updateData(data){
-		this.data = data;
+	updateData(unfilteredData, filteredData){
+		this.filteredData = filteredData;
+		this.unfilteredData = unfilteredData;
 		this.updateFilterOverlays();
 	}
 
 	updateFilterOverlays(){
 		let canvas = this.canvas;
 
-		let data = this.data;
+		let filteredData = this.filteredData;
 
 		this.canvas.onRedraw = function(){
 		    canvas.context2d().fillStyle = "#444";
-		    for (var i = 0; i < data.length; i++){
-		    	let x = data[i]["grid_point"][0]/85 * 28050;
-		    	let y = data[i]["grid_point"][1]/64 * 31680;
-		    	canvas.context2d().fillRect(x, y, 28050/85, 31680/64);            
+		    for (var i = 0; i < filteredData.length; i++){
+		    	let x = filteredData[i]["grid_point"][0]/85 * 28050;
+		    	let y = filteredData[i]["grid_point"][1]/64 * 31680;
+		    	canvas.context2d().fillRect(x - 1, y - 1, 28050/85 + 2, 31680/64 + 2);            
 		    }
 		    clearBeforeRedraw:true
 		};
@@ -102,37 +105,42 @@ class OSD{
 			let gridPos = [Math.floor(percentPos[0] * 85), Math.floor(percentPos[1] * 64)];
 			let clickedBook = this.findBook(gridPos);
 			
-			
+			if (clickedBook){
+				//delete open overlay if it exists (we do this twice because w/ timeouts it isn't always predictable)
+				let openHandler = document.querySelector(".overlay");
+				if (openHandler){
+					viewer.removeOverlay("currentOverlay");
+				}
+				this.viewer.viewport.zoomTo(30, new OpenSeadragon.Point(gridPos[0]/85 + (1/85/2), gridPos[1] * (1.13/64) + 1.13/64/2));
+					setTimeout( function() {
+						//pan to the location after a bit. fitbounds isn't working as expected, so work in stages
+					    viewport.panTo(new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05), gridPos[1] * (1.13/64) + 1.13/64/2));
+						//after another delay, create an overlay
+					    setTimeout( function() {
 
-			this.viewer.viewport.zoomTo(30, new OpenSeadragon.Point(gridPos[0]/85 + (1/85/2), gridPos[1] * (1.13/64) + 1.13/64/2));
-			setTimeout( function() {
-				//pan to the location after a bit. fitbounds isn't working as expected, so work in stages
-			    viewport.panTo(new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05), gridPos[1] * (1.13/64) + 1.13/64/2));
-				//after another delay, create an overlay
-			    setTimeout( function() {
+					    	//delete open overlay if it exists
+							let openHandler = document.querySelector(".overlay");
+						    if (openHandler){
+						    	viewer.removeOverlay("currentOverlay");
+						    }
 
-			    	//delete open overlay if it exists
-					let openHandler = document.querySelector(".overlay");
-				    if (openHandler){
-				    	viewer.removeOverlay("currentOverlay");
-				    }
-
-			    	viewer.addOverlay({
-		                element: makeOverlay(clickedBook),
-		                location: new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05) + 0.001, gridPos[1] * (1.13/64) + 1.13/64/2),
-		                placement: OpenSeadragon.Placement.TOP_LEFT,
-		                rotationMode: OpenSeadragon.OverlayRotationMode.NO_ROTATION,
-		                width: 0.0125,
-        				height: 0.01
-		            });
-			    }, 1000);
-			}, 1000 );
+					    	viewer.addOverlay({
+				                element: makeOverlay(clickedBook),
+				                location: new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05) + 0.001, gridPos[1] * (1.13/64) + 1.13/64/2),
+				                placement: OpenSeadragon.Placement.TOP_LEFT,
+				                rotationMode: OpenSeadragon.OverlayRotationMode.NO_ROTATION,
+				                width: 0.0125,
+		        				height: 0.01
+				            });
+					    }, 1000);
+					}, 1000 );
+			}
 		} 
 
 	}
 
 	findBook(pos){
-		let theBook = this.data.find(function(d){
+		let theBook = this.unfilteredData.find(function(d){
 			return d["grid_point"][0] === pos[0] && d["grid_point"][1] === pos[1];
 		});
 		return theBook;
