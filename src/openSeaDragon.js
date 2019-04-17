@@ -1,4 +1,5 @@
 import OpenSeadragon from 'openseadragon';
+require("./openseadragon-canvas-overlay.js");
 import makeOverlay from "./overlay";
 
 class OSD{
@@ -7,9 +8,11 @@ class OSD{
 		this.holder;
 		this.currentPos = [];
 		this.data;
+		this.canvas;
 
 		this.handleClick = this.handleClick.bind(this);
 		this.findBook = this.findBook.bind(this);
+		this.updateFilterOverlays = this.updateFilterOverlays.bind(this);
 	}
 
 	init(data){
@@ -55,6 +58,36 @@ class OSD{
 		// //gonna manually write a click (as opposed to drag) event
 		this.viewer.addHandler('canvas-press', (e) => this.currentPos = [e.position.x, e.position.y]);
 		this.viewer.addHandler('canvas-release', (e) => this.handleClick(e));
+		this.canvas = this.viewer.canvasOverlay({
+		    clearBeforeRedraw:true
+		});
+		
+		this.updateFilterOverlays();
+
+	}
+
+	updateData(data){
+		this.data = data;
+		this.updateFilterOverlays();
+	}
+
+	updateFilterOverlays(){
+		let canvas = this.canvas;
+
+		let data = this.data;
+
+		this.canvas.onRedraw = function(){
+		    canvas.context2d().fillStyle = "#444";
+		    for (var i = 0; i < data.length; i++){
+		    	let x = data[i]["grid_point"][0]/85 * 28050;
+		    	let y = data[i]["grid_point"][1]/64 * 31680;
+		    	canvas.context2d().fillRect(x, y, 28050/85, 31680/64);            
+		    }
+		    clearBeforeRedraw:true
+		};
+		this.canvas.redraw();
+
+
 	}
 
 	handleClick(event){
@@ -69,11 +102,7 @@ class OSD{
 			let gridPos = [Math.floor(percentPos[0] * 85), Math.floor(percentPos[1] * 64)];
 			let clickedBook = this.findBook(gridPos);
 			
-			//delete open overlay if it exists
-			let openHandler = document.querySelector(".overlay");
-		    if (openHandler){
-		    	viewer.removeOverlay("currentOverlay");
-		    }
+			
 
 			this.viewer.viewport.zoomTo(30, new OpenSeadragon.Point(gridPos[0]/85 + (1/85/2), gridPos[1] * (1.13/64) + 1.13/64/2));
 			setTimeout( function() {
@@ -81,10 +110,16 @@ class OSD{
 			    viewport.panTo(new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05), gridPos[1] * (1.13/64) + 1.13/64/2));
 				//after another delay, create an overlay
 			    setTimeout( function() {
+
+			    	//delete open overlay if it exists
+					let openHandler = document.querySelector(".overlay");
+				    if (openHandler){
+				    	viewer.removeOverlay("currentOverlay");
+				    }
+
 			    	viewer.addOverlay({
 		                element: makeOverlay(clickedBook),
 		                location: new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05) + 0.001, gridPos[1] * (1.13/64) + 1.13/64/2),
-		                height: 0.1,
 		                placement: OpenSeadragon.Placement.TOP_LEFT,
 		                rotationMode: OpenSeadragon.OverlayRotationMode.NO_ROTATION,
 		                width: 0.0125,

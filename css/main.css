@@ -177,3 +177,9 @@ html, body, .main {
     margin-top:-100px;
     padding: 10px;
 }
+
+.filterOverlay {
+	background-color: rgba(0, 0, 0, 0.2);
+	border: 2px solid red;
+	display: none !important;
+}

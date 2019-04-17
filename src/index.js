@@ -209,7 +209,7 @@ function filterData(){
 	}
 
 
-
+	osd.updateData(filteredData);
 	drawCharts();
 }
 
