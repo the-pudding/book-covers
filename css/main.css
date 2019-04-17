@@ -176,10 +176,14 @@ html, body, .main {
 	width: 50%;
     margin-top:-100px;
     padding: 10px;
+    z-index: 100000;
 }
 
-.filterOverlay {
-	background-color: rgba(0, 0, 0, 0.2);
-	border: 2px solid red;
-	display: none !important;
+.overlay h1 {
+	font-size: 1.5em;
 }
+
+.overlay h2 {
+	font-size: 1.25em;
+}
+

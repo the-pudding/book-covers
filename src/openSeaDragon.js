@@ -28,6 +28,7 @@ class OSD{
 		    zoomPerScroll:      1.2,
 		    zoomPerClick: 1,
 		    animationTime: 1,
+		    showNavigationControl: false,
 		    tileSources:   [{
 		        type:       'tiledmapservice',
 		        maxLevel: 7,
@@ -45,7 +46,6 @@ class OSD{
 		let viewer = this.viewer;
 
 		this.viewer.addOnceHandler('open', function(event) {
-		    // MouseTracker is required for links to function in overlays
 		    new OpenSeadragon.MouseTracker({
 		        element: 'openseadragon',
 		        scrollHandler: function(event) {
@@ -76,15 +76,19 @@ class OSD{
 
 	updateFilterOverlays(){
 		let canvas = this.canvas;
+		let viewer = this.viewer;
 
 		let filteredData = this.filteredData;
 
 		this.canvas.onRedraw = function(){
+			//we need to add some padding for farther distance zooms or else we get outlines of each cover
+			let padding = (30 - viewer.viewport.getZoom() >= 1) ? (30 - viewer.viewport.getZoom()) : 1;
+
 		    canvas.context2d().fillStyle = "#444";
 		    for (var i = 0; i < filteredData.length; i++){
 		    	let x = filteredData[i]["grid_point"][0]/85 * 28050;
 		    	let y = filteredData[i]["grid_point"][1]/64 * 31680;
-		    	canvas.context2d().fillRect(x - 1, y - 1, 28050/85 + 2, 31680/64 + 2);            
+		    	canvas.context2d().fillRect(x - padding, y - padding, 28050/85 + padding * 2, 31680/64 + padding * 2);            
 		    }
 		    clearBeforeRedraw:true
 		};
