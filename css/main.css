@@ -187,3 +187,42 @@ html, body, .main {
 	font-size: 1.25em;
 }
 
+#mainSearch {
+	width: 100%;
+	box-sizing: border-box;
+	position: relative;
+}
+
+#bookSearch {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.searchResults {
+	max-height: 300px;
+	overflow: auto;
+	position: absolute;
+	background-color: #fff;
+	z-index: 2;
+	box-sizing: border-box;
+    width: 100%;
+    padding: 0.75em;
+}
+
+.hidden{
+	display: none;
+}
+
+.searchEntry {
+	border-bottom: 2px solid;
+	cursor: pointer;
+}
+
+.searchEntry h4, .searchEntry h5 {
+    margin: 0.5em;
+    font-size: 1.25em;
+}
+
+.searchEntry h5 {
+	font-weight: normal;
+}

@@ -7,6 +7,7 @@ class OSD{
 		this.viewer;
 		this.holder;
 		this.currentPos = [];
+		this.allData;
 		this.filteredData; //data that has been filtered out
 		this.unfilteredData; //data that is visible
 		this.canvas;
@@ -14,9 +15,11 @@ class OSD{
 		this.handleClick = this.handleClick.bind(this);
 		this.findBook = this.findBook.bind(this);
 		this.updateFilterOverlays = this.updateFilterOverlays.bind(this);
+		this.goToBook = this.goToBook.bind(this);
 	}
 
 	init(unfilteredData, filteredData){
+		this.allData = unfilteredData; //we don't update this
 		this.filteredData = filteredData;
 		this.unfilteredData = unfilteredData;
 		this.holder = document.getElementById("openseadragon");
@@ -98,9 +101,44 @@ class OSD{
 
 	}
 
-	handleClick(event){
+	goToBook(gridPos){
 		let viewport = this.viewer.viewport;
 		let viewer = this.viewer;
+		let clickedBook = this.findBook(gridPos);
+			
+		if (clickedBook){
+			//delete open overlay if it exists (we do this twice because w/ timeouts it isn't always predictable)
+			let openHandler = document.querySelector(".overlay");
+			if (openHandler){
+				viewer.removeOverlay("currentOverlay");
+			}
+			this.viewer.viewport.zoomTo(30, new OpenSeadragon.Point(gridPos[0]/85 + (1/85/2), gridPos[1] * (1.13/64) + 1.13/64/2));
+			setTimeout( function() {
+				//pan to the location after a bit. fitbounds isn't working as expected, so work in stages
+			    viewport.panTo(new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05), gridPos[1] * (1.13/64) + 1.13/64/2));
+				//after another delay, create an overlay
+			    setTimeout( function() {
+
+					//delete open overlay if it exists
+					let openHandler = document.querySelector(".overlay");
+					if (openHandler){
+						viewer.removeOverlay("currentOverlay");
+					}
+
+					viewer.addOverlay({
+				        element: makeOverlay(clickedBook),
+				        location: new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05) + 0.001, gridPos[1] * (1.13/64) + 1.13/64/2),
+				        placement: OpenSeadragon.Placement.TOP_LEFT,
+				        rotationMode: OpenSeadragon.OverlayRotationMode.NO_ROTATION,
+				        width: 0.0125,
+			       		height: 0.01
+				    });
+				}, 1000);
+			}, 1000 );
+		}
+	}
+
+	handleClick(event){
 
 		let position = [event.position.x, event.position.y];
 		if ((Math.abs(position[0] - this.currentPos[0]) < 2) && (Math.abs(position[1] - this.currentPos[1]) < 2)){
@@ -108,44 +146,14 @@ class OSD{
 			let percentPos = [pointPos.x/1, pointPos.y/1.13];
 			//we know from our python file that our grid has 85 columns and 64 rows
 			let gridPos = [Math.floor(percentPos[0] * 85), Math.floor(percentPos[1] * 64)];
-			let clickedBook = this.findBook(gridPos);
 			
-			if (clickedBook){
-				//delete open overlay if it exists (we do this twice because w/ timeouts it isn't always predictable)
-				let openHandler = document.querySelector(".overlay");
-				if (openHandler){
-					viewer.removeOverlay("currentOverlay");
-				}
-				this.viewer.viewport.zoomTo(30, new OpenSeadragon.Point(gridPos[0]/85 + (1/85/2), gridPos[1] * (1.13/64) + 1.13/64/2));
-					setTimeout( function() {
-						//pan to the location after a bit. fitbounds isn't working as expected, so work in stages
-					    viewport.panTo(new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05), gridPos[1] * (1.13/64) + 1.13/64/2));
-						//after another delay, create an overlay
-					    setTimeout( function() {
-
-					    	//delete open overlay if it exists
-							let openHandler = document.querySelector(".overlay");
-						    if (openHandler){
-						    	viewer.removeOverlay("currentOverlay");
-						    }
-
-					    	viewer.addOverlay({
-				                element: makeOverlay(clickedBook),
-				                location: new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05) + 0.001, gridPos[1] * (1.13/64) + 1.13/64/2),
-				                placement: OpenSeadragon.Placement.TOP_LEFT,
-				                rotationMode: OpenSeadragon.OverlayRotationMode.NO_ROTATION,
-				                width: 0.0125,
-		        				height: 0.01
-				            });
-					    }, 1000);
-					}, 1000 );
-			}
+			this.goToBook(gridPos);
 		} 
 
 	}
 
 	findBook(pos){
-		let theBook = this.unfilteredData.find(function(d){
+		let theBook = this.allData.find(function(d){
 			return d["grid_point"][0] === pos[0] && d["grid_point"][1] === pos[1];
 		});
 		return theBook;

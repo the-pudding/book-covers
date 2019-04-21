@@ -231,7 +231,11 @@ function setup(){
     filteredData = data;
     initControls(data, filteredData);
 
-    searcher.init(d3.select("#bookSearch").node(), loaded_data);
+    searcher.init(
+    	d3.select("#bookSearch").node(), 
+    	d3.select("#mainSearch .searchResults").node(), 
+    	loaded_data,
+    	data_point => osd.goToBook(data_point));
 
 
 }
