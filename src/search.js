@@ -53,9 +53,7 @@ class Searcher{
 
 		d3.select(this.resultsHolder).classed("hidden", false);
 		let holder = d3.select(this.resultsHolder).selectAll("div")
-			.data(this.results, function(d){ return d});
-
-		holder.exit().remove();
+			.data(this.results, function(d){ return d["title"] + d["author"]});
 
 		holder.enter().append("div").attr("class", "searchEntry")
 			.each(function(d){
@@ -64,6 +62,8 @@ class Searcher{
 			}).on("click", function(d){
 				callback(d.grid_point);
 			})
+
+		holder.exit().remove();
 	}
 
 	handleKeypress(event){
