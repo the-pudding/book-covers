@@ -10,7 +10,6 @@ import AreaChart from "./areaChart.js";
 import css from './../css/main.css';
 import loaded_data from "./../data/full_json_output.json";
 
-
 let data = [];
 let filteredData = [];
 
@@ -207,6 +206,8 @@ function filterData(){
 			}
 		})
 	}
+
+
 
 	let unfilteredData = data.filter(x => !filteredData.includes(x));
 
