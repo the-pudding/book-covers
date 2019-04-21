@@ -35,6 +35,7 @@ class OSD{
 		        width: 28050,
 		        height: 31680,
 		        tilesUrl: "./../images/all_tiles/",
+		        // tilesUrl: "./book_covers/images/all_tiles/",
 		        tileWidth: 256,
 		        tileHeight: 256,
 		        getTileUrl: function( level, x, y) {
@@ -82,9 +83,9 @@ class OSD{
 
 		this.canvas.onRedraw = function(){
 			//we need to add some padding for farther distance zooms or else we get outlines of each cover
-			let padding = (30 - viewer.viewport.getZoom() >= 1) ? (30 - viewer.viewport.getZoom()) : 1;
+			let padding = (20 - viewer.viewport.getZoom() >= 1) ? (20 - viewer.viewport.getZoom()) : 1;
 
-		    canvas.context2d().fillStyle = "#444";
+		    canvas.context2d().fillStyle =  "rgba(68, 68, 68, 0.9)";
 		    for (var i = 0; i < filteredData.length; i++){
 		    	let x = filteredData[i]["grid_point"][0]/85 * 28050;
 		    	let y = filteredData[i]["grid_point"][1]/64 * 31680;

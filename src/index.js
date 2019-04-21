@@ -6,6 +6,7 @@ import OSD from "./openSeaDragon.js";
 import SortableTable from "./sortableTable.js";
 import CircleGraph from "./circleGraph.js";
 import AreaChart from "./areaChart.js";
+import Searcher from "./search.js";
 
 import css from './../css/main.css';
 import loaded_data from "./../data/full_json_output.json";
@@ -48,6 +49,8 @@ let textPercentGraph = new AreaChart();
 let facePercentGraph = new AreaChart();
 let numFaceGraph = new SortableTable();
 let colourGraph = new SortableTable();
+
+let searcher = new Searcher();
 
 let osd = new OSD();
 
@@ -227,6 +230,9 @@ function setup(){
 	data = loaded_data.filter(function(e){ return e["cluster_point"] !== undefined});
     filteredData = data;
     initControls(data, filteredData);
+
+    searcher.init(d3.select("#bookSearch").node(), loaded_data);
+
 
 }
 

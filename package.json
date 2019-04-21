@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "d3": "^5.9.1",
+    "fuse.js": "^3.4.4",
     "lodash.countby": "^4.6.0",
     "numjs": "^0.16.0",
     "openseadragon": "^2.4.0"

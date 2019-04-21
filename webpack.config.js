@@ -5,13 +5,11 @@ module.exports = {
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: "/book_covers/"
   },
   devServer: {
 	  contentBase: path.join(__dirname, "dist"),
 	  compress: true,
-	  port: 8080,
-    publicPath: "/"
+	  port: 8080
 	},
 	module: {
     rules: [
