@@ -221,6 +221,7 @@ html, body, .main {
 .searchEntry h4, .searchEntry h5 {
     margin: 0.5em;
     font-size: 1.25em;
+    pointer-events: none;
 }
 
 .searchEntry h5 {

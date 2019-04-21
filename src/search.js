@@ -41,8 +41,11 @@ class Searcher{
 		    handleKeypress(evt);
 		});
 
-		this.searchHolder.addEventListener('blur', function (evt) {
-			d3.select(resultsHolder).classed("hidden", true);
+		window.addEventListener('click', function (evt) {
+			//hide search results if we click outside of entries
+			if (evt.target.classList.value !== "searchEntry"){
+				d3.select(resultsHolder).classed("hidden", true);
+			}
 		});
 
 
