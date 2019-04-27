@@ -72,6 +72,7 @@ class Searcher{
 	handleKeypress(event){
 		if (event.target.value.length > 3){
 			this.results = this.fuse.search(event.target.value);
+			console.log(this.searchHolder, this.resultsHolder);
 			this.populateSearchResults();
 
 		} else {

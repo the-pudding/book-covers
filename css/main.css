@@ -10,9 +10,7 @@ html, body, .main {
 .main {
 	position: absolute;
 	left: 0px;
-	/*width: 100%;*/
 	width: calc(100% - 275px);
-	overflow: hidden;
 }
 
 .main #mainCanvas {
@@ -20,6 +18,13 @@ html, body, .main {
 	height: 100%;
 }
 
+.filterControls {
+	overflow: hidden;
+}
+
+.filterList .widgetHolder {
+	overflow: visible;
+}
 
 /*SVG elements CSS*/
 
@@ -72,7 +77,7 @@ html, body, .main {
 
 .controls h2 {
 	margin-bottom: 0px;
-	height:30px;
+	height:20px;
 }
 
 .tableHolder {
@@ -173,3 +178,32 @@ html, body, .main {
 	width: calc(100% - 275px); 
 	height: 100%;
 }
+
+.chipHolder {
+	display: inline-block;
+}
+
+.chipHolder {
+	cursor: pointer;
+}
+
+.chip {
+	background-color: #ea0051;
+    color: #fff;
+    margin: 0px;
+    padding: 5px 8px 5px 20px;
+    font-size: 0.5em;
+}
+
+.chip p {
+	margin: 0px;
+	pointer-events: none;
+}
+
+.chip p::before {
+	position: absolute;
+	left: 15px;
+	content: "\f057";
+	font-family: FontAwesome;
+}
+

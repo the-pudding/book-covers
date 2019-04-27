@@ -6,6 +6,7 @@ import OSD from "./openSeaDragon.js";
 import SortableTable from "./sortableTable.js";
 import CircleGraph from "./circleGraph.js";
 import Searcher from "./search.js";
+import ActiveFilters from "./activeFilters.js";
 
 import css from './../css/main.css';
 import loaded_data from "./../data/full_json_output.json";
@@ -28,6 +29,7 @@ let fictionalityTable = new CircleGraph();
 let genderTable = new SortableTable();
 
 let searcher = new Searcher();
+let activeFilters = new ActiveFilters();
 
 let osd = new OSD();
 
@@ -35,8 +37,6 @@ window.onload =function(e){
 	osd.init(loaded_data, []);
 	setup();
 }
-
-
 
 function clickCallback(selectionName, selection){
 	if (!selections[selectionName].find(function(d){ return d === selection})){
@@ -61,6 +61,8 @@ function doSelectionFilter(value, cat){
 }
 
 function filterData(){
+	activeFilters.updateFilters(selections);
+
 	filteredData = data;
 	if (selections["motifs"].length > 0){
 		filteredData = filteredData.filter(function(d){
@@ -107,12 +109,13 @@ function setup(){
 	data = loaded_data.filter(function(e){ return e["cluster_point"] !== undefined});
     filteredData = data;
     initControls(data, filteredData);
-
     searcher.init(
     	d3.select("#bookSearch").node(), 
     	d3.select("#mainSearch .searchResults").node(), 
     	loaded_data,
     	data_point => osd.goToBook(data_point));
+
+    activeFilters.init(d3.select("#activeFilters").node(), selections);
 }
 
 
