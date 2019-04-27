@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 class CircleGraph {
     constructor() {
         this.holder;
-        this.holderHeight = 115;
+        this.holderHeight = 100;
         this.holderWidth;
         this.totalData;
         this.filteredData;

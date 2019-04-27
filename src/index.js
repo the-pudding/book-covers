@@ -22,20 +22,6 @@ let selections =
 	"gender": []
 }
 
-let rectangleRatio = 0.6666667; //the width to height ratio or rectangles is generally around 1.5
-let gridColumns;
-let gridRows;
-
-let width, height;
-
-let spriteSheets = {}
-let smallImages = {};
-
-let holder;
-let ctx;
-
-let indexLocations = [];
-
 let genreTable = new SortableTable();
 let motifTable = new SortableTable();
 let fictionalityTable = new CircleGraph();
@@ -118,7 +104,6 @@ function filterData(){
 
 function setup(){
 
-
 	data = loaded_data.filter(function(e){ return e["cluster_point"] !== undefined});
     filteredData = data;
     initControls(data, filteredData);
@@ -128,8 +113,6 @@ function setup(){
     	d3.select("#mainSearch .searchResults").node(), 
     	loaded_data,
     	data_point => osd.goToBook(data_point));
-
-
 }
 
 
@@ -190,6 +173,7 @@ function formatFictionality(array){
 }
 
 function initControls(data, filteredData){
+
 	//bar charts
 	genreTable.init(d3.select("#genreChart").select("svg"));
 	motifTable.init(d3.select("#motifsChart").select("svg"));	

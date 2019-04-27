@@ -53,22 +53,14 @@ html, body, .main {
 	height: 100%;
 	background-color: #d1d1d1;
 	font-size: 60%;
-	display: grid;
-	grid-template-rows: 20px calc(100% - 40px);
-	grid-template-columns: 100%;
-	grid-template-areas: "filterList"
-						"filterControls";
-}
-
-.filterList {
-	grid-area: filterList;
+	display: flex;
+	flex-direction: column;
 }
 
 .filterControls {
-	grid-area: filterControls;
 	display: grid;
+	overflow: hidden;
 }
-
 
 .controls h1, h2, h3 {
 	font-weight: normal;
@@ -93,10 +85,6 @@ html, body, .main {
 	margin-bottom: 15px;
 	float: left;
 	overflow: hidden;
-}
-
-.widgetHolder:last-child{
-	margin-bottom: 0px;
 }
 
 .widgetHolder svg {
