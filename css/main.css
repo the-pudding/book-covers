@@ -88,52 +88,6 @@ html, body, .main {
 	margin-top: 0px;
 }
 
-.controlsHolder {
-	width: 100%;
-	float: left;
-}
-
-.controlsHolder.closed .controlPanel{
-	height: 0px;
-	overflow: hidden;
-}
-
-.controlsHolder .controlsHeader {
-	border-width: 2px 0px;
-	border-color: #000;
-	border-style: solid;
-	margin-bottom: 10px;
-	position: relative;
-	cursor: pointer;
-}
-
-.controlsHolder .controlsHeader h1 {
-	margin: 5px 0px;
-}
-
-.controlsHolder .closer{
-	height: 50px;
-	position: absolute;
-	right: 0px;
-	top: 0px;
-}
-
-/*placeholder close/open*/
-.controlsHolder .closer:before{
-	font-size: 14px;
-	line-height: 30px;
-	content: "X";
-}
-
-.controlsHolder.closed .closer:before{
-	content: "+";
-}
-
-.areaChartHolder{
-	width: 100%;
-	max-height: 100px;
-}
-
 .tableHolder {
 	overflow: scroll;
 	max-height: 220px;

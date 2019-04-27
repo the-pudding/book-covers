@@ -118,12 +118,6 @@ function filterData(){
 
 function setup(){
 
-	//toggle accordians open and close
-	d3.selectAll(".controlsHeader").on("click", function(){
-		d3.selectAll(".controlsHolder").classed("closed", function () {
-			return !d3.select(this).classed("closed");
-		});
-	})
 
 	data = loaded_data.filter(function(e){ return e["cluster_point"] !== undefined});
     filteredData = data;
