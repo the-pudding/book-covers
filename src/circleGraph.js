@@ -4,7 +4,7 @@ class CircleGraph {
     constructor() {
         this.holder;
         this.holderHeight = 115;
-        this.holderWidth = 315;
+        this.holderWidth;
         this.totalData;
         this.filteredData;
         this.totalScale;
@@ -21,6 +21,7 @@ class CircleGraph {
 
     init(holder){
         this.holder = holder;
+        this.holderWidth = this.holder.node().width.animVal.value;
 
     }
 
@@ -72,7 +73,7 @@ class CircleGraph {
             .data(this.totalData, function(d){ return d.key});
 
         rows.exit();
-        console.log(sortScale.range);
+
         //create elements
         rows.enter()
             .append("g")

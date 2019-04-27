@@ -11,7 +11,7 @@ html, body, .main {
 	position: absolute;
 	left: 0px;
 	/*width: 100%;*/
-	width: calc(100% - 301px);
+	width: calc(100% - 275px);
 	overflow: hidden;
 }
 
@@ -49,24 +49,26 @@ html, body, .main {
 	position: fixed;
 	right: 0px;
 	top: 0px;
-	width: 300px;
+	width: 275px;
 	height: 100%;
 	background-color: #d1d1d1;
 	font-size: 60%;
+	display: grid;
+	grid-template-rows: 20px calc(100% - 40px);
+	grid-template-columns: 100%;
+	grid-template-areas: "filterList"
+						"filterControls";
 }
 
-.controls .halfWidth {
-	width: 50%;
-	float: left;
+.filterList {
+	grid-area: filterList;
 }
 
-.controls .halfWidth:after {
-	content: ".";
-	visibility: hidden;
-	display: block;
-	height: 0;
-	clear: both;
+.filterControls {
+	grid-area: filterControls;
+	display: grid;
 }
+
 
 .controls h1, h2, h3 {
 	font-weight: normal;
@@ -76,16 +78,25 @@ html, body, .main {
 	margin-top: 0px;
 }
 
+.controls h2 {
+	margin-bottom: 0px;
+	height:30px;
+}
+
 .tableHolder {
 	overflow: scroll;
-	max-height: 220px;
 	width: 100%;
+	height: calc(100% - 30px);
 }
 
 .widgetHolder {
 	margin-bottom: 15px;
 	float: left;
 	overflow: hidden;
+}
+
+.widgetHolder:last-child{
+	margin-bottom: 0px;
 }
 
 .widgetHolder svg {
@@ -141,7 +152,7 @@ html, body, .main {
 }
 
 .searchResults {
-	max-height: 300px;
+	max-height: 275px;
 	overflow: auto;
 	position: absolute;
 	background-color: #fff;
@@ -168,4 +179,9 @@ html, body, .main {
 
 .searchEntry h5 {
 	font-weight: normal;
+}
+
+#openseadragon {
+	width: calc(100% - 275px); 
+	height: 100%;
 }

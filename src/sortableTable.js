@@ -9,7 +9,7 @@ class SortableTable {
         this.filteredData;
         this.totalScale;
         this.filteredScale;
-        this.barHeight = 18;
+        this.barHeight = 16;
         this.sortScale = d3.scaleBand();
 
         this.init = this.init.bind(this);
@@ -97,7 +97,7 @@ class SortableTable {
                     .attr("x", -(holderWidth * 0.25))
                     .attr("y", 0)
                     .attr("width", (holderWidth * 0.25))
-                    .attr("height", 11)
+                    .attr("height", 12)
                         .append('xhtml:div')
                         .append("p")
                         .html(e.key)
@@ -107,20 +107,20 @@ class SortableTable {
                     .attr("x", ((-holderWidth * 0.25) + holderWidth - 30))
                     .attr("y", 0)
                     .attr("width", 30)
-                    .attr("height", 11)
+                    .attr("height", 12)
                         .append('xhtml:div')
                         .append("p")
                         .html(thisFilteredValue.value)
 
                 d3.select(this).append("rect")
                     .attr("class", "totalBar")
-                    .attr("height", 11)
+                    .attr("height", 9)
                     .attr("width", d => totalScale(d.value));
 
                 d3.select(this).append("rect")
                     .attr("class", "filterBar")
                     .style("fill" , "url(#stripe)")
-                    .attr("height", 11)
+                    .attr("height", 9)
                     .attr("width", function(d){
                         return filteredScale(thisFilteredValue.value) ? filteredScale(thisFilteredValue.value) : 0;
                     });

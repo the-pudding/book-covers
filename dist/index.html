@@ -5,14 +5,17 @@
 	<link href="https://fonts.googleapis.com/css?family=Work+Sans:400,700" rel="stylesheet">
 </head>
 <body>
-	<div id="openseadragon" style="width: calc(100% - 350px); height: 100%;"></div>
+	<div id="openseadragon"></div>
 
 	<div class="controls">
-		<div id="mainSearch">
-			<input id="bookSearch" type="text" id="name" name="name" required minlength="4">
-			<div class="searchResults hidden"></div>
+		<div class="filterList">
+			<div id="mainSearch">
+				<input id="bookSearch" type="text" id="name" name="name" required minlength="4">
+				<div class="searchResults hidden"></div>
+			</div>
 		</div>
-			
+		
+		<div class="filterControls">
 			<div id="genderChart" class="widgetHolder">
 				<h2>Gender</h2>
 				<div class="tableHolder">
@@ -84,6 +87,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 
 	</div>
 	<script src="main.js"></script>
