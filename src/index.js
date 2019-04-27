@@ -5,7 +5,6 @@ import OSD from "./openSeaDragon.js";
 
 import SortableTable from "./sortableTable.js";
 import CircleGraph from "./circleGraph.js";
-import AreaChart from "./areaChart.js";
 import Searcher from "./search.js";
 
 import css from './../css/main.css';
@@ -20,11 +19,7 @@ let selections =
 	"motifs": [],
 	"genres": [],
 	"fictionality": [],
-	"gender": [],
-	"textCover": [],
-	"faceCover": [],
-	"numFaces": [],
-	"colour": []
+	"gender": []
 }
 
 let rectangleRatio = 0.6666667; //the width to height ratio or rectangles is generally around 1.5
@@ -45,10 +40,6 @@ let genreTable = new SortableTable();
 let motifTable = new SortableTable();
 let fictionalityTable = new CircleGraph();
 let genderTable = new SortableTable();
-let textPercentGraph = new AreaChart();
-let facePercentGraph = new AreaChart();
-let numFaceGraph = new SortableTable();
-let colourGraph = new SortableTable();
 
 let searcher = new Searcher();
 
@@ -62,16 +53,11 @@ window.onload =function(e){
 
 
 function clickCallback(selectionName, selection){
-	//we handle the area chart data slightly differently
-	if (selectionName === "textCover" || selectionName === "faceCover"){
-		selections[selectionName] = selection;
+	if (!selections[selectionName].find(function(d){ return d === selection})){
+		selections[selectionName].push(selection);
 	} else {
-		if (!selections[selectionName].find(function(d){ return d === selection})){
-			selections[selectionName].push(selection);
-		} else {
-			let spliceIndex = selections[selectionName].findIndex(function(d){ return d === selection});
-			selections[selectionName].splice(spliceIndex, 1);
-		}
+		let spliceIndex = selections[selectionName].findIndex(function(d){ return d === selection});
+		selections[selectionName].splice(spliceIndex, 1);
 	}
 	filterData();
 }
@@ -119,94 +105,6 @@ function filterData(){
 				return d["is_fiction"] === 0;
 			}
 
-		})
-	}
-
-	if (selections["textCover"].length > 1){
-		filteredData = filteredData.filter(function(d){
-			if (d["text"] && d["text"] >= selections["textCover"][0] && d["text"] <= selections["textCover"][1]){
-				return true;
-			} else {
-				return false;
-			}
-		})
-	}
-
-	if (selections["faceCover"].length > 1){
-		filteredData = filteredData.filter(function(d){
-			if (d["faces"] && d["faces"]["percentage"] 
-				&& d["faces"]["percentage"] >= selections["faceCover"][0] && d["faces"]["percentage"] <= selections["faceCover"][1]){
-				return true;
-			} else {
-				return false;
-			}
-		})
-	}
-
-	if (selections["numFaces"].length > 0){
-		filteredData = filteredData.filter(function(d){
-			if (d["faces"] && d["faces"]["totalFaces"] 
-				&& selections["numFaces"].find(function(e) {
-					if (e !== "5+"){
-						return parseInt(e) === parseInt(d["faces"]["totalFaces"]);
-					} else {
-						return d["faces"]["totalFaces"] > 4;
-					}
-				})) {
-				return true;
-			} else {
-				return false;
-			}
-		})
-	}
-
-
-
-	if (selections["colour"].length > 0){
-		filteredData = filteredData.filter(function(d){
-			if (d["hue"]) {
-				if (d["value"] < 50){
-					return selections["colour"].find(function(e){
-						return e === "<span style='color: black'>black</span>";
-					})
-				} else if (d["saturation"] < 15 || (d["saturation"] < 25 && d["value"] > 225) ){
-					return selections["colour"].find(function(e){
-						return e === "<span style='color: white'>white</span>";
-					})
-				} else if (d["saturation"] < 25){
-					return selections["colour"].find(function(e){
-						return e === "<span style='color: #222'>grey</span>";
-					})
-				} else if (d["hue"] < 7.5 || d["hue"] > 165){
-					return selections["colour"].find(function(e){
-						return e === "<span style='color: red'>red</span>";
-					})
-				} else if (d["hue"] < 15){
-					return selections["colour"].find(function(e){
-						return e === "<span style='color: orange'>orange</span>";
-					})
-				} else if (d["hue"] < 37.5){
-					return selections["colour"].find(function(e){
-						return e === "<span style='color: yellow'>yellow</span>";
-					})
-				} else if (d["hue"] < 80){
-					return selections["colour"].find(function(e){
-						return e === "<span style='color: green'>green</span>";
-					})
-				} else if (d["hue"] < 120){
-					return selections["colour"].find(function(e){
-						return e === "<span style='color: blue'>blue</span>";
-					})
-				} else if (d["hue"] >= 120 && d["hue"] <= 165){
-					return selections["colour"].find(function(e){
-						return e === "<span style='color: magenta'>magenta</span>";
-					})
-				} else {
-					return false;
-				}
-			} else {
-				return false;
-			}
 		})
 	}
 
@@ -302,65 +200,13 @@ function initControls(data, filteredData){
 	genreTable.init(d3.select("#genreChart").select("svg"));
 	motifTable.init(d3.select("#motifsChart").select("svg"));	
 	genderTable.init(d3.select("#genderChart").select("svg"));
-	numFaceGraph.init(d3.select("#numFaces").select("svg"));
-	colourGraph.init(d3.select("#bgColour").select("svg"));
 
 	//circle chart
 	fictionalityTable.init(d3.select("#ficOrNotChart").select("svg"));
 
-	//area charts
-	textPercentGraph.init(d3.select("#coverText").select("svg"));
-	facePercentGraph.init(d3.select("#faceCover").select("svg"));
-
 	drawCharts();
 }
 
-function formatDataForNumFaces(whichData, cutOff){
-	let arr = rollupAndCountNested("faces", "totalFaces", whichData)
-			.filter(function(d){ return d.key !== "undefined"});
-	let restrictedArray = [];
-	let cutOffTotal = 0;
-	for (var i = 0; i < arr.length; i++){
-		if (parseInt(arr[i].key) <= 4){
-			restrictedArray.push(arr[i]);
-		} else {
-			cutOffTotal++;
-		}
-	}
-	restrictedArray.push({"key": "5+", "value": cutOffTotal});
-	return restrictedArray;
-}
-
-function formatColour(whichData){
-
-	let thisData = d3.nest()
-					.key(function(d){ 
-						if (d["value"] < 50){
-							return "<span style='color: black'>black</span>";
-						} else if (d["saturation"] < 15 || (d["saturation"] < 25 && d["value"] > 225)){
-							return "<span style='color: white'>white</span>";
-						} else if (d["saturation"] < 25){
-							return "<span style='color: #222'>grey</span>";
-						} else if (d["hue"] > 165 || d["hue"] < 7.5){
-							return "<span style='color: red'>red</span>";
-						} else if (d["hue"] < 15) {
-							return "<span style='color: orange'>orange</span>";
-						} else if (d["hue"] < 37.5) {
-							return "<span style='color: yellow'>yellow</span>";
-						} else if (d["hue"] < 80) {
-							return "<span style='color: green'>green</span>";
-						} else if (d["hue"] < 120){
-							return "<span style='color: blue'>blue</span>";
-						} else {
-							return "<span style='color: magenta'>magenta</span>";
-						}
-					})
-					.rollup(function(ids) {
-						return ids.length; 
-					})
-					.entries(whichData);
-	return thisData;
-}
 
 
 function drawCharts(){
@@ -382,35 +228,11 @@ function drawCharts(){
 	genderTable.setData(genderTotal, genderFiltered, selections["gender"]);
 	genderTable.draw((newVal) => clickCallback("gender", newVal));
 
-	let numFacesTotal = formatDataForNumFaces(data, 5);
-	let numFacesFiltered = formatDataForNumFaces(filteredData, 5);
-	numFaceGraph.setData(numFacesTotal, numFacesFiltered, selections["numFaces"]);
-	numFaceGraph.draw((newVal) => clickCallback("numFaces", newVal));
-
-	let colourBgTotal = formatColour(data);
-	let colourFiltered = formatColour(filteredData);
-	colourGraph.setData(colourBgTotal, colourFiltered, selections["colour"]);
-	colourGraph.draw((newVal) => clickCallback("colour", newVal));
-
 	//circle chart
 	let fictionalityTotal = formatFictionality(data);
 	let fictionalityFiltered = formatFictionality(filteredData);
 	fictionalityTable.setData(fictionalityTotal, fictionalityFiltered, selections["fictionality"]);
 	fictionalityTable.draw((newVal) => clickCallback("fictionality", newVal));
-
-	//area charts
-	let textCoverTotal = rollupAndCount("text", data);
-	let textCoverFiltered = rollupAndCount("text", filteredData);
-	textPercentGraph.setData(textCoverTotal, textCoverFiltered, selections["textCover"]);
-	textPercentGraph.draw((newVal) => clickCallback("textCover", newVal));
-
-	//we also filter out 0 values here since there's so many of them they skew the graph
-	let faceCoverTotal = rollupAndCountNested("faces", "percentage", data)
-		.filter(function(d){ return parseInt(d.key) > 0});
-	let faceCoverFiltered = rollupAndCountNested("faces", "percentage", filteredData)
-		.filter(function(d){ return parseInt(d.key) > 0});
-	facePercentGraph.setData(faceCoverTotal, faceCoverFiltered, selections["faceCover"]);
-	facePercentGraph.draw((newVal) => clickCallback("faceCover", newVal));
 
 }
 
