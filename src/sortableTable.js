@@ -44,13 +44,13 @@ class SortableTable {
 
         this.totalScale = d3.scaleLinear()
                             .domain([0, d3.max(this.totalData, function(e){ return e.value})])
-                            .range([0, ((-this.holderWidth * 0.2) + this.holderWidth - 70)]);
+                            .range([0, ((-this.holderWidth * 0.25) + this.holderWidth - 40)]);
 
 
 
         this.filteredScale = d3.scaleLinear()
                             .domain([0, d3.max(this.filteredData, function(e){ return e.value})])
-                            .range([0, ((-this.holderWidth * 0.2) + this.holderWidth - 70)]);
+                            .range([0, ((-this.holderWidth * 0.25) + this.holderWidth - 40)]);
 
 
         this.sortData("filter");
@@ -81,7 +81,7 @@ class SortableTable {
             .append("g")
             .attr("class", "bar")
             .attr("transform", function(d){
-                return "translate(" + (holderWidth * 0.2) + ", " + sortScale(d.key) + ")";
+                return "translate(" + (holderWidth * 0.25) + ", " + sortScale(d.key) + ")";
             })
             .each(function(e){
 
@@ -94,9 +94,9 @@ class SortableTable {
 
                 d3.select(this).append("foreignObject")
                     .attr("class", "barName")
-                    .attr("x", -(holderWidth * 0.2))
+                    .attr("x", -(holderWidth * 0.25))
                     .attr("y", 0)
-                    .attr("width", (holderWidth * 0.2))
+                    .attr("width", (holderWidth * 0.25))
                     .attr("height", 11)
                         .append('xhtml:div')
                         .append("p")
@@ -104,23 +104,13 @@ class SortableTable {
 
                 d3.select(this).append("foreignObject")
                     .attr("class", "barFilteredNum")
-                    .attr("x", ((-holderWidth * 0.2) + holderWidth - 65))
+                    .attr("x", ((-holderWidth * 0.25) + holderWidth - 30))
                     .attr("y", 0)
                     .attr("width", 30)
                     .attr("height", 11)
                         .append('xhtml:div')
                         .append("p")
                         .html(thisFilteredValue.value)
-
-                d3.select(this).append("foreignObject")
-                    .attr("class", "barTotalNum")
-                    .attr("x", ((-holderWidth * 0.2) + holderWidth - 30))
-                    .attr("y", 0)
-                    .attr("width", 30)
-                    .attr("height", 11)
-                        .append('xhtml:div')
-                        .append("p")
-                        .html(e.value)
 
                 d3.select(this).append("rect")
                     .attr("class", "totalBar")
@@ -142,7 +132,7 @@ class SortableTable {
         //update positions and widths
         rows.transition()
             .attr("transform", function(d){
-                return "translate(" + (holderWidth * 0.2) + ", " + sortScale(d.key) + ")";
+                return "translate(" + (holderWidth * 0.25) + ", " + sortScale(d.key) + ")";
             });
 
         rows

@@ -72,7 +72,7 @@ class CircleGraph {
             .data(this.totalData, function(d){ return d.key});
 
         rows.exit();
-
+        console.log(sortScale.range);
         //create elements
         rows.enter()
             .append("g")
@@ -110,23 +110,15 @@ class CircleGraph {
 
                 d3.select(this).append("foreignObject")
                     .attr("class", "barFilteredNum")
-                    .attr("x",  0 - (holderWidth * 0.1))
+                    .attr("x",  -(holderHeight* 0.45/2))
                     .attr("y", holderHeight* 0.45)
-                    .attr("width", (holderWidth * 0.1))
+                    .attr("width", (holderHeight* 0.45))
                     .attr("height", 15)
                         .append('xhtml:div')
+                        .style("text-align", "center")
                         .append("p")
                         .html(thisFilteredValue.value)
 
-                d3.select(this).append("foreignObject")
-                    .attr("class", "barTotalNum")
-                    .attr("x", 0)
-                    .attr("y", holderHeight* 0.45)
-                    .attr("width", (holderWidth * 0.1))
-                    .attr("height", 15)
-                        .append('xhtml:div')
-                        .append("p")
-                        .html(e.value)
             })
             .on("click", function(d){
                 callback(d.key);
