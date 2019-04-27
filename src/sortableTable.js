@@ -27,23 +27,9 @@ class SortableTable {
     }
 
     sortData(arg){
-        let filteredData = this.filteredData;
         if (arg == "filter"){
             this.totalData = this.totalData.sort(function(a, b){
-                let thisFilteredValueA = filteredData.find(function(fa){
-                    return fa.key === a.key
-                });
-
-                let thisFilteredValueB = filteredData.find(function(fb){
-                    return fb.key === b.key
-                });
-                if (thisFilteredValueA === undefined){
-                    thisFilteredValueA = {"value": 0};
-                }
-                if (thisFilteredValueB === undefined){
-                    thisFilteredValueB = {"value": 0};
-                }
-                return thisFilteredValueB.value - thisFilteredValueA.value;
+                return b.value - a.value;
             })
         }
     }
