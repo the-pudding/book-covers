@@ -123,14 +123,42 @@ html, body, .main {
     margin-top:-100px;
     padding: 10px;
     z-index: 100000;
+    border: 2px solid;
+    font-size: 85%;
 }
 
 .overlay h1 {
 	font-size: 1.5em;
+	border-bottom: 2px solid #ea0051;
 }
 
 .overlay h2 {
 	font-size: 1.25em;
+}
+
+.overlayHeader {
+	width:100%;
+}
+
+.overlayHeader h1, .overlayHeader h2 {
+	text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.overlayInfoDiv {
+	margin-bottom: 0px;
+}
+
+.overlayInfoDiv p {
+	margin: 0.5em 0.2em;
+}
+
+.overlayInfoDiv p span:first-child {
+	font-weight: bold;
+}
+.overlayInfoDiv p span:not(:first-child) {
+	text-transform: lowercase;
 }
 
 #mainSearch {
@@ -203,14 +231,14 @@ html, body, .main {
 .dropDown .chipToggler::before {
 	display: inline-block;
 	width: 15px;
-	content: "\f107";
+	content: "\f106";
 	font-family: FontAwesome;
 	cursor: pointer;
 	text-align: right;
 }
 
 .chip.dropDown.closed .chipToggler::before {
-	content: "\f106";
+	content: "\f107";
 }
 
 

@@ -137,7 +137,7 @@ class OSD{
 				        placement: OpenSeadragon.Placement.TOP_LEFT,
 				        rotationMode: OpenSeadragon.OverlayRotationMode.NO_ROTATION,
 				        width: 0.0125,
-			       		height: 0.01
+			       		height: 0.012
 				    });
 				}, 1000);
 			}, 1000 );

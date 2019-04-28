@@ -16,7 +16,29 @@ function makeOverlay(data)
 		let byline = element.append("div")
 			.attr("class", "overlayHeader")
 			.append("h2")
-			.html(data.author);
+			.html("by " + data.author);
+	}
+
+	let genderDiv = element.append("div").attr("class", "overlayInfoDiv");
+	let genderP = genderDiv.append("p");
+	genderP.append("span").html("Author's Gender: ");
+	genderP.append("span").html(data["gender"]);
+
+	let fictionalityDiv = element.append("div").attr("class", "overlayInfoDiv");
+	let fictionalityP = fictionalityDiv.append("p");
+	fictionalityP.append("span").html("Fictionality: ");
+	fictionalityP.append("span").html(data["is_fiction"] === 1 ? "fiction" : "non-fiction");
+
+	let genreDiv = element.append("div").attr("class", "overlayInfoDiv");
+	let genreP = genreDiv.append("p");
+	genreP.append("span").html("Genre: ");
+	genreP.append("span").html(data["main_genre"]);
+
+	if (data["labels"].length > 0){
+		let motifsDiv = element.append("div").attr("class", "overlayInfoDiv");
+		let motifsP = motifsDiv.append("p");
+		motifsP.append("span").html("Motifs: ");
+		motifsP.append("span").html(data["labels"].join(", "));
 	}
 
 	return elt;
