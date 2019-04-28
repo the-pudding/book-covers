@@ -181,29 +181,54 @@ html, body, .main {
 
 .chipHolder {
 	display: inline-block;
-}
-
-.chipHolder {
-	cursor: pointer;
+	cursor: default;
+	position: relative;
+	margin-right: 5px;
 }
 
 .chip {
 	background-color: #ea0051;
     color: #fff;
-    margin: 0px;
-    padding: 5px 8px 5px 20px;
-    font-size: 0.5em;
 }
 
 .chip p {
 	margin: 0px;
-	pointer-events: none;
 }
 
-.chip p::before {
-	position: absolute;
-	left: 15px;
+.chip p:first-child {
+    padding: 5px 8px;
+}
+
+.dropDown .chipToggler::before {
+	display: inline-block;
+	width: 15px;
+	content: "\f107";
+	font-family: FontAwesome;
+	cursor: pointer;
+	text-align: right;
+}
+
+.chip.dropDown.closed .chipToggler::before {
+	content: "\f106";
+}
+
+
+.chipCloser::before {
+	display: inline-block;
+	width: 15px;
 	content: "\f057";
 	font-family: FontAwesome;
+	cursor: pointer;
 }
 
+.chipSelectionHolder{
+	background-color: #fff;
+	color: #000;
+	position: absolute;
+	font-size: 0.4em;
+	width: 100%;
+}
+
+.chip.dropDown.closed .chipSelectionHolder {
+	display: none;
+}
