@@ -39,11 +39,16 @@ window.onload =function(e){
 }
 
 function clickCallback(selectionName, selection){
-	if (!selections[selectionName].find(function(d){ return d === selection})){
-		selections[selectionName].push(selection);
+	//if the value is empty, clear that selection
+	if (!selection){
+		selections[selectionName] = [];
 	} else {
-		let spliceIndex = selections[selectionName].findIndex(function(d){ return d === selection});
-		selections[selectionName].splice(spliceIndex, 1);
+		if (!selections[selectionName].find(function(d){ return d === selection})){
+			selections[selectionName].push(selection);
+		} else {
+			let spliceIndex = selections[selectionName].findIndex(function(d){ return d === selection});
+			selections[selectionName].splice(spliceIndex, 1);
+		}
 	}
 	filterData();
 }
@@ -115,7 +120,9 @@ function setup(){
     	loaded_data,
     	data_point => osd.goToBook(data_point));
 
-    activeFilters.init(d3.select("#activeFilters").node(), selections);
+    activeFilters.init(d3.select("#activeFilters").node(), 
+    		selections, 
+    		clickCallback);
 }
 
 

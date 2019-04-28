@@ -179,11 +179,12 @@ html, body, .main {
 	height: 100%;
 }
 
+/*active filters styles*/
 .chipHolder {
 	display: inline-block;
 	cursor: default;
 	position: relative;
-	margin-right: 5px;
+	margin: 0px 5px 5px 0px;
 }
 
 .chip {

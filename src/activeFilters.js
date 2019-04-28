@@ -5,14 +5,16 @@ class ActiveFilters {
 
 		this.holder;
 		this.selectedFilters;
+		this.callback;
 
 		this.init = this.init.bind(this);
 		this.updateFilters = this.updateFilters.bind(this);
 		this.draw = this.draw.bind(this);
 	}
 
-	init(holder, filters) {
+	init(holder, filters, callback) {
 		this.holder = holder;
+		this.callback = callback;
 		this.selectedFilters = Object.keys(filters).map(function(key) {
   			return [key, filters[key]];
 		});
@@ -29,6 +31,8 @@ class ActiveFilters {
 	draw(){
 		let allSelected = this.selectedFilters
 							.filter(function(d){ return d[1].length > 0});
+		let callback = this.callback;
+
 		if (!allSelected.length > 0){
 			d3.select(this.holder)
 				.append("p")
@@ -54,7 +58,10 @@ class ActiveFilters {
 								.attr("class", "chip closed");
 
 				let theP = thisDiv.append("p");
-				theP.append("span").attr("class", "chipCloser");
+				theP.append("span").attr("class", "chipCloser")
+							.on("click", function(f){
+								callback(e[0]);
+							});
 
 				if (e[0] !== "motifs"){
 					theP.append("span")
@@ -113,9 +120,12 @@ class ActiveFilters {
 					.append("p")
 					.each(function(f){
 						let thisHolder = d3.select(this);
-
+						//remove just one filtered value from filter list
 						thisHolder.append("span")
-							.attr("class", "chipCloser");
+							.attr("class", "chipCloser")
+							.on("click", function(f){
+								callback(e[0], f);
+							});
 
 						thisHolder.append("span")
 							.html(function(f){ return f});
