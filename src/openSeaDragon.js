@@ -86,14 +86,20 @@ class OSD{
 
 		this.canvas.onRedraw = function(){
 			//we need to add some padding for farther distance zooms or else we get outlines of each cover
-			let padding = (20 - viewer.viewport.getZoom() >= 1) ? (20 - viewer.viewport.getZoom()) : 1;
+			let padding = viewer.viewport.getZoom() <= 2.5 ? 5 : 2;
 
-		    canvas.context2d().fillStyle =  "rgba(68, 68, 68, 0.9)";
+		    canvas.context2d().fillStyle =  "rgba(0, 0, 0, 0.8)";
 		    for (var i = 0; i < filteredData.length; i++){
 		    	let x = filteredData[i]["grid_point"][0]/85 * 28050;
 		    	let y = filteredData[i]["grid_point"][1]/64 * 31680;
 		    	canvas.context2d().fillRect(x - padding, y - padding, 28050/85 + padding * 2, 31680/64 + padding * 2);            
 		    }
+		    if (viewer.viewport.getZoom() < 10) {
+		    	canvas.context2d().strokeStyle =  "rgba(0, 0, 0, 1)";
+			    canvas.context2d().lineWidth = 100;
+			    canvas.context2d().strokeRect(0, 0, 28100, 31750);
+			}
+
 		    clearBeforeRedraw:true
 		};
 		this.canvas.redraw();
