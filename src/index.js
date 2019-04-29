@@ -18,7 +18,7 @@ let filteredData = [];
 let selections = 
 {
 	"motifs": [],
-	"genres": [],
+	"genre": [],
 	"fictionality": [],
 	"gender": []
 }
@@ -34,7 +34,7 @@ let activeFilters = new ActiveFilters();
 let osd = new OSD();
 
 window.onload =function(e){
-	osd.init(loaded_data, []);
+	osd.init(loaded_data, [], selections, clickCallback);
 	setup();
 }
 
@@ -87,7 +87,7 @@ function filterData(){
 		})
 	} 
 
-	doSelectionFilter("genres", "main_genre");
+	doSelectionFilter("genre", "main_genre");
 	doSelectionFilter("gender", "gender");
 
 	if (selections["fictionality"].length === 1){
@@ -105,7 +105,7 @@ function filterData(){
 
 	let unfilteredData = data.filter(x => !filteredData.includes(x));
 
-	osd.updateData(filteredData, unfilteredData);
+	osd.updateData(filteredData, unfilteredData, selections);
 	drawCharts();
 }
 
@@ -201,8 +201,8 @@ function drawCharts(){
 	//bar charts
 	let genresFiltered = rollupAndCount("main_genre", filteredData);
 	let genresTotal = rollupAndCount("main_genre", data);
-	genreTable.setData(genresTotal, genresFiltered, selections["genres"]);
-	genreTable.draw((newVal) => clickCallback("genres", newVal));
+	genreTable.setData(genresTotal, genresFiltered, selections["genre"]);
+	genreTable.draw((newVal) => clickCallback("genre", newVal));
 
 	let flatMotifsTotal = data.map(function(d){ return d.labels}).flat();
 	flatMotifsTotal = formatMotifs(flatMotifsTotal);	

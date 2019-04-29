@@ -1,6 +1,6 @@
 import OpenSeadragon from 'openseadragon';
 require("./openseadragon-canvas-overlay.js");
-import makeOverlay from "./overlay";
+import {makeOverlay, updateOverlay} from "./overlay";
 
 class OSD{
 	constructor() {
@@ -11,6 +11,8 @@ class OSD{
 		this.filteredData; //data that has been filtered out
 		this.unfilteredData; //data that is visible
 		this.canvas;
+		this.selections;
+		this.cb; //on click callback to passed to overlay
 
 		this.handleClick = this.handleClick.bind(this);
 		this.findBook = this.findBook.bind(this);
@@ -18,10 +20,12 @@ class OSD{
 		this.goToBook = this.goToBook.bind(this);
 	}
 
-	init(unfilteredData, filteredData){
+	init(unfilteredData, filteredData, selections, cb){
 		this.allData = unfilteredData; //we don't update this
 		this.filteredData = filteredData;
 		this.unfilteredData = unfilteredData;
+		this.selections = selections;
+		this.cb = cb;
 		this.holder = document.getElementById("openseadragon");
 		this.viewer  = OpenSeadragon({
 		    id:                 'openseadragon',
@@ -72,9 +76,11 @@ class OSD{
 
 	}
 
-	updateData(unfilteredData, filteredData){
+	updateData(unfilteredData, filteredData, selections){
 		this.filteredData = filteredData;
 		this.unfilteredData = unfilteredData;
+		this.selections = selections;
+		updateOverlay(this.selections);
 		this.updateFilterOverlays();
 	}
 
@@ -111,6 +117,8 @@ class OSD{
 		let viewport = this.viewer.viewport;
 		let viewer = this.viewer;
 		let clickedBook = this.findBook(gridPos);
+		let selections = this.selections;
+		let cb = this.cb;
 			
 		if (clickedBook){
 			//delete open overlay if it exists (we do this twice because w/ timeouts it isn't always predictable)
@@ -132,12 +140,11 @@ class OSD{
 					}
 
 					viewer.addOverlay({
-				        element: makeOverlay(clickedBook),
+				        element: makeOverlay(clickedBook, selections, cb),
 				        location: new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05) + 0.001, gridPos[1] * (1.13/64) + 1.13/64/2),
 				        placement: OpenSeadragon.Placement.TOP_LEFT,
 				        rotationMode: OpenSeadragon.OverlayRotationMode.NO_ROTATION,
-				        width: 0.0125,
-			       		height: 0.012
+				        width: 0.0125
 				    });
 				}, 1000);
 			}, 1000 );
@@ -145,16 +152,17 @@ class OSD{
 	}
 
 	handleClick(event){
-
-		let position = [event.position.x, event.position.y];
-		if ((Math.abs(position[0] - this.currentPos[0]) < 2) && (Math.abs(position[1] - this.currentPos[1]) < 2)){
-			let pointPos = this.viewer.viewport.pointFromPixel(event.position);
-			let percentPos = [pointPos.x/1, pointPos.y/1.13];
-			//we know from our python file that our grid has 85 columns and 64 rows
-			let gridPos = [Math.floor(percentPos[0] * 85), Math.floor(percentPos[1] * 64)];
-			
-			this.goToBook(gridPos);
-		} 
+		if (event.originalEvent.target.tagName === "CANVAS"){
+			let position = [event.position.x, event.position.y];
+			if ((Math.abs(position[0] - this.currentPos[0]) < 2) && (Math.abs(position[1] - this.currentPos[1]) < 2)){
+				let pointPos = this.viewer.viewport.pointFromPixel(event.position);
+				let percentPos = [pointPos.x/1, pointPos.y/1.13];
+				//we know from our python file that our grid has 85 columns and 64 rows
+				let gridPos = [Math.floor(percentPos[0] * 85), Math.floor(percentPos[1] * 64)];
+				
+				this.goToBook(gridPos);
+			} 
+		}
 
 	}
 

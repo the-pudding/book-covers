@@ -152,9 +152,10 @@ html, body, .main {
 
 .overlayInfoDiv p {
 	margin: 0.5em 0.2em;
+	display: inline-block;
 }
 
-.overlayInfoDiv p span:first-child {
+.overlayInfoDiv > p span:first-child {
 	font-weight: bold;
 }
 .overlayInfoDiv p span:not(:first-child) {
@@ -218,6 +219,13 @@ html, body, .main {
 .chip {
 	background-color: #ea0051;
     color: #fff;
+    border: 2px solid #ea0051;
+}
+
+.chip.unselectedFilter {
+	background-color: #fff;
+    color: #ea0051;
+    border: 2px solid #ea0051;
 }
 
 .chip p {
@@ -241,6 +249,13 @@ html, body, .main {
 	content: "\f107";
 }
 
+.chip .funnelIcon::before {
+	display: inline-block;
+	width: 15px;
+	content: "\f0b0";
+	font-family: FontAwesome;
+	cursor: pointer;
+}
 
 .chipCloser::before {
 	display: inline-block;
