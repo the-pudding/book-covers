@@ -15,12 +15,17 @@ class Dropdown {
         this.selectedValues = [];
         this.unselectedValues = [];
 
+        this.callback;
+
         this.sort = "total";
 
         this.init = this.init.bind(this);
         this.setData = this.setData.bind(this);
         this.draw = this.draw.bind(this);
         this.drawOnePanel = this.drawOnePanel.bind(this);
+        this.changeSort = this.changeSort.bind(this);
+        this.doSort = this.doSort.bind(this);
+
 
 	}
 
@@ -32,8 +37,38 @@ class Dropdown {
 		let results = this.holder.append("div").attr("class", "results");
 
 		let searchHolder = results.append("div").attr("class", "searchHolder");
-		searchHolder.append("input");
-		searchHolder.append("div").attr("class", "sortHolder");
+		searchHolder.append("input").attr("class", "searchBar");
+		searchHolder.append("div").attr("class", "sortHolder")
+			.on("click", function(d){
+				searchHolder.select(".sortType").classed("collapsed", !searchHolder.select(".sortType").classed("collapsed"));
+			});
+
+		let form = searchHolder.append("form").attr("class", "sortType collapsed");
+		form.append("h4").html("Sort by");
+		let div1 = form.append("div");
+		div1.append("input")
+			.attr("type", "radio")
+			.attr("name", "sortType " + name)
+			.attr("checked", true)
+			.attr("id", "total" + name)
+			.on("click", () => this.changeSort("total"));
+		div1.append("label").attr("for", "total" + name).html("total");
+
+		let div2 = form.append("div");
+		div2.append("input")
+			.attr("type", "radio")
+			.attr("name", "sortType " + name)
+			.attr("id", "filtered" + name)
+			.on("click", () => this.changeSort("filtered"));
+		div2.append("label").attr("for", "filtered" + name).html("filtered");
+
+		let div3 = form.append("div");
+		div3.append("input")
+			.attr("type", "radio")
+			.attr("name", "sortType " + name)
+			.attr("id", "alphabetic" + name)
+			.on("click", () => this.changeSort("alphabetic"));
+		div3.append("label").attr("for", "alphabetic" + name).html("alphabetic");
 
 		let resultHolder = results.append("div").attr("class", "resultHolder");
 		this.selectedHolder = resultHolder.append("div").attr("class", "selectedHolder");
@@ -41,10 +76,49 @@ class Dropdown {
 
 	}
 
-	setData(total, filtered, selection){
+	changeSort(name){
+		this.sort = name;
+		this.doSort();
+		
+	}
+
+	doSort(){
+		if (this.sort === "total"){
+			this.compiledData = this.compiledData.sort(function(a, b){
+				return b.value - a.value;
+			})
+		} else if (this.sort === "filtered"){
+			this.compiledData = this.compiledData.sort(function(a, b){
+					return b.filteredValue - a.filteredValue;
+			})
+		} else {
+			this.compiledData = this.compiledData.sort(function(a, b){
+				var textA = a.key.toUpperCase();
+			    var textB = b.key.toUpperCase();
+			    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+			})
+		}
+
+		this.selectedValues = [];
+		this.unselectedValues = [];
+
+		for (var i = 0; i < this.compiledData.length; i++){
+			if (this.selection.includes(this.compiledData[i]["key"])){
+				this.selectedValues.push(this.compiledData[i]);
+			} else {
+				this.unselectedValues.push(this.compiledData[i]);
+			}
+		}
+
+		this.draw();
+	}
+
+
+	setData(total, filtered, selection, callback){
 		this.totalData = total;
 		this.filteredData = filtered;
 		this.selection = selection;
+		this.callback = callback;
 
 		this.compiledData = this.totalData.map(function(d){
 			let filteredValue = filtered.find(function(e){
@@ -62,38 +136,27 @@ class Dropdown {
 			}
 		});
 
-		if (this.sort === "total"){
-			this.compiledData = this.compiledData.sort(function(a, b){
-				return b.value - a.value;
-			})
-		}
-
-		this.selectedValues = [];
-		this.unselectedValues = [];
-
-		for (var i = 0; i < this.compiledData.length; i++){
-			if (this.selection.includes(this.compiledData[i]["key"])){
-				this.selectedValues.push(this.compiledData[i]);
-			} else {
-				this.unselectedValues.push(this.compiledData[i]);
-			}
-		}
-
+		this.doSort();
 
 	}
 
-	draw(callback){
-
-		this.drawOnePanel(this.selectedHolder, this.selectedValues, callback);
-		this.drawOnePanel(this.unselectedHolder, this.unselectedValues, callback);
+	draw(){
+		this.drawOnePanel(this.selectedHolder, this.selectedValues, this.callback);
+		this.drawOnePanel(this.unselectedHolder, this.unselectedValues, this.callback);
 	}
 
 	drawOnePanel(holder, values, callback){
 		let panel = holder
 			.selectAll(".result")
-			.data(values, function(d){ return d.key});
+			.data(values, function(d){ return d});
 
 		panel.exit().remove();
+
+		panel.each(function(d){
+				let theThis = d3.select(this);
+				theThis.select(".valName").html(d.key);
+				theThis.select(".count").html(d.filteredValue + "/" + d.value);
+			})
 
 		panel.enter()
 			.append("div")

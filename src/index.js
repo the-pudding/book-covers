@@ -184,25 +184,21 @@ function initControls(data, filteredData){
 function drawFilters(){
 	let genresFiltered = rollupAndCount("main_genre", filteredData);
 	let genresTotal = rollupAndCount("main_genre", data);
-	genreDropdown.setData(genresTotal, genresFiltered, selections["genre"]);
-	genreDropdown.draw((newVal) => clickCallback("genre", newVal));
+	genreDropdown.setData(genresTotal, genresFiltered, selections["genre"], (newVal) => clickCallback("genre", newVal));
 
 	let flatMotifsTotal = data.map(function(d){ return d.labels}).flat();
 	flatMotifsTotal = formatMotifs(flatMotifsTotal);	
 	let flatMotifsFiltered = filteredData.map(function(d){ return d.labels}).flat();
 	flatMotifsFiltered = formatMotifs(flatMotifsFiltered);
-	motifDropdown.setData(flatMotifsTotal, flatMotifsFiltered, selections["motifs"]);
-	motifDropdown.draw((newVal) => clickCallback("motifs", newVal));
+	motifDropdown.setData(flatMotifsTotal, flatMotifsFiltered, selections["motifs"],(newVal) => clickCallback("motifs", newVal));
 
 	let genderTotal = rollupAndCount("gender", data);
 	let genderFiltered = rollupAndCount("gender", filteredData);
-	genderDropdown.setData(genderTotal, genderFiltered, selections["gender"]);
-	genderDropdown.draw((newVal) => clickCallback("gender", newVal));
+	genderDropdown.setData(genderTotal, genderFiltered, selections["gender"], (newVal) => clickCallback("gender", newVal));
 
 	let fictionalityTotal = formatFictionality(data);
 	let fictionalityFiltered = formatFictionality(filteredData);
-	fictionalityDropdown.setData(fictionalityTotal, fictionalityFiltered, selections["fictionality"]);
-	fictionalityDropdown.draw((newVal) => clickCallback("fictionality", newVal));
+	fictionalityDropdown.setData(fictionalityTotal, fictionalityFiltered, selections["fictionality"], (newVal) => clickCallback("fictionality", newVal));
 
 }
 

@@ -230,6 +230,18 @@ html, body, .main {
 
 /*dropdown stuff*/
 
+h4 {
+	margin-bottom: 0px;
+}
+
+.sortType {
+	border-bottom: 1px solid #000;
+}
+
+.sortType.collapsed {
+	border: none;
+}
+
 .results {
 	position: absolute;
 	background-color: rgba(255, 255, 255, 0.85);
@@ -251,8 +263,12 @@ html, body, .main {
 	border-bottom: 1px solid #000;
 }
 
-.searchHolder input {
+.searchHolder input.searchBar {
 	width: calc(100% - 25px);
+}
+
+.sortType.collapsed{
+	display: none;
 }
 
 .sortHolder {
