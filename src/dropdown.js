@@ -30,8 +30,14 @@ class Dropdown {
 		this.holder.append("h3").html(name);
 		this.holder.append("div").attr("class", "chipToggler");
 		let results = this.holder.append("div").attr("class", "results");
-		this.selectedHolder = results.append("div").attr("class", "selectedHolder");
-		this.unselectedHolder = results.append("div").attr("class", "unselectedHolder");
+
+		let searchHolder = results.append("div").attr("class", "searchHolder");
+		searchHolder.append("input");
+		searchHolder.append("div").attr("class", "sortHolder");
+
+		let resultHolder = results.append("div").attr("class", "resultHolder");
+		this.selectedHolder = resultHolder.append("div").attr("class", "selectedHolder");
+		this.unselectedHolder = resultHolder.append("div").attr("class", "unselectedHolder");
 
 	}
 
@@ -56,6 +62,15 @@ class Dropdown {
 			}
 		});
 
+		if (this.sort === "total"){
+			this.compiledData = this.compiledData.sort(function(a, b){
+				return b.value - a.value;
+			})
+		}
+
+		this.selectedValues = [];
+		this.unselectedValues = [];
+
 		for (var i = 0; i < this.compiledData.length; i++){
 			if (this.selection.includes(this.compiledData[i]["key"])){
 				this.selectedValues.push(this.compiledData[i]);
@@ -69,24 +84,27 @@ class Dropdown {
 
 	draw(callback){
 
-		this.drawOnePanel(this.selectedHolder, this.selectedValues);
-		this.drawOnePanel(this.unselectedHolder, this.unselectedValues);
+		this.drawOnePanel(this.selectedHolder, this.selectedValues, callback);
+		this.drawOnePanel(this.unselectedHolder, this.unselectedValues, callback);
 	}
 
-	drawOnePanel(holder, values){
+	drawOnePanel(holder, values, callback){
 		let panel = holder
 			.selectAll(".result")
-			.data(values, function(d){ return d.key})
+			.data(values, function(d){ return d.key});
+
+		panel.exit().remove();
 
 		panel.enter()
 			.append("div")
 			.attr("class", "result")
 			.each(function(d){
 				let theThis = d3.select(this).append("p");
-
 				theThis.append("span").attr("class", "checker");
-				theThis.append("span").html(d.key);
+				theThis.append("span").attr("class", "valName").html(d.key);
 				theThis.append("span").attr("class", "count").html(d.filteredValue + "/" + d.value);
+			}).on("click", function(d){
+				callback(d.key);
 			})
 	}
 

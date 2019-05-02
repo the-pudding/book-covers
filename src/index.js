@@ -4,7 +4,6 @@ import countby from 'lodash.countby';
 import OSD from "./openSeaDragon.js";
 
 import Dropdown from "./dropdown.js";
-// import ActiveFilters from "./activeFilters.js";
 
 import css from './../css/main.css';
 import loaded_data from "./../data/full_json_output.json";
@@ -21,7 +20,6 @@ let selections =
 	"gender": []
 }
 
-// let activeFilters = new ActiveFilters();
 let genderDropdown = new Dropdown();
 let genreDropdown = new Dropdown();
 let fictionalityDropdown = new Dropdown();
@@ -62,8 +60,6 @@ function doSelectionFilter(value, cat){
 }
 
 function filterData(){
-	activeFilters.updateFilters(selections);
-
 	filteredData = data;
 	if (selections["motifs"].length > 0){
 		filteredData = filteredData.filter(function(d){
@@ -102,7 +98,7 @@ function filterData(){
 	let unfilteredData = data.filter(x => !filteredData.includes(x));
 
 	osd.updateData(filteredData, unfilteredData, selections);
-	drawCharts();
+	drawFilters();
 }
 
 function setup(){
@@ -115,10 +111,6 @@ function setup(){
     // 	d3.select("#mainSearch .searchResults").node(), 
     // 	loaded_data,
     // 	data_point => osd.goToBook(data_point));
-
-    // activeFilters.init(d3.select("#activeFilters").node(), 
-    // 		selections, 
-    // 		clickCallback);
 }
 
 
@@ -184,21 +176,12 @@ function initControls(data, filteredData){
 	genreDropdown.init("genre");
 	motifDropdown.init("motif");
 	fictionalityDropdown.init("fictionality");
-	//bar charts
-	// genreTable.init(d3.select("#genreChart").select("svg"));
-	// motifTable.init(d3.select("#motifsChart").select("svg"));	
-	// genderTable.init(d3.select("#genderChart").select("svg"));
-
-	//circle chart
-	// fictionalityTable.init(d3.select("#ficOrNotChart").select("svg"));
-
 	drawFilters();
 }
 
 
 
 function drawFilters(){
-	//bar charts
 	let genresFiltered = rollupAndCount("main_genre", filteredData);
 	let genresTotal = rollupAndCount("main_genre", data);
 	genreDropdown.setData(genresTotal, genresFiltered, selections["genre"]);
@@ -216,7 +199,6 @@ function drawFilters(){
 	genderDropdown.setData(genderTotal, genderFiltered, selections["gender"]);
 	genderDropdown.draw((newVal) => clickCallback("gender", newVal));
 
-	//circle chart
 	let fictionalityTotal = formatFictionality(data);
 	let fictionalityFiltered = formatFictionality(filteredData);
 	fictionalityDropdown.setData(fictionalityTotal, fictionalityFiltered, selections["fictionality"]);

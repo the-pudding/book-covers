@@ -235,12 +235,44 @@ html, body, .main {
 	background-color: rgba(255, 255, 255, 0.85);
 	color: #000;
 	font-size: 0.7em;
+    padding: 7px;
+}
+
+.resultHolder {
 	max-height: 500px;
-    overflow: auto;
+	overflow: auto;
+}
+
+.valName {
+	margin-right: 10px;
+}
+
+.selectedHolder {
+	border-bottom: 1px solid #000;
+}
+
+.searchHolder input {
+	width: calc(100% - 25px);
+}
+
+.sortHolder {
+	display: inline-block;
+}
+
+.sortHolder::before {
+	display: inline-block;
+	width: 15px;
+	content: "\f160";
+	font-family: FontAwesome;
+	text-align: right;
+}
+
+.selectedHolder:empty {
+	border: none;
 }
 
 .result span {
-	max-width: 120px;
+	max-width: 100px;
     display: inline-block;
     height: 12px;
     white-space: nowrap;
