@@ -127,6 +127,12 @@ class Dropdown {
 
 
 	setData(total, filtered, selection, callback){
+
+		if (selection.length === 0){
+			this.holder.select("h3").html(this.name);
+		} else {
+			this.holder.select("h3").html(this.name + " (" + selection.length + ")");
+		}
 		this.totalData = total;
 		this.filteredData = filtered;
 		this.selection = selection;

@@ -242,6 +242,7 @@ h4 {
 
 .sortType {
 	border-bottom: 1px solid #000;
+	padding-bottom: 5px;
 }
 
 .sortType.collapsed {
@@ -340,4 +341,8 @@ h4 {
 
 .closed .results{
 	display: none;
+}
+
+.far {
+	font-family: FontAwesome;
 }
