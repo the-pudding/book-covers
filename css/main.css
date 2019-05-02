@@ -341,3 +341,55 @@ h4 {
 .closed .results{
 	display: none;
 }
+
+/*active filters styles*/
+.chipHolder {
+	display: inline-block;
+	cursor: default;
+	position: relative;
+	margin: 0px 5px 5px 0px;
+}
+
+.chip {
+	background-color: #ea0051;
+    color: #fff;
+    border: 2px solid #ea0051;
+}
+
+.chip.unselectedFilter {
+	background-color: #fff;
+    color: #ea0051;
+    border: 2px solid #ea0051;
+}
+
+.chip p {
+	margin: 0px;
+}
+
+.chip p:first-child {
+    padding: 5px 8px;
+}
+
+.chip .funnelIcon::before {
+	display: inline-block;
+	width: 15px;
+	content: "\f0b0";
+	font-family: FontAwesome;
+	cursor: pointer;
+}
+
+.chipCloser::before {
+	display: inline-block;
+	width: 15px;
+	content: "\f057";
+	font-family: FontAwesome;
+	cursor: pointer;
+}
+
+.chipSelectionHolder{
+	background-color: #fff;
+	color: #000;
+	position: absolute;
+	font-size: 0.4em;
+	width: 100%;
+}
