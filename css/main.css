@@ -36,9 +36,15 @@ html, body, .main {
 	color: #fff;
 }
 
+
 .barItem {
-	width: 19%;
-	display: inline-block;
+	margin-right: 20px;
+    padding: 5px;
+    display: inline-block;
+}
+
+.barItem h3 {
+	margin-bottom: 0px
 }
 
 .dropdown {
@@ -330,4 +336,8 @@ h4 {
 
 .selectedHolder .checker::before {
 	content: "\f14a";
+}
+
+.closed .results{
+	display: none;
 }

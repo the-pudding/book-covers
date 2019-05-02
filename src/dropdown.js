@@ -34,6 +34,18 @@ class Dropdown {
 		this.name = name;
 		this.holder.append("h3").html(name);
 		this.holder.append("div").attr("class", "chipToggler");
+		let holder = this.holder;
+
+		this.holder.on("click", function(d, e){
+			if (d3.event.target.classList.contains("chipToggler")
+				|| d3.event.target.classList.contains("barItem")
+				|| d3.event.target.tagName === "H3"){
+
+				d3.selectAll(".dropDown:not(#" + name + ")").classed("closed", true);
+				holder.classed("closed", !holder.classed("closed"));
+			}
+		});
+
 		let results = this.holder.append("div").attr("class", "results");
 
 		let searchHolder = results.append("div").attr("class", "searchHolder");
