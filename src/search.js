@@ -44,7 +44,7 @@ class Searcher{
 		window.addEventListener('click', function (evt) {
 			//hide search results if we click outside of entries
 			if (evt.target.classList.value !== "searchEntry"){
-				d3.select(resultsHolder).classed("hidden", true);
+				d3.select(resultsHolder.parentNode).classed("hidden", true);
 			}
 		});
 
@@ -54,7 +54,7 @@ class Searcher{
 	populateSearchResults(){
 		let callback = this.callback;
 
-		d3.select(this.resultsHolder).classed("hidden", false);
+		d3.select(this.resultsHolder.parentNode).classed("hidden", false);
 		let holder = d3.select(this.resultsHolder).selectAll("div")
 			.data(this.results, function(d){ return d["title"] + d["author"]});
 
@@ -76,7 +76,7 @@ class Searcher{
 
 		} else {
 			this.results = [];
-			d3.select(this.resultsHolder).classed("hidden", true);
+			d3.select(this.resultsHolder.parentNode).classed("hidden", true);
 		}
 
 

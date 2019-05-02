@@ -201,14 +201,11 @@ html, body, .main {
 }
 
 .searchResults {
-	max-height: 275px;
-	overflow: auto;
 	position: absolute;
-	background-color: #fff;
-	z-index: 2;
-	box-sizing: border-box;
-    width: 100%;
-    padding: 0.75em;
+    background-color: rgba(255, 255, 255, 0.85);
+    color: #000;
+    font-size: 0.7em;
+    padding: 7px;
 }
 
 .hidden{

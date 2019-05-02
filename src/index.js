@@ -3,6 +3,7 @@ import countby from 'lodash.countby';
 import OSD from "./openSeaDragon.js";
 
 import Dropdown from "./dropdown.js";
+import Searcher from "./search.js";
 
 import css from './../css/main.css';
 import loaded_data from "./../data/full_json_output.json";
@@ -23,6 +24,7 @@ let genderDropdown = new Dropdown();
 let genreDropdown = new Dropdown();
 let fictionalityDropdown = new Dropdown();
 let motifDropdown = new Dropdown();
+let searcher = new Searcher();
 
 let osd = new OSD();
 
@@ -106,11 +108,11 @@ function setup(){
 	data = loaded_data.filter(function(e){ return e["cluster_point"] !== undefined});
     filteredData = data;
     initControls(data, filteredData);
-    // searcher.init(
-    // 	d3.select("#bookSearch").node(), 
-    // 	d3.select("#mainSearch .searchResults").node(), 
-    // 	loaded_data,
-    // 	data_point => osd.goToBook(data_point));
+    searcher.init(
+    	d3.select("#bookSearch").node(), 
+    	d3.select("#mainSearch .searchResults .resultHolder").node(), 
+    	loaded_data,
+    	data_point => osd.goToBook(data_point));
 }
 
 
