@@ -1,9 +1,5 @@
 import * as d3 from 'd3';
 import countby from 'lodash.countby';
-
-import '@fortawesome/fontawesome-free/js/fontawesome'
-import '@fortawesome/fontawesome-free/js/solid'
-
 import OSD from "./openSeaDragon.js";
 
 import Dropdown from "./dropdown.js";
@@ -33,6 +29,7 @@ let osd = new OSD();
 window.onload =function(e){
 	osd.init(loaded_data, [], selections, clickCallback);
 	setup();
+
 }
 
 function clickCallback(selectionName, selection){
