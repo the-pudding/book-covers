@@ -3,10 +3,8 @@ import countby from 'lodash.countby';
 
 import OSD from "./openSeaDragon.js";
 
-import SortableTable from "./sortableTable.js";
-import CircleGraph from "./circleGraph.js";
-import Searcher from "./search.js";
-import ActiveFilters from "./activeFilters.js";
+import Dropdown from "./dropdown.js";
+// import ActiveFilters from "./activeFilters.js";
 
 import css from './../css/main.css';
 import loaded_data from "./../data/full_json_output.json";
@@ -23,13 +21,11 @@ let selections =
 	"gender": []
 }
 
-let genreTable = new SortableTable();
-let motifTable = new SortableTable();
-let fictionalityTable = new CircleGraph();
-let genderTable = new SortableTable();
-
-let searcher = new Searcher();
-let activeFilters = new ActiveFilters();
+// let activeFilters = new ActiveFilters();
+let genderDropdown = new Dropdown();
+let genreDropdown = new Dropdown();
+let fictionalityDropdown = new Dropdown();
+let motifDropdown = new Dropdown();
 
 let osd = new OSD();
 
@@ -114,15 +110,15 @@ function setup(){
 	data = loaded_data.filter(function(e){ return e["cluster_point"] !== undefined});
     filteredData = data;
     initControls(data, filteredData);
-    searcher.init(
-    	d3.select("#bookSearch").node(), 
-    	d3.select("#mainSearch .searchResults").node(), 
-    	loaded_data,
-    	data_point => osd.goToBook(data_point));
+    // searcher.init(
+    // 	d3.select("#bookSearch").node(), 
+    // 	d3.select("#mainSearch .searchResults").node(), 
+    // 	loaded_data,
+    // 	data_point => osd.goToBook(data_point));
 
-    activeFilters.init(d3.select("#activeFilters").node(), 
-    		selections, 
-    		clickCallback);
+    // activeFilters.init(d3.select("#activeFilters").node(), 
+    // 		selections, 
+    // 		clickCallback);
 }
 
 
@@ -184,43 +180,47 @@ function formatFictionality(array){
 
 function initControls(data, filteredData){
 
+	genderDropdown.init("gender");
+	genreDropdown.init("genre");
+	motifDropdown.init("motif");
+	fictionalityDropdown.init("fictionality");
 	//bar charts
-	genreTable.init(d3.select("#genreChart").select("svg"));
-	motifTable.init(d3.select("#motifsChart").select("svg"));	
-	genderTable.init(d3.select("#genderChart").select("svg"));
+	// genreTable.init(d3.select("#genreChart").select("svg"));
+	// motifTable.init(d3.select("#motifsChart").select("svg"));	
+	// genderTable.init(d3.select("#genderChart").select("svg"));
 
 	//circle chart
-	fictionalityTable.init(d3.select("#ficOrNotChart").select("svg"));
+	// fictionalityTable.init(d3.select("#ficOrNotChart").select("svg"));
 
-	drawCharts();
+	drawFilters();
 }
 
 
 
-function drawCharts(){
+function drawFilters(){
 	//bar charts
 	let genresFiltered = rollupAndCount("main_genre", filteredData);
 	let genresTotal = rollupAndCount("main_genre", data);
-	genreTable.setData(genresTotal, genresFiltered, selections["genre"]);
-	genreTable.draw((newVal) => clickCallback("genre", newVal));
+	genreDropdown.setData(genresTotal, genresFiltered, selections["genre"]);
+	genreDropdown.draw((newVal) => clickCallback("genre", newVal));
 
 	let flatMotifsTotal = data.map(function(d){ return d.labels}).flat();
 	flatMotifsTotal = formatMotifs(flatMotifsTotal);	
 	let flatMotifsFiltered = filteredData.map(function(d){ return d.labels}).flat();
 	flatMotifsFiltered = formatMotifs(flatMotifsFiltered);
-	motifTable.setData(flatMotifsTotal, flatMotifsFiltered, selections["motifs"]);
-	motifTable.draw((newVal) => clickCallback("motifs", newVal));
+	motifDropdown.setData(flatMotifsTotal, flatMotifsFiltered, selections["motifs"]);
+	motifDropdown.draw((newVal) => clickCallback("motifs", newVal));
 
 	let genderTotal = rollupAndCount("gender", data);
 	let genderFiltered = rollupAndCount("gender", filteredData);
-	genderTable.setData(genderTotal, genderFiltered, selections["gender"]);
-	genderTable.draw((newVal) => clickCallback("gender", newVal));
+	genderDropdown.setData(genderTotal, genderFiltered, selections["gender"]);
+	genderDropdown.draw((newVal) => clickCallback("gender", newVal));
 
 	//circle chart
 	let fictionalityTotal = formatFictionality(data);
 	let fictionalityFiltered = formatFictionality(filteredData);
-	fictionalityTable.setData(fictionalityTotal, fictionalityFiltered, selections["fictionality"]);
-	fictionalityTable.draw((newVal) => clickCallback("fictionality", newVal));
+	fictionalityDropdown.setData(fictionalityTotal, fictionalityFiltered, selections["fictionality"]);
+	fictionalityDropdown.draw((newVal) => clickCallback("fictionality", newVal));
 
 }
 

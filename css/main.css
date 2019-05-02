@@ -10,7 +10,7 @@ html, body, .main {
 .main {
 	position: absolute;
 	left: 0px;
-	width: calc(100% - 275px);
+	width: 100%;
 }
 
 .main #mainCanvas {
@@ -24,6 +24,25 @@ html, body, .main {
 
 .filterList .widgetHolder {
 	overflow: visible;
+}
+
+#controlBar {
+	width: 100%;
+	height: 35px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background-color: rgba(0, 0, 0, 0.7);
+	color: #fff;
+}
+
+.barItem {
+	width: 19%;
+	display: inline-block;
+}
+
+.dropdown {
+	cursor: pointer;
 }
 
 /*SVG elements CSS*/
@@ -163,9 +182,10 @@ html, body, .main {
 }
 
 #mainSearch {
-	width: 100%;
+	/*width: 100%;*/
 	box-sizing: border-box;
 	position: relative;
+	display: inline-block;
 }
 
 #bookSearch {
@@ -204,36 +224,41 @@ html, body, .main {
 }
 
 #openseadragon {
-	width: calc(100% - 275px); 
+	width: 100%; 
 	height: 100%;
 }
 
-/*active filters styles*/
-.chipHolder {
+/*dropdown stuff*/
+
+.results {
+	position: absolute;
+	background-color: rgba(255, 255, 255, 0.85);
+	color: #000;
+	font-size: 0.7em;
+	max-height: 500px;
+    overflow: auto;
+}
+
+.result span {
+	max-width: 120px;
+    display: inline-block;
+    height: 12px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.count {
+	text-align: right;
+	float: right;
 	display: inline-block;
-	cursor: default;
-	position: relative;
-	margin: 0px 5px 5px 0px;
+}
+.dropDown {
+	cursor: pointer;
 }
 
-.chip {
-	background-color: #ea0051;
-    color: #fff;
-    border: 2px solid #ea0051;
-}
-
-.chip.unselectedFilter {
-	background-color: #fff;
-    color: #ea0051;
-    border: 2px solid #ea0051;
-}
-
-.chip p {
-	margin: 0px;
-}
-
-.chip p:first-child {
-    padding: 5px 8px;
+.dropDown h3, .dropDown .chipToggler {
+	display: inline-block;
 }
 
 .dropDown .chipToggler::before {
@@ -241,38 +266,20 @@ html, body, .main {
 	width: 15px;
 	content: "\f106";
 	font-family: FontAwesome;
-	cursor: pointer;
 	text-align: right;
 }
 
-.chip.dropDown.closed .chipToggler::before {
+.dropDown.closed .chipToggler::before {
 	content: "\f107";
 }
 
-.chip .funnelIcon::before {
+.checker::before {
 	display: inline-block;
 	width: 15px;
-	content: "\f0b0";
+	content: "\f0c8";
 	font-family: FontAwesome;
-	cursor: pointer;
 }
 
-.chipCloser::before {
-	display: inline-block;
-	width: 15px;
-	content: "\f057";
-	font-family: FontAwesome;
-	cursor: pointer;
-}
-
-.chipSelectionHolder{
-	background-color: #fff;
-	color: #000;
-	position: absolute;
-	font-size: 0.4em;
-	width: 100%;
-}
-
-.chip.dropDown.closed .chipSelectionHolder {
-	display: none;
+.selectedHolder .checker::before {
+	content: "\f14a";
 }

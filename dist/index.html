@@ -10,7 +10,20 @@
 </head>
 <body>
 	<div id="openseadragon"></div>
-
+	<div id="controlBar">
+		<div class = "barItem">
+			<i class="far fa-search"></i>
+			<div id="mainSearch">
+				<input id="bookSearch" type="text" id="name" name="name" required minlength="4">
+				<div class="searchResults hidden"></div>
+			</div>
+		</div>
+		<div class = "barItem closed dropDown" id="gender"></div>
+		<div class = "barItem closed dropDown" id="fictionality"></div>
+		<div class = "barItem closed dropDown" id="genre"></div>
+		<div class = "barItem closed dropDown" id="motif"></div>
+	</div>
+<!-- 
 	<div class="controls">
 		<div class="filterList">
 			<div class="widgetHolder">
@@ -100,7 +113,9 @@
 		</div>
 	</div>
 
+
 	</div>
+	 -->
 	<script src="main.js"></script>
 </body>
 </html>
