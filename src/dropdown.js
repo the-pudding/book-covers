@@ -47,7 +47,9 @@ class Dropdown {
 		let results = this.holder.append("div").attr("class", "results");
 
 		let searchHolder = results.append("div").attr("class", "searchHolder");
-		searchHolder.append("input").attr("class", "searchBar");
+		searchHolder.append("input")
+			.attr("class", "searchBar")
+			.attr("placeholder", "Search options");
 
 		let form = searchHolder.append("form");
 		form.append("h4").html("Sort by");

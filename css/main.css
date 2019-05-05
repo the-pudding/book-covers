@@ -47,6 +47,7 @@ html, body, .main {
     color: #fff;
     border-right: solid 1px #222;
     cursor: pointer;
+    position: relative;
 }
 
 .barItem h3 {
@@ -234,6 +235,7 @@ h4 {
     margin-top: 7px;
     margin-left: -10px;
     width: 20%;
+    min-width: 175px;
 }
 
 .resultHolder {
@@ -357,4 +359,16 @@ h4 {
 	position: absolute;
 	font-size: 0.4rem;
 	width: 100%;
+}
+
+@media (max-width: 660px){
+	.results {
+		right: 0px;
+	}
+}
+
+@media (max-width: 600px){
+	.barItem {
+		flex: auto;
+	}
 }
