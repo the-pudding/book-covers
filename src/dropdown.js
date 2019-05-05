@@ -33,12 +33,10 @@ class Dropdown {
 		this.holder = d3.select("#" + name);
 		this.name = name;
 		this.holder.append("h3").html(name);
-		this.holder.append("div").attr("class", "chipToggler");
 		let holder = this.holder;
 
 		this.holder.on("click", function(d, e){
-			if (d3.event.target.classList.contains("chipToggler")
-				|| d3.event.target.classList.contains("barItem")
+			if (d3.event.target.classList.contains("barItem")
 				|| d3.event.target.tagName === "H3"){
 
 				d3.selectAll(".dropDown:not(#" + name + ")").classed("closed", true);
