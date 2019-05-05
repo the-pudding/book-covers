@@ -48,37 +48,31 @@ class Dropdown {
 
 		let searchHolder = results.append("div").attr("class", "searchHolder");
 		searchHolder.append("input").attr("class", "searchBar");
-		searchHolder.append("div").attr("class", "sortHolder")
-			.on("click", function(d){
-				searchHolder.select(".sortType").classed("collapsed", !searchHolder.select(".sortType").classed("collapsed"));
-			});
 
-		let form = searchHolder.append("form").attr("class", "sortType collapsed");
+		let form = searchHolder.append("form");
 		form.append("h4").html("Sort by");
-		let div1 = form.append("div");
-		div1.append("input")
+		let sortType = form.append("div").attr("class", "sortType");
+		let div1 = sortType.append("input")
 			.attr("type", "radio")
 			.attr("name", "sortType " + name)
 			.attr("checked", true)
 			.attr("id", "total" + name)
 			.on("click", () => this.changeSort("total"));
-		div1.append("label").attr("for", "total" + name).html("total");
+		sortType.append("label").attr("for", "total" + name).html("total");
 
-		let div2 = form.append("div");
-		div2.append("input")
+		let div2 = sortType.append("input")
 			.attr("type", "radio")
 			.attr("name", "sortType " + name)
 			.attr("id", "filtered" + name)
 			.on("click", () => this.changeSort("filtered"));
-		div2.append("label").attr("for", "filtered" + name).html("filtered");
+		sortType.append("label").attr("for", "filtered" + name).html("filtered");
 
-		let div3 = form.append("div");
-		div3.append("input")
+		let div3 = sortType.append("input")
 			.attr("type", "radio")
 			.attr("name", "sortType " + name)
 			.attr("id", "alphabetic" + name)
 			.on("click", () => this.changeSort("alphabetic"));
-		div3.append("label").attr("for", "alphabetic" + name).html("alphabetic");
+		sortType.append("label").attr("for", "alphabetic" + name).html("alphabetic");
 
 		let resultHolder = results.append("div").attr("class", "resultHolder");
 		this.selectedHolder = resultHolder.append("div").attr("class", "selectedHolder");

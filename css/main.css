@@ -46,6 +46,7 @@ html, body, .main {
     font-size: 0.8rem;
     color: #fff;
     border-right: solid 1px #222;
+    cursor: pointer;
 }
 
 .barItem h3 {
@@ -180,11 +181,48 @@ h4 {
 
 .sortType {
 	border-bottom: 1px solid #000;
-	padding-bottom: 5px;
+    padding-bottom: 5px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.sortType label {
+    background-color: #eee;
+    color: #666;
+    flex: 2 1;
+    text-align: center;
+    padding: 4px 2px;
+    border-width: 1px 1px 1px 0px;
+    border-style: solid;
+    border-color: #ccc;
+    cursor: pointer;
+	display: inline-block;
+}
+
+.sortType input[type=radio]:checked + label{
+	background-color: #fff;
+	color: #000;
+}
+
+.sortType label:first-of-type {
+	border-left-width: 1px;
+	border-radius: 5px 0px 0px 5px;
+}
+
+.sortType label:last-of-type {
+	border-radius: 0px 5px 5px 0px;
 }
 
 .sortType.collapsed {
+	display: none;
 	border: none;
+}
+
+.sortType input[type=radio] {
+  position: absolute;
+  visibility: hidden;
+  display: none;
 }
 
 .results {
@@ -212,23 +250,7 @@ h4 {
 }
 
 .searchHolder input.searchBar {
-	width: calc(100% - 25px);
-}
-
-.sortType.collapsed{
-	display: none;
-}
-
-.sortHolder {
-	display: inline-block;
-}
-
-.sortHolder::before {
-	display: inline-block;
-	width: 15px;
-	content: "\f161";
-	font-family: FontAwesome;
-	text-align: right;
+	width: calc(100% - 7px);
 }
 
 .selectedHolder:empty {
