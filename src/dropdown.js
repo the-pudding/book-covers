@@ -1,10 +1,15 @@
 import * as d3 from "d3-selection";
+import Fuse from "fuse.js";
+
 
 class Dropdown {
 	constructor() {
 		this.holder;
 		this.selectedHolder;
 		this.unselectedHolder;
+		this.input;
+		this.fuse;
+		this.searchEmpty = true;
 
 		this.name;
 
@@ -14,12 +19,14 @@ class Dropdown {
         this.compiledData;
         this.selectedValues = [];
         this.unselectedValues = [];
+        this.results = [];
 
         this.callback;
 
         this.sort = "total";
 
         this.init = this.init.bind(this);
+       	this.handleKeypress = this.handleKeypress.bind(this);
         this.setData = this.setData.bind(this);
         this.draw = this.draw.bind(this);
         this.drawOnePanel = this.drawOnePanel.bind(this);
@@ -47,7 +54,7 @@ class Dropdown {
 		let results = this.holder.append("div").attr("class", "results");
 
 		let searchHolder = results.append("div").attr("class", "searchHolder");
-		searchHolder.append("input")
+		this.input = searchHolder.append("input")
 			.attr("class", "searchBar")
 			.attr("placeholder", "Search options");
 
@@ -79,7 +86,7 @@ class Dropdown {
 		let resultHolder = results.append("div").attr("class", "resultHolder");
 		this.selectedHolder = resultHolder.append("div").attr("class", "selectedHolder");
 		this.unselectedHolder = resultHolder.append("div").attr("class", "unselectedHolder");
-
+		
 	}
 
 	changeSort(name){
@@ -89,16 +96,18 @@ class Dropdown {
 	}
 
 	doSort(){
+		//are we searching by the compiledData or filtered data
+		let theSortByData = this.searchEmpty ? this.compiledData : this.results;
 		if (this.sort === "total"){
-			this.compiledData = this.compiledData.sort(function(a, b){
+			theSortByData = theSortByData.sort(function(a, b){
 				return b.value - a.value;
 			})
 		} else if (this.sort === "filtered"){
-			this.compiledData = this.compiledData.sort(function(a, b){
+			theSortByData = theSortByData.sort(function(a, b){
 					return b.filteredValue - a.filteredValue;
 			})
 		} else {
-			this.compiledData = this.compiledData.sort(function(a, b){
+			theSortByData = theSortByData.sort(function(a, b){
 				var textA = a.key.toUpperCase();
 			    var textB = b.key.toUpperCase();
 			    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
@@ -108,11 +117,11 @@ class Dropdown {
 		this.selectedValues = [];
 		this.unselectedValues = [];
 
-		for (var i = 0; i < this.compiledData.length; i++){
-			if (this.selection.includes(this.compiledData[i]["key"])){
-				this.selectedValues.push(this.compiledData[i]);
+		for (var i = 0; i < theSortByData.length; i++){
+			if (this.selection.includes(theSortByData[i]["key"])){
+				this.selectedValues.push(theSortByData[i]);
 			} else {
-				this.unselectedValues.push(this.compiledData[i]);
+				this.unselectedValues.push(theSortByData[i]);
 			}
 		}
 
@@ -146,6 +155,18 @@ class Dropdown {
 				returnedObject["filteredValue"] = 0;
 				return returnedObject;
 			}
+		});
+
+		this.fuse = new Fuse(this.compiledData, 
+			{keys: ["key"],
+			threshold: 0.3
+			}
+		);
+
+		let handleKeypress = this.handleKeypress;
+
+		this.input.node().addEventListener('keyup', function (evt) {
+		    handleKeypress(evt);
 		});
 
 		this.doSort();
@@ -184,7 +205,24 @@ class Dropdown {
 	}
 
 
+	handleKeypress(event){
+		if (event.target.value.length > 2){
+			this.results = this.fuse.search(event.target.value);
+			this.searchEmpty = false;
+		} else {
+			this.results = [];
+			if (event.target.value.length === 0){
+				this.searchEmpty = true;
+			}
+		}
+		this.doSort();
 
+
+		var code = (event.keyCode ? event.keyCode : event.which);
+		if(code == 13) { 
+		   //Enter keycode
+		}
+	}
 
 
 }
