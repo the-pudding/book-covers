@@ -1,4 +1,7 @@
-import * as d3 from 'd3';
+import {select, selectAll} from "d3-selection";
+import {nest} from "d3-collection";
+const d3 = {select, selectAll, nest};
+
 import countby from 'lodash.countby';
 import OSD from "./openSeaDragon.js";
 
