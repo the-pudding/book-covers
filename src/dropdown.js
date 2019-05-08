@@ -86,7 +86,7 @@ class Dropdown {
 		let resultHolder = results.append("div").attr("class", "resultHolder");
 		this.selectedHolder = resultHolder.append("div").attr("class", "selectedHolder");
 		this.unselectedHolder = resultHolder.append("div").attr("class", "unselectedHolder");
-		
+
 	}
 
 	changeSort(name){

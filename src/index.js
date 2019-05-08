@@ -37,9 +37,21 @@ window.onload =function(e){
 }
 
 function clickCallback(selectionName, selection){
+
 	//if the value is empty, clear that selection
 	if (!selection){
-		selections[selectionName] = [];
+		if (!selectionName){
+			selections = 
+			{
+				"motifs": [],
+				"genre": [],
+				"fictionality": [],
+				"gender": []
+			};
+		} else {
+			selections[selectionName] = [];
+		}
+
 	} else {
 		if (!selections[selectionName].find(function(d){ return d === selection})){
 			selections[selectionName].push(selection);
@@ -115,6 +127,11 @@ function setup(){
     	d3.select("#mainSearch .searchResults .resultHolder").node(), 
     	loaded_data,
     	data_point => osd.goToBook(data_point));
+
+    //clear all filters when we click this
+	d3.select("#clearAll").on("click", function(d){
+		clickCallback();
+	})
 }
 
 
