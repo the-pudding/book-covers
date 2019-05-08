@@ -33,9 +33,13 @@ class OSD{
 		    showNavigator:      false,
 		    wrapHorizontal:     false,
 		    zoomPerScroll:      1.2,
-		    zoomPerClick: 1,
 		    animationTime: 1,
-		    showNavigationControl: true,
+		    showNavigator: true,
+		    navigatorPosition:   "BOTTOM_LEFT",
+			zoomInButton : "zoomIn",
+			zoomOutButton : "zoomOut",
+		    showHomeControl: false,
+		    showFullPageControl: false,
 		    tileSources:   [{
 		        type:       'tiledmapservice',
 		        maxLevel: 7,
@@ -64,7 +68,7 @@ class OSD{
 		    });
 		});
 
-		// //gonna manually write a click (as opposed to drag) event
+		//gonna manually write a click (as opposed to drag) event
 		this.viewer.addHandler('canvas-press', (e) => this.currentPos = [e.position.x, e.position.y]);
 		this.viewer.addHandler('canvas-release', (e) => this.handleClick(e));
 		this.canvas = this.viewer.canvasOverlay({

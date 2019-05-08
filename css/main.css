@@ -381,19 +381,54 @@ h4 {
 	}
 }
 
-.feather {
-    width: 1.5em;
-    height: 1.5em;
-    stroke: currentColor;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    fill: none;
-    baseline-shift: baseline;
-    position: relative;
-    margin: 0px;
-    padding: 0px;
-    display: inline-flex;
-    vertical-align: bottom;
-    align-self: center;
+/*override rectangular region in navigator*/
+.displayregion {
+	border: 2px solid rgb(255, 255, 255) !important;
+}
+
+/*custom zoom button holders*/
+#zoomBar {
+	position: fixed;
+    bottom: 4px;
+    right: 4px;
+    width: 2em;
+    height: 4em;
+    background-color: #444;
+    box-sizing: border-box;
+}
+
+#zoomBar div:first-child {
+	border-bottom: solid 1px #222;
+}
+
+#zoomBar > div {
+	height: 2em;
+}
+
+#zoomBar div > div {
+	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+	height: 2em;
+	width: 100%;
+    background-size: cover;
+    background-color: #fff;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+#zoomIn {
+	-webkit-mask-image:  url("/images/plus.svg");
+	mask-image:  url("/images/plus.svg");
+}
+
+#zoomOut {
+	-webkit-mask-image:  url("/images/minus.svg");
+	mask-image:  url("/images/minus.svg");
 }
