@@ -34,7 +34,6 @@ let osd = new OSD();
 window.onload =function(e){
 	osd.init(loaded_data, [], selections, clickCallback);
 	setup();
-
 }
 
 function clickCallback(selectionName, selection){

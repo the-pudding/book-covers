@@ -127,10 +127,10 @@ html, body, .main {
 }
 
 #mainSearch {
-	/*width: 100%;*/
 	box-sizing: border-box;
 	position: relative;
 	display: inline-block;
+	white-space: nowrap;
 }
 
 .searchHolder {
@@ -138,7 +138,6 @@ html, body, .main {
 }
 
 #bookSearch {
-	width: 100%;
 	box-sizing: border-box;
 }
 
@@ -259,7 +258,7 @@ h4 {
 	border: none;
 }
 
-.result span {
+.result span:not(.checker) {
 	max-width: 100px;
     display: inline-block;
     height: 12px;
@@ -273,6 +272,23 @@ h4 {
 	float: right;
 	display: inline-block;
 }
+
+.iconAfter:after {
+	display: inline-block;
+	width: 1.25em;
+	height: 1.25em;
+	content: "";
+	padding-left: 0.5em;
+	background-color: currentColor;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    vertical-align: top;
+}
+
 .dropDown {
 	cursor: pointer;
 }
@@ -283,26 +299,28 @@ h4 {
 }
 
 .dropDown h3::after {
-	display: inline-block;
-	width: 15px;
-	content: "\f0d8";
-	font-family: FontAwesome;  /* updated font-family */
-	padding-left: 0.5em;
+    -webkit-mask-image:  url("/images/chevron-up.svg");
+    mask-image:  url("/images/chevron-up.svg");
 }
 
 .dropDown.closed h3::after {
-	content: "\f0d7";
+	-webkit-mask-image:  url("/images/chevron-down.svg");
+    mask-image:  url("/images/chevron-down.svg");
 }
 
-.checker::before {
-	display: inline-block;
-	width: 15px;
-	content: "\f096";
-	font-family: FontAwesome;  /* updated font-family */
+.checker::after {
+	-webkit-mask-image:  url("/images/square.svg");
+    mask-image:  url("/images/square.svg");
 }
 
-.selectedHolder .checker::before {
-	content: "\f046";
+.selectedHolder .checker::after {
+	-webkit-mask-image:  url("/images/check-square.svg");
+    mask-image:  url("/images/check-square.svg");
+}
+
+#mainSearch::after {
+	-webkit-mask-image:  url("/images/search.svg");
+    mask-image:  url("/images/search.svg");
 }
 
 .closed .results{
@@ -371,4 +389,21 @@ h4 {
 	.barItem {
 		flex: auto;
 	}
+}
+
+.feather {
+    width: 1.5em;
+    height: 1.5em;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+    baseline-shift: baseline;
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    display: inline-flex;
+    vertical-align: bottom;
+    align-self: center;
 }

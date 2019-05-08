@@ -39,7 +39,7 @@ class Dropdown {
 	init(name){
 		this.holder = d3.select("#" + name);
 		this.name = name;
-		this.holder.append("h3").html(name);
+		this.holder.append("h3").attr("class", "iconAfter").html(name);
 		let holder = this.holder;
 
 		this.holder.on("click", function(d, e){
@@ -196,7 +196,7 @@ class Dropdown {
 			.attr("class", "result")
 			.each(function(d){
 				let theThis = d3.select(this).append("p");
-				theThis.append("span").attr("class", "checker");
+				theThis.append("span").attr("class", "checker iconAfter");
 				theThis.append("span").attr("class", "valName").html(d.key);
 				theThis.append("span").attr("class", "count").html(d.filteredValue + "/" + d.value);
 			}).on("click", function(d){

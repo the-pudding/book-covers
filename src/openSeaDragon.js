@@ -41,7 +41,6 @@ class OSD{
 		        maxLevel: 7,
 		        width: 28050,
 		        height: 31680,
-		        // tilesUrl: "./../images/all_tiles/",
 		        tilesUrl: "./images/all_tiles/",
 		        tileWidth: 256,
 		        tileHeight: 256,

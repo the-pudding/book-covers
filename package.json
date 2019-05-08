@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "d3": "^5.9.1",
+    "feather-icons": "^4.21.0",
     "fuse.js": "^3.4.4",
     "lodash.countby": "^4.6.0",
     "numjs": "^0.16.0",
