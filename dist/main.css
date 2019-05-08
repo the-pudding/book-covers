@@ -299,28 +299,28 @@ h4 {
 }
 
 .dropDown h3::after {
-    -webkit-mask-image:  url("~./../images/chevron-up.svg");
-    mask-image:  url("~./../images/chevron-up.svg");
+    -webkit-mask-image:  url("~/images/chevron-up.svg");
+    mask-image:  url("~/images/chevron-up.svg");
 }
 
 .dropDown.closed h3::after {
-	-webkit-mask-image:  url("~./../images/chevron-down.svg");
-    mask-image:  url("~./../images/chevron-down.svg");
+	-webkit-mask-image:  url("~/images/chevron-down.svg");
+    mask-image:  url("~/images/chevron-down.svg");
 }
 
 .checker::after {
-	-webkit-mask-image:  url("~./../images/square.svg");
-    mask-image:  url("~./../images/square.svg");
+	-webkit-mask-image:  url("~/images/square.svg");
+    mask-image:  url("~/images/square.svg");
 }
 
 .selectedHolder .checker::after {
-	-webkit-mask-image:  url("~./../images/check-square.svg");
-    mask-image:  url("~./../images/check-square.svg");
+	-webkit-mask-image:  url("~/images/check-square.svg");
+    mask-image:  url("~/images/check-square.svg");
 }
 
 #mainSearch::after {
-	-webkit-mask-image:  url("~./../images/search.svg");
-    mask-image:  url("~./../images/search.svg");
+	-webkit-mask-image:  url("~/images/search.svg");
+    mask-image:  url("~/images/search.svg");
 }
 
 .closed .results{
@@ -356,8 +356,8 @@ h4 {
 }
 
 .chip .funnelIcon::after {
-	-webkit-mask-image:  url("~./../images/filter.svg");
-    mask-image:  url("~./../images/filter.svg");
+	-webkit-mask-image:  url("~/images/filter.svg");
+    mask-image:  url("~/images/filter.svg");
 	cursor: pointer;
 }
 
@@ -424,11 +424,11 @@ h4 {
 }
 
 #zoomIn {
-	-webkit-mask-image:  url("~./../images/plus.svg");
-	mask-image:  url("~./../images/plus.svg");
+	-webkit-mask-image:  url("~/images/plus.svg");
+	mask-image:  url("~/images/plus.svg");
 }
 
 #zoomOut {
-	-webkit-mask-image:  url("~./../images/minus.svg");
-	mask-image:  url("~./../images/minus.svg");
+	-webkit-mask-image:  url("~/images/minus.svg");
+	mask-image:  url("~/images/minus.svg");
 }
