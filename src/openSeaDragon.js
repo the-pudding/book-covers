@@ -35,7 +35,7 @@ class OSD{
 		    zoomPerScroll:      1.2,
 		    zoomPerClick: 1,
 		    animationTime: 1,
-		    showNavigationControl: false,
+		    showNavigationControl: true,
 		    tileSources:   [{
 		        type:       'tiledmapservice',
 		        maxLevel: 7,

@@ -99,7 +99,7 @@ function makeChip(holder, value, selections, callback){
 				callback(value);
 			});
 		let theP = theDiv.append("p");
-		theP.append("span").attr("class", "funnelIcon");
+		theP.append("span").attr("class", "funnelIcon iconAfter");
 		theP.append("span").html(value);
 	}
 

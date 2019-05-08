@@ -355,19 +355,9 @@ h4 {
     padding: 5px 8px;
 }
 
-.chip .funnelIcon::before {
-	display: inline-block;
-	width: 15px;
-	content: "\f0b0";
-	font-family: FontAwesome;
-	cursor: pointer;
-}
-
-.chipCloser::before {
-	display: inline-block;
-	width: 15px;
-	content: "\f057";
-	font-family: FontAwesome;
+.chip .funnelIcon::after {
+	-webkit-mask-image:  url("/images/filter.svg");
+    mask-image:  url("/images/filter.svg");
 	cursor: pointer;
 }
 
