@@ -398,7 +398,7 @@ h4 {
 	}
 }
 
-@media (max-width: 660px){
+/*@media (max-width: 667px), (max-device-width: 667px) {
 	.results {
 		right: 0px;
 	}
@@ -406,11 +406,66 @@ h4 {
 	#clearAll {
 		display: none;
 	}
-}
 
-@media (max-width: 600px){
 	.barItem {
 		flex: auto;
+	}
+}*/
+
+@media (max-width: 667px), (max-device-width: 667px) {
+	.results {
+		right: 0px;
+	}
+
+	#controlBar {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+		grid-template-rows: 50% 50%;
+		grid-template-areas: 
+		    "search search search search search"
+		    "gender fictionality genre motif clear";
+	}
+
+	.barItem {
+		-webkit-flex: none;
+		-moz-flex: none;
+		-ms-flex: none;
+		-o-flex: none;
+		flex: none;
+		padding: 6px 8px;
+	}
+
+	.searchHolder {
+		grid-area: search;
+		border-bottom: solid 1px #222;
+	}
+
+	#gender {
+		grid-area: gender;
+	}
+
+	#fictionality {
+		grid-area: fictionality;
+	}
+
+	#genre {
+		grid-area: genre;
+	}
+
+	#motif {
+		grid-area: motif;
+	}
+
+	#clearAll {
+		grid-area: clear;
+	}
+
+	#mainSearch {
+		width: 100%;
+	}
+
+	#bookSearch {
+		width: calc(100% - 2em);
 	}
 }
 
