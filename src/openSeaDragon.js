@@ -21,6 +21,7 @@ class OSD{
 		this.findBook = this.findBook.bind(this);
 		this.updateFilterOverlays = this.updateFilterOverlays.bind(this);
 		this.goToBook = this.goToBook.bind(this);
+		this.handleZoom = this.handleZoom.bind(this);
 	}
 
 	init(unfilteredData, filteredData, selections, cb){
@@ -77,6 +78,7 @@ class OSD{
 		//gonna manually write a click (as opposed to drag) event
 		this.viewer.addHandler('canvas-press', (e) => this.currentPos = [e.position.x, e.position.y]);
 		this.viewer.addHandler('canvas-release', (e) => this.handleClick(e));
+		this.viewer.addHandler("zoom", (e) => this.handleZoom(e));
 		this.canvas = this.viewer.canvasOverlay({
 		    clearBeforeRedraw:true
 		});
@@ -202,6 +204,18 @@ class OSD{
 		});
 		return theBook;
 	}
+
+	//remove overlay if we zoom out, need it for mobile :/	
+	handleZoom(event){	
+		if (this.zoomLevel && event.zoom < this.zoomLevel){	
+			let openHandler = document.querySelector(".overlay");	
+			if (openHandler){	
+				this.viewer.removeOverlay("currentOverlay");	
+			}	
+		}	
+		this.zoomLevel = event.zoom;	
+	}	
+
 
 }
 
