@@ -77,6 +77,19 @@ input {
 	cursor: pointer;
 }
 
+.closer {
+	position: absolute;
+    top: 0.1em;
+    right: 0.1em;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.closer:after {
+	-webkit-mask-image:  url("~./../images/x.svg");
+    mask-image:  url("~./../images/x.svg");
+}
+
 
 /*Control Panel CSS*/
 
@@ -157,9 +170,10 @@ input {
 	position: absolute;
     background-color: #eee;
     color: #000;
-    font-size: 0.7rem;
-    padding: 7px;
+    padding: 0.5em;
     z-index: 100000000000000;
+    margin-top: 0.5em;
+    margin-left: -0.5em;
 }
 
 .hidden{
@@ -486,7 +500,7 @@ input {
 	}
 }
 
-@media (max-width: 667px), (max-device-width: 667px) {
+@media (max-width: 600px), (max-device-width: 600px) {
 	html, body, .main {
 		font-size: calc(0.8em + 0.6vw);
 	}

@@ -22,6 +22,7 @@ class OSD{
 		this.updateFilterOverlays = this.updateFilterOverlays.bind(this);
 		this.goToBook = this.goToBook.bind(this);
 		this.handleZoom = this.handleZoom.bind(this);
+		this.closeOpenThings = this.closeOpenThings.bind(this);
 	}
 
 	init(unfilteredData, filteredData, selections, cb){
@@ -61,6 +62,7 @@ class OSD{
 		});
 
 		let viewer = this.viewer;
+		let closeOpenThings = this.closeOpenThings;
 
 		this.viewer.addOnceHandler('open', function(event) {
 		    new OpenSeadragon.MouseTracker({
@@ -68,7 +70,7 @@ class OSD{
 		        scrollHandler: function(event) {
 		        	let openHandler = document.querySelector(".overlay");
 		        	if (openHandler){
-		        		viewer.removeOverlay("currentOverlay");
+		        		closeOpenThings();
 		        	}
 		        }
 		    });
@@ -102,7 +104,7 @@ class OSD{
 			viewer.viewport.zoomTo(newZoom);
 			let openHandler = document.querySelector(".overlay");
 			if (openHandler){
-				viewer.removeOverlay("currentOverlay");
+				closeOpenThings();
 			}
 		})
 	}
@@ -150,32 +152,33 @@ class OSD{
 		let clickedBook = this.findBook(gridPos);
 		let selections = this.selections;
 		let cb = this.cb;
+		let closeOpenThings = this.closeOpenThings;
 			
 		if (clickedBook){
 			//delete open overlay if it exists (we do this twice because w/ timeouts it isn't always predictable)
 			let openHandler = document.querySelector(".overlay");
 			if (openHandler){
-				viewer.removeOverlay("currentOverlay");
+				closeOpenThings();
 			}
 			this.viewer.viewport.zoomTo(30, new OpenSeadragon.Point(gridPos[0]/85 + (1/85/2), gridPos[1] * (1.13/64) + 1.13/64/2));
 			setTimeout( function() {
 				//pan to the location after a bit. fitbounds isn't working as expected, so work in stages
-			    viewport.panTo(new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05), gridPos[1] * (1.13/64) + 1.13/64/2));
+			    viewport.panTo(new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05) + 0.005, gridPos[1] * (1.13/64) + 1.13/64/2 - 0.001));
 				//after another delay, create an overlay
 			    setTimeout( function() {
 
 					//delete open overlay if it exists
 					let openHandler = document.querySelector(".overlay");
 					if (openHandler){
-						viewer.removeOverlay("currentOverlay");
+						closeOpenThings();
 					}
 
 					viewer.addOverlay({
-				        element: makeOverlay(clickedBook, selections, cb),
-				        location: new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05) + 0.001, gridPos[1] * (1.13/64)),
+				        element: makeOverlay(clickedBook, selections, cb, closeOpenThings),
+				        location: new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05) + 0.0015, gridPos[1] * (1.13/64)),
 				        placement: OpenSeadragon.Placement.TOP_LEFT,
 				        rotationMode: OpenSeadragon.OverlayRotationMode.NO_ROTATION,
-				        width: 0.0125
+				        width: 0.0165
 				    });
 				}, 1000);
 			}, 1000 );
@@ -208,12 +211,18 @@ class OSD{
 	handleZoom(event){	
 		if (this.zoomLevel && event.zoom < this.zoomLevel){	
 			let openHandler = document.querySelector(".overlay");	
-			if (openHandler){	
-				this.viewer.removeOverlay("currentOverlay");	
+			if (openHandler){
+				this.closeOpenThings();	
 			}	
 		}	
 		this.zoomLevel = event.zoom;	
 	}	
+
+
+	closeOpenThings(){
+		this.viewer.removeOverlay("currentOverlay");
+		d3.selectAll(".dropDown").classed("closed", true);
+	}
 
 
 }

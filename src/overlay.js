@@ -1,6 +1,6 @@
 import * as d3 from "d3-selection";
 
-function makeOverlay(data, selections, callback)
+function makeOverlay(data, selections, callback, closeCallback)
 {
 	let elt = document.createElement("div");
 	let element = d3.select(elt)
@@ -18,6 +18,10 @@ function makeOverlay(data, selections, callback)
 			.append("h2")
 			.html("by " + data.author);
 	}
+
+	let closer = element.append("div")
+		.attr("class", "closer iconAfter")
+		.on("click", closeCallback)
 
 	let genderDiv = element.append("div")
 		.attr("class", "overlayInfoDiv")
