@@ -6,7 +6,11 @@ html, body, .main {
 	padding: 0px;
 	font-family: 'Work Sans', sans-serif;
 	background-color: #000;
-	font-size: 100%;
+	font-size: calc(0.75em + 0.6vw);
+}
+
+input {
+	font-size: 1em;
 }
 
 .main {
@@ -230,11 +234,10 @@ h4 {
 	position: absolute;
 	background-color: rgba(255, 255, 255, 0.85);
 	color: #000;
-	font-size: 0.7rem;
+	font-size: 0.8rem;
     padding: 7px;
     margin-top: 7px;
     margin-left: -10px;
-    width: 20%;
     min-width: 175px;
 }
 
@@ -259,13 +262,27 @@ h4 {
 	border: none;
 }
 
-.result span:not(.checker) {
-	max-width: 100px;
-    display: inline-block;
-    height: 12px;
-    white-space: nowrap;
+.result {
+	display: flex;
+	margin: 0.2em;
+}
+.result div {
+	white-space: nowrap;
+	/*height: 1.5em;*/
+}
+
+.result div:nth-child(2n){
+	flex-grow: 1;
+	white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+}
+
+.result div p {
+	white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin: 0.2em 0em;
 }
 
 .count {
@@ -398,23 +415,14 @@ h4 {
 	}
 }
 
-/*@media (max-width: 667px), (max-device-width: 667px) {
-	.results {
-		right: 0px;
-	}
-
-	#clearAll {
-		display: none;
-	}
-
-	.barItem {
-		flex: auto;
-	}
-}*/
-
 @media (max-width: 667px), (max-device-width: 667px) {
 	.results {
 		right: 0px;
+	}
+
+	#gender .results {
+		left: 0px;
+		margin-left: 0px;
 	}
 
 	#controlBar {
@@ -466,6 +474,14 @@ h4 {
 
 	#bookSearch {
 		width: calc(100% - 2em);
+	}
+}
+
+@media only screen and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) { 
+	html, body, .main {
+		font-size: calc(1.5em + 1vw);
 	}
 }
 

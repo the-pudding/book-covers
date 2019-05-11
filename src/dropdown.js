@@ -187,18 +187,18 @@ class Dropdown {
 
 		panel.each(function(d){
 				let theThis = d3.select(this);
-				theThis.select(".valName").html(d.key);
-				theThis.select(".count").html(d.filteredValue + "/" + d.value);
+				theThis.select(".valName").select("p").html(d.key);
+				theThis.select(".count").select("p").html(d.filteredValue + "/" + d.value);
 			})
 
 		panel.enter()
 			.append("div")
 			.attr("class", "result")
 			.each(function(d){
-				let theThis = d3.select(this).append("p");
-				theThis.append("span").attr("class", "checker iconAfter");
-				theThis.append("span").attr("class", "valName").html(d.key);
-				theThis.append("span").attr("class", "count").html(d.filteredValue + "/" + d.value);
+				let theThis = d3.select(this);
+				theThis.append("div").append("p").attr("class", "checker iconAfter");
+				theThis.append("div").attr("class", "valName").append("p").html(d.key);
+				theThis.append("div").attr("class", "count").append("p").html(d.filteredValue + "/" + d.value);
 			}).on("click", function(d){
 				callback(d.key);
 			})
