@@ -159,7 +159,7 @@ input {
     color: #000;
     font-size: 0.7rem;
     padding: 7px;
-    z-index: 100;
+    z-index: 100000000000000;
 }
 
 .hidden{
@@ -187,8 +187,8 @@ input {
 
 /*dropdown stuff*/
 
-.sortType h4 {
-	margin-bottom: 0.5em;
+.searchHolder h4 {
+	margin-bottom: 0.25em;
     margin-top: 0.5em;
 }
 
@@ -277,7 +277,7 @@ input {
 
 .result {
 	display: flex;
-	margin: 0.2em;
+	margin: 0.2em 0em;
 }
 .result div {
 	white-space: nowrap;
@@ -567,6 +567,11 @@ input {
 
 	.results {
 		font-size: unset;
+	}
+
+	.result {
+		margin: 0.6em 0em;
+    	font-size: 1.1em;
 	}
 }
 
