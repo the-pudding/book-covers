@@ -1,6 +1,8 @@
 import OpenSeadragon from 'openseadragon';
 require("./openseadragon-canvas-overlay.js");
 import {makeOverlay, updateOverlay} from "./overlay";
+import * as d3 from "d3-selection";
+
 
 class OSD{
 	constructor() {
@@ -19,7 +21,6 @@ class OSD{
 		this.findBook = this.findBook.bind(this);
 		this.updateFilterOverlays = this.updateFilterOverlays.bind(this);
 		this.goToBook = this.goToBook.bind(this);
-		this.handleZoom = this.handleZoom.bind(this);
 	}
 
 	init(unfilteredData, filteredData, selections, cb){
@@ -35,13 +36,13 @@ class OSD{
 		    showNavigator:      false,
 		    wrapHorizontal:     false,
 		    zoomPerScroll:      1.2,
+		    zoomPerClick: 1,
 		    animationTime: 1,
 		    showNavigator: true,
 		    navigatorPosition:   "BOTTOM_LEFT",
-			zoomInButton : "zoomIn",
-			zoomOutButton : "zoomOut",
 		    showHomeControl: false,
 		    showFullPageControl: false,
+		    showZoomControl: false,
 		    tileSources:   [{
 		        type:       'tiledmapservice',
 		        maxLevel: 7,
@@ -73,13 +74,33 @@ class OSD{
 		//gonna manually write a click (as opposed to drag) event
 		this.viewer.addHandler('canvas-press', (e) => this.currentPos = [e.position.x, e.position.y]);
 		this.viewer.addHandler('canvas-release', (e) => this.handleClick(e));
-		this.viewer.addHandler("zoom", (e) => this.handleZoom(e));
 		this.canvas = this.viewer.canvasOverlay({
 		    clearBeforeRedraw:true
 		});
 		
 		this.updateFilterOverlays();
 
+		d3.select("#zoomIn").on("click", function(d){
+			let prevZoom = viewer.viewport.getZoom();
+			let newZoom = prevZoom * 2;
+			if (newZoom > 30){
+				newZoom = 30;
+			}
+			viewer.viewport.zoomTo(newZoom);
+		})
+
+		d3.select("#zoomOut").on("click", function(d){
+			let prevZoom = viewer.viewport.getZoom();
+			let newZoom = prevZoom / 2;
+			if (newZoom < 0.5){
+				newZoom = 0.5;
+			}
+			viewer.viewport.zoomTo(newZoom);
+			let openHandler = document.querySelector(".overlay");
+			if (openHandler){
+				this.viewer.removeOverlay("currentOverlay");
+			}
+		})
 	}
 
 	updateData(unfilteredData, filteredData, selections){
@@ -147,7 +168,7 @@ class OSD{
 
 					viewer.addOverlay({
 				        element: makeOverlay(clickedBook, selections, cb),
-				        location: new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05) + 0.001, gridPos[1] * (1.13/64) + 1.13/64/2),
+				        location: new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05) + 0.001, gridPos[1] * (1.13/64)),
 				        placement: OpenSeadragon.Placement.TOP_LEFT,
 				        rotationMode: OpenSeadragon.OverlayRotationMode.NO_ROTATION,
 				        width: 0.0125
@@ -177,17 +198,6 @@ class OSD{
 			return d["grid_point"][0] === pos[0] && d["grid_point"][1] === pos[1];
 		});
 		return theBook;
-	}
-
-	//remove overlay if we zoom out
-	handleZoom(event){
-		if (this.zoomLevel && event.zoom < this.zoomLevel){
-			let openHandler = document.querySelector(".overlay");
-			if (openHandler){
-				this.viewer.removeOverlay("currentOverlay");
-			}
-		}
-		this.zoomLevel = event.zoom;
 	}
 
 }

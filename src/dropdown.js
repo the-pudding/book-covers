@@ -56,7 +56,7 @@ class Dropdown {
 		let searchHolder = results.append("div").attr("class", "searchHolder");
 		this.input = searchHolder.append("input")
 			.attr("class", "searchBar")
-			.attr("placeholder", "Search options");
+			.attr("placeholder", name === "fictionality" ? "Search fictionalities" : "Search " + name + "s");
 
 		let form = searchHolder.append("form");
 		form.append("h4").html("Sort by");

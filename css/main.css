@@ -46,7 +46,7 @@ input {
 
 .barItem {
     display: inline-block;
-    padding: 6px 10px;
+    padding: 0.5em 0.4em;
     font-size: 0.8rem;
     color: #fff;
     border-right: solid 1px #222;
@@ -54,9 +54,22 @@ input {
     position: relative;
 }
 
+#searchHolder, #clearAll {
+	background-color: unset;
+	color: unset;
+}
+
+
+.barItem:not(.closed) {
+	background-color: #eee;
+	color: #000;
+}
+
 .barItem h3 {
 	margin-bottom: 0px;
 	white-space: nowrap;
+	width: 100%;
+	text-align: center;
 }
 
 .dropdown {
@@ -89,8 +102,7 @@ input {
 .overlay {
 	background-color: #fff;
 	width: 50%;
-    margin-top:-100px;
-    padding: 10px;
+    padding: 1em 0.75em;
     z-index: 100000;
     border: 2px solid;
     font-size: 0.8rem;
@@ -98,7 +110,7 @@ input {
 
 .overlay h1 {
 	font-size: 1.5rem;
-	border-bottom: 2px solid #ea0051;
+	border-bottom: 2px solid #444;
 }
 
 .overlay h2 {
@@ -107,12 +119,6 @@ input {
 
 .overlayHeader {
 	width:100%;
-}
-
-.overlayHeader h1, .overlayHeader h2 {
-	text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
 }
 
 .overlayInfoDiv {
@@ -138,7 +144,7 @@ input {
 	white-space: nowrap;
 }
 
-.searchHolder {
+#searchHolder {
 	flex-shrink: 0;
 }
 
@@ -180,27 +186,28 @@ input {
 
 /*dropdown stuff*/
 
-h4 {
-	margin-bottom: 0px;
+.sortType h4 {
+	margin-bottom: 0.5em;
+    margin-top: 0.5em;
 }
 
 .sortType {
 	border-bottom: 1px solid #000;
-    padding-bottom: 5px;
+    padding-bottom: 0.5em;
     display: flex;
     width: 100%;
     justify-content: space-between;
 }
 
 .sortType label {
-    background-color: #eee;
+    background-color: #ddd;
     color: #666;
     flex: 2 1;
     text-align: center;
-    padding: 4px 2px;
+    padding: 0.5em;
     border-width: 1px 1px 1px 0px;
     border-style: solid;
-    border-color: #ccc;
+    border-color: #444;
     cursor: pointer;
 	display: inline-block;
 }
@@ -232,12 +239,12 @@ h4 {
 
 .results {
 	position: absolute;
-	background-color: rgba(255, 255, 255, 0.85);
+	background-color: #eee;
 	color: #000;
 	font-size: 0.8rem;
-    padding: 7px;
-    margin-top: 7px;
-    margin-left: -10px;
+    padding: 0.5em;
+    margin-top: 0.65em;
+    margin-left: -0.4em;
     min-width: 175px;
 }
 
@@ -254,8 +261,12 @@ h4 {
 	border-bottom: 1px solid #000;
 }
 
-.searchHolder input.searchBar {
+#searchHolder input.searchBar {
 	width: calc(100% - 7px);
+}
+
+.results input.searchBar {
+	width: calc(100% - 0.4em);
 }
 
 .selectedHolder:empty {
@@ -268,7 +279,6 @@ h4 {
 }
 .result div {
 	white-space: nowrap;
-	/*height: 1.5em;*/
 }
 
 .result div:nth-child(2n){
@@ -347,7 +357,6 @@ h4 {
 }
 
 #clearAll {
-	align-self: flex-end;
 	border-left: solid 1px #222;
 }
 
@@ -368,15 +377,15 @@ h4 {
 }
 
 .chip {
-	background-color: #ea0051;
+	background-color: #444;
     color: #fff;
-    border: 2px solid #ea0051;
+    border: 2px solid #444;
 }
 
 .chip.unselectedFilter {
 	background-color: #fff;
-    color: #ea0051;
-    border: 2px solid #ea0051;
+    color: #444;
+    border: 2px solid #444;
 }
 
 .chip p {
@@ -423,6 +432,7 @@ h4 {
 	#gender .results {
 		left: 0px;
 		margin-left: 0px;
+		right: unset;
 	}
 
 	#controlBar {
@@ -440,12 +450,17 @@ h4 {
 		-ms-flex: none;
 		-o-flex: none;
 		flex: none;
-		padding: 6px 8px;
+		padding: 0.5em 0.3em;
 	}
 
-	.searchHolder {
+	#searchHolder {
 		grid-area: search;
-		border-bottom: solid 1px #222;
+		margin: 0.2em;
+		border: none;
+	}
+
+	.barItem:not(#searchHolder){
+		border-top: solid 1px #222;
 	}
 
 	#gender {
@@ -475,6 +490,10 @@ h4 {
 	#bookSearch {
 		width: calc(100% - 2em);
 	}
+
+	.results {
+		margin-top: 0.6em;
+	}
 }
 
 @media only screen and (max-device-width: 667px) 
@@ -493,8 +512,8 @@ h4 {
 /*custom zoom button holders*/
 #zoomBar {
 	position: fixed;
-    bottom: 4px;
-    right: 4px;
+    bottom: 0.2em;
+    right: 0.2em;
     width: 2em;
     height: 4em;
     background-color: #444;
