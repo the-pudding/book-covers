@@ -181,7 +181,7 @@ class OSD{
 	handleClick(event){
 		if (event.originalEvent.target.tagName === "CANVAS"){
 			let position = [event.position.x, event.position.y];
-			if ((Math.abs(position[0] - this.currentPos[0]) < 2) && (Math.abs(position[1] - this.currentPos[1]) < 2)){
+			if ((Math.abs(position[0] - this.currentPos[0]) < 10) && (Math.abs(position[1] - this.currentPos[1]) < 10)){
 				let pointPos = this.viewer.viewport.pointFromPixel(event.position);
 				let percentPos = [pointPos.x/1, pointPos.y/1.13];
 				//we know from our python file that our grid has 85 columns and 64 rows
