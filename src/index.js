@@ -1,3 +1,4 @@
+import 'array-flat-polyfill';
 import {select, selectAll} from "d3-selection";
 import {nest} from "d3-collection";
 const d3 = {select, selectAll, nest};
