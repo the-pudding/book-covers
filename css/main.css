@@ -6,7 +6,7 @@ html, body, .main {
 	padding: 0px;
 	font-family: 'Work Sans', sans-serif;
 	background-color: #000;
-	font-size: calc(0.75em + 0.6vw);
+	font-size: calc(0.7em + 0.6vw);
 }
 
 input {
@@ -243,9 +243,10 @@ input {
 	color: #000;
 	font-size: 0.8rem;
     padding: 0.5em;
-    margin-top: 0.65em;
+    margin-top: 0.6em;
     margin-left: -0.4em;
     min-width: 175px;
+    z-index: 10000;
 }
 
 .resultHolder {
@@ -414,6 +415,58 @@ input {
 	width: 100%;
 }
 
+/*override rectangular region in navigator*/
+.displayregion {
+	border: 2px solid rgb(255, 255, 255) !important;
+}
+
+/*custom zoom button holders*/
+#zoomBar {
+	position: fixed;
+    bottom: 0.2em;
+    right: 0.2em;
+    width: 2em;
+    height: 4em;
+    background-color: #444;
+    box-sizing: border-box;
+}
+
+#zoomBar div:first-child {
+	border-bottom: solid 1px #222;
+}
+
+#zoomBar > div {
+	height: 2em;
+}
+
+#zoomBar div > div {
+	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+	height: 2em;
+	width: 100%;
+    background-size: cover;
+    background-color: #fff;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+#zoomIn {
+	-webkit-mask-image:  url("~./../images/plus.svg");
+	mask-image:  url("~./../images/plus.svg");
+}
+
+#zoomOut {
+	-webkit-mask-image:  url("~./../images/minus.svg");
+	mask-image:  url("~./../images/minus.svg");
+}
+
 @media (max-width: 750px){
 	.spacer {
 		display: none;
@@ -429,6 +482,10 @@ input {
 }
 
 @media (max-width: 667px), (max-device-width: 667px) {
+	html, body, .main {
+		font-size: calc(0.8em + 0.6vw);
+	}
+
 	.results {
 		right: 0px;
 	}
@@ -508,66 +565,27 @@ input {
 	}
 }
 
-@media (max-width: 320px){
-		html, body, .main {
-		width: 100%;
-		height: 100%;
-		margin:0 auto;
-		padding: 0px;
-		font-family: 'Work Sans', sans-serif;
-		background-color: #000;
-		font-size: calc(0.6em + 0.6vw);
+@media (max-width: 375px){
+	.barItem h3 {
+		font-size: 1em;
+		line-height: 1.5em;
+	}
+	.iconAfter:after {
+		height: 1.5em;
+	}
+
+	/*custom zoom button holders*/
+	#zoomBar {
+	    width: 3em;
+	    height: 6em;
+	}
+
+	#zoomBar > div {
+		height: 3em;
+	}
+
+	#zoomBar div > div {
+		height: 3em;
 	}
 }
 
-/*override rectangular region in navigator*/
-.displayregion {
-	border: 2px solid rgb(255, 255, 255) !important;
-}
-
-/*custom zoom button holders*/
-#zoomBar {
-	position: fixed;
-    bottom: 0.2em;
-    right: 0.2em;
-    width: 2em;
-    height: 4em;
-    background-color: #444;
-    box-sizing: border-box;
-}
-
-#zoomBar div:first-child {
-	border-bottom: solid 1px #222;
-}
-
-#zoomBar > div {
-	height: 2em;
-}
-
-#zoomBar div > div {
-	display: inline-block;
-	margin: 0px;
-	padding: 0px;
-	height: 2em;
-	width: 100%;
-    background-size: cover;
-    background-color: #fff;
-    -webkit-mask-position: center;
-    mask-position: center;
-    -webkit-mask-size: contain;
-    mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    box-sizing: border-box;
-    cursor: pointer;
-}
-
-#zoomIn {
-	-webkit-mask-image:  url("~./../images/plus.svg");
-	mask-image:  url("~./../images/plus.svg");
-}
-
-#zoomOut {
-	-webkit-mask-image:  url("~./../images/minus.svg");
-	mask-image:  url("~./../images/minus.svg");
-}

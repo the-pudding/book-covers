@@ -34,7 +34,6 @@ class OSD{
 
 		//see https://github.com/openseadragon/openseadragon/issues/678
 		OpenSeadragon.pixelDensityRatio = 1;
-		console.log(window.innerWidth > 425 && window.innerHeight > 425);
 		this.viewer  = OpenSeadragon({
 		    id:                 'openseadragon',
 		    prefixUrl:          'TileGroup/',
