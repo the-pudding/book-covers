@@ -33,16 +33,15 @@ class OSD{
 
 		//see https://github.com/openseadragon/openseadragon/issues/678
 		OpenSeadragon.pixelDensityRatio = 1;
-
+		console.log(window.innerWidth > 425 && window.innerHeight > 425);
 		this.viewer  = OpenSeadragon({
 		    id:                 'openseadragon',
 		    prefixUrl:          'TileGroup/',
-		    showNavigator:      false,
+		    showNavigator:      (window.innerWidth > 425 && window.innerHeight > 425),
 		    wrapHorizontal:     false,
 		    zoomPerScroll:      1.2,
 		    zoomPerClick: 1,
 		    animationTime: 1,
-		    showNavigator: true,
 		    navigatorPosition:   "BOTTOM_LEFT",
 		    showHomeControl: false,
 		    showFullPageControl: false,
@@ -102,7 +101,7 @@ class OSD{
 			viewer.viewport.zoomTo(newZoom);
 			let openHandler = document.querySelector(".overlay");
 			if (openHandler){
-				this.viewer.removeOverlay("currentOverlay");
+				viewer.removeOverlay("currentOverlay");
 			}
 		})
 	}
