@@ -30,6 +30,10 @@ class OSD{
 		this.selections = selections;
 		this.cb = cb;
 		this.holder = document.getElementById("openseadragon");
+
+		//see https://github.com/openseadragon/openseadragon/issues/678
+		OpenSeadragon.pixelDensityRatio = 1;
+
 		this.viewer  = OpenSeadragon({
 		    id:                 'openseadragon',
 		    prefixUrl:          'TileGroup/',
