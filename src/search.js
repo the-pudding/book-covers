@@ -48,6 +48,15 @@ class Searcher{
 			}
 		});
 
+		d3.select(this.searchHolder.parentNode)
+			.select(".searchClearer").on("click", function(d){
+				searchHolder.value = "";
+				let artificialEvent = new Object();
+				artificialEvent.target = new Object();
+				artificialEvent.target.value = "";
+				handleKeypress(artificialEvent);
+			})
+
 
 	}
 
@@ -64,13 +73,14 @@ class Searcher{
 				d3.select(this).append("h5").text(d.author);
 			}).on("click", function(d){
 				callback(d.grid_point);
+				d3.select("#mainSearch .searchResults").classed("hidden", true);
 			})
 
 		holder.exit().remove();
 	}
 
 	handleKeypress(event){
-		if (event.target.value.length > 3){
+		if (event.target.value.length > 2){
 			this.results = this.fuse.search(event.target.value);
 			this.populateSearchResults();
 
@@ -79,10 +89,11 @@ class Searcher{
 			d3.select(this.resultsHolder.parentNode).classed("hidden", true);
 		}
 
-
-		var code = (event.keyCode ? event.keyCode : event.which);
-		if(code == 13) { 
-		   //Enter keycode
+		if (event.keycode || event.which){
+			var code = (event.keyCode ? event.keyCode : event.which);
+			if(code == 13) { 
+			   //Enter keycode
+			}
 		}
 	}
 

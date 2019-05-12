@@ -22,6 +22,7 @@ class OSD{
 		this.updateFilterOverlays = this.updateFilterOverlays.bind(this);
 		this.goToBook = this.goToBook.bind(this);
 		this.handleZoom = this.handleZoom.bind(this);
+		this.handlePan = this.handlePan.bind(this);
 		this.closeOpenThings = this.closeOpenThings.bind(this);
 	}
 
@@ -80,6 +81,8 @@ class OSD{
 		this.viewer.addHandler('canvas-press', (e) => this.currentPos = [e.position.x, e.position.y]);
 		this.viewer.addHandler('canvas-release', (e) => this.handleClick(e));
 		this.viewer.addHandler("zoom", (e) => this.handleZoom(e));
+		this.viewer.addHandler("pan", (e) => this.handlePan(e));
+
 		this.canvas = this.viewer.canvasOverlay({
 		    clearBeforeRedraw:true
 		});
@@ -237,10 +240,17 @@ class OSD{
 		this.zoomLevel = event.zoom;	
 	}	
 
+	handlePan(event){
+		if (d3.select("#mainSearch .searchResults").classed("hidden") === false) {
+			d3.select("#mainSearch .searchResults").classed("hidden", true);
+		}
+	}
+
 
 	closeOpenThings(){
 		this.viewer.removeOverlay("currentOverlay");
 		d3.selectAll(".dropDown").classed("closed", true);
+		d3.select("#mainSearch .searchResults").classed("hidden", true);
 	}
 
 

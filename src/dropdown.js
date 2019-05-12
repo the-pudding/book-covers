@@ -41,6 +41,7 @@ class Dropdown {
 		this.name = name;
 		this.holder.append("h3").attr("class", "iconAfter").html(name);
 		let holder = this.holder;
+		let handleKeypress = this.handleKeypress;
 
 		this.holder.on("click", function(d, e){
 			if (d3.event.target.classList.contains("barItem")
@@ -54,9 +55,22 @@ class Dropdown {
 		let results = this.holder.append("div").attr("class", "results");
 
 		let searchHolder = results.append("div").attr("class", "searchHolder");
-		this.input = searchHolder.append("input")
+		
+		this.input = searchHolder.append("div").attr("style", "position: relative");
+		
+		this.input.append("input")
 			.attr("class", "searchBar")
 			.attr("placeholder", name === "fictionality" ? "Search fictionalities" : "Search " + name + "s");
+		
+		this.input.append("div")
+			.attr("class", "searchClearer iconAfter")
+			.on("click", function(d){
+				holder.select("input.searchBar").node().value = "";
+				let artificialEvent = new Object();
+				artificialEvent.target = new Object();
+				artificialEvent.target.value = "";
+				handleKeypress(artificialEvent);
+			});
 
 		let form = searchHolder.append("form");
 		form.append("h4").html("Sort by");
@@ -217,10 +231,11 @@ class Dropdown {
 		}
 		this.doSort();
 
-
-		var code = (event.keyCode ? event.keyCode : event.which);
-		if(code == 13) { 
-		   //Enter keycode
+		if (event.keycode || event.which){
+			var code = (event.keyCode ? event.keyCode : event.which);
+			if(code == 13) { 
+			   //Enter keycode
+			}
 		}
 	}
 

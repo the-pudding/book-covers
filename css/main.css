@@ -10,7 +10,7 @@ html, body, .main {
 }
 
 input {
-	font-size: 1em;
+	font-size: 1.1em;
 	border: 1px solid #222;
 }
 
@@ -333,6 +333,22 @@ input {
     vertical-align: top;
 }
 
+.iconBefore:before {
+	display: inline-block;
+	width: 1.5em;
+	height: 1.5em;
+	content: "";
+	padding-right: 0.2em;
+	background-color: currentColor;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    vertical-align: top;
+}
+
 .dropDown {
 	cursor: pointer;
 }
@@ -362,9 +378,27 @@ input {
     mask-image:  url("~./../images/check-square.svg");
 }
 
-#mainSearch::after {
+#mainSearch::before {
 	-webkit-mask-image:  url("~./../images/search.svg");
     mask-image:  url("~./../images/search.svg");
+}
+
+.searchClearer {
+	position: absolute;
+	right: 0.2em;
+	top:0px;
+}
+.searchClearer::after {
+	-webkit-mask-image:  url("~./../images/x.svg");
+    mask-image:  url("~./../images/x.svg");
+}
+
+.searchClearer:after{
+	position: absolute;
+    right: 0.2em;
+    color: #444;
+    line-height: 1.5em;
+    height: 1.65em;
 }
 
 #clearAll h3::after {
@@ -586,6 +620,12 @@ input {
 	.result {
 		margin: 0.6em 0em;
     	font-size: 1.1em;
+	}
+}
+
+@media (max-width: 450px){
+	.searchResults {
+		width: 100%;
 	}
 }
 
