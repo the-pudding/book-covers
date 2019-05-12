@@ -89,8 +89,9 @@ class OSD{
 		d3.select("#zoomIn").on("click", function(d){
 			let prevZoom = viewer.viewport.getZoom();
 			let newZoom = prevZoom * 2;
-			if (newZoom > 30){
-				newZoom = 30;
+			let maxZoom = window.innerWidth < 450 ? 60 : 30;
+			if (newZoom > maxZoom){
+				newZoom = maxZoom;
 			}
 			viewer.viewport.zoomTo(newZoom);
 		})
@@ -160,10 +161,20 @@ class OSD{
 			if (openHandler){
 				closeOpenThings();
 			}
-			this.viewer.viewport.zoomTo(30, new OpenSeadragon.Point(gridPos[0]/85 + (1/85/2), gridPos[1] * (1.13/64) + 1.13/64/2));
+			
+			//handle mobile-like screens a bit differently
+			if (window.innerWidth > 450){
+				this.viewer.viewport.zoomTo(30, new OpenSeadragon.Point(gridPos[0]/85 + (1/85/2), gridPos[1] * (1.13/64) + 1.13/64/2));
+			} else {
+				this.viewer.viewport.zoomTo(60, new OpenSeadragon.Point(gridPos[0]/85 + (1/85/2), gridPos[1] * (1.13/64) + 1.13/64/2));
+			}
 			setTimeout( function() {
 				//pan to the location after a bit. fitbounds isn't working as expected, so work in stages
-			    viewport.panTo(new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05) + 0.005, gridPos[1] * (1.13/64) + 1.13/64/2 - 0.001));
+			    if (window.innerWidth > 450){
+			    	viewport.panTo(new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05) + 0.005, gridPos[1] * (1.13/64) + 1.13/64/2 - 0.001));
+				} else {
+					viewport.panTo(new OpenSeadragon.Point(gridPos[0]/85 + (1/85/2), gridPos[1] * (1.13/64) + 1.13/64/1.5));
+				}
 				//after another delay, create an overlay
 			    setTimeout( function() {
 
@@ -173,12 +184,20 @@ class OSD{
 						closeOpenThings();
 					}
 
+					let overlayLocation;
+					if (window.innerWidth > 450){
+						overlayLocation = new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05) + 0.0015, gridPos[1] * (1.13/64));
+					} else {
+						let bounds = viewer.viewport.getBounds();
+						overlayLocation = new OpenSeadragon.Point(gridPos[0]/85 - 0.00225, bounds.y + bounds.height/2 + 0.00015);
+					}
+
 					viewer.addOverlay({
 				        element: makeOverlay(clickedBook, selections, cb, closeOpenThings),
-				        location: new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05) + 0.0015, gridPos[1] * (1.13/64)),
+				        location: overlayLocation,
 				        placement: OpenSeadragon.Placement.TOP_LEFT,
 				        rotationMode: OpenSeadragon.OverlayRotationMode.NO_ROTATION,
-				        width: 0.0165
+				        width: window.innerWidth > 450 ? 0.0165 : 0.01535
 				    });
 				}, 1000);
 			}, 1000 );
