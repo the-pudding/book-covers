@@ -10,7 +10,7 @@ import Dropdown from "./dropdown.js";
 import Searcher from "./search.js";
 
 import css from './../css/main.css';
-import loaded_data from "./../data/full_json_output.json";
+import loaded_data from "./../data/json_output.json";
 
 let data = [];
 let filteredData = [];
@@ -96,7 +96,7 @@ function filterData(){
 		})
 	} 
 
-	doSelectionFilter("genre", "main_genre");
+	doSelectionFilter("genre", "genre");
 	doSelectionFilter("gender", "gender");
 
 	if (selections["fictionality"].length === 1){
@@ -204,8 +204,8 @@ function initControls(data, filteredData){
 
 
 function drawFilters(){
-	let genresFiltered = rollupAndCount("main_genre", filteredData);
-	let genresTotal = rollupAndCount("main_genre", data);
+	let genresFiltered = rollupAndCount("genre", filteredData);
+	let genresTotal = rollupAndCount("genre", data);
 	genreDropdown.setData(genresTotal, genresFiltered, selections["genre"], (newVal) => clickCallback("genre", newVal));
 
 	let flatMotifsTotal = data.map(function(d){ return d.labels}).flat();

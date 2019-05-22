@@ -44,7 +44,7 @@ function makeOverlay(data, selections, callback, closeCallback)
 		.attr("id", "genreOverlayDiv");
 	let genreP = genreDiv.append("p");
 	genreP.append("span").html("Genre: ");
-	makeChip(genreDiv, data["main_genre"], selections["genre"],
+	makeChip(genreDiv, data["genre"], selections["genre"],
 		(val) => callback("genre", val));
 
 	if (data["labels"].length > 0){
