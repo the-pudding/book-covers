@@ -120,7 +120,7 @@ function filterData(){
 
 function setup(){
 
-	data = loaded_data.filter(function(e){ return e["cluster_point"] !== undefined});
+	data = loaded_data.filter(function(e){ return e["grid_point"] !== undefined});
     filteredData = data;
     initControls(data, filteredData);
     searcher.init(
