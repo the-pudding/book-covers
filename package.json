@@ -18,9 +18,9 @@
     "mini-css-extract-plugin": "^0.6.0",
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
-    "webpack": "^4.29.5",
-    "webpack-cli": "^3.2.3",
-    "webpack-dev-server": "^3.2.1"
+    "webpack": "^4.32.1",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.4.1"
   },
   "dependencies": {
     "array-flat-polyfill": "^1.0.1",
@@ -29,6 +29,7 @@
     "fuse.js": "^3.4.4",
     "lodash.countby": "^4.6.0",
     "numjs": "^0.16.0",
-    "openseadragon": "^2.4.0"
+    "openseadragon": "^2.4.0",
+    "static-eval": "^2.0.2"
   }
 }
