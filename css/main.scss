@@ -13,6 +13,7 @@ html, body, .main {
 input {
 	font-size: 1.1em;
 	border: 1px solid #222;
+	font-family: 'Atlas Grotesk Web', sans-serif;
 }
 
 .main {
@@ -92,25 +93,14 @@ input {
 }
 
 
-/*Control Panel CSS*/
-
-.filterControls {
-	display: grid;
-	overflow: hidden;
-}
-
-.controls h1, h2, h3 {
+h1, h2, h3 {
 	font-weight: normal;
 }
 
-.controls h2, h3 {
+h2, h3 {
 	margin-top: 0px;
 }
 
-.controls h2 {
-	margin-bottom: 0px;
-	height:20px;
-}
 
 
 
