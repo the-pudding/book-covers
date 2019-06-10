@@ -115,7 +115,7 @@ function filterData(){
 	let unfilteredData = data.filter(x => !filteredData.includes(x));
 
 	osd.updateData(filteredData, unfilteredData, selections);
-	drawFilters();
+	// drawFilters();
 }
 
 function setup(){
@@ -198,7 +198,7 @@ function initControls(data, filteredData){
 	genreDropdown.init("genre");
 	motifDropdown.init("motif");
 	fictionalityDropdown.init("fictionality");
-	drawFilters();
+	// drawFilters();
 }
 
 
