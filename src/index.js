@@ -9,7 +9,7 @@ import OSD from "./openSeaDragon.js";
 import Dropdown from "./dropdown.js";
 import Searcher from "./search.js";
 
-import css from './../css/main.css';
+import css from './../css/main.scss';
 import loaded_data from "./../data/json_output.json";
 
 let data = [];
