@@ -39,18 +39,20 @@ class Dropdown {
 	init(name){
 		this.holder = d3.select("#" + name);
 		this.name = name;
-		this.holder.append("h3").attr("class", "iconAfter").html(name);
+		this.holder.append("h3").html(name);
+		let theSelect = this.holder.append("select");
+		theSelect.attr("id", name + "select");
+		theSelect.append("option").attr("value", "alphabetic").html("Sort Alphabetically");
+		theSelect.append("option").attr("value", "total").attr("selected", "true").html("Sort by Total Count");
+		theSelect.append("option").attr("value", "filtered").html("Sort by Filtered Count");
+		
+		let changeSort = this.changeSort;
+		theSelect.on("change", function(d, e){
+			changeSort(this.value);
+		});
+
 		let holder = this.holder;
 		let handleKeypress = this.handleKeypress;
-
-		this.holder.on("click", function(d, e){
-			if (d3.event.target.classList.contains("barItem")
-				|| d3.event.target.tagName === "H3"){
-
-				d3.selectAll(".dropDown:not(#" + name + ")").classed("closed", true);
-				holder.classed("closed", !holder.classed("closed"));
-			}
-		});
 
 		let results = this.holder.append("div").attr("class", "results");
 
@@ -71,31 +73,6 @@ class Dropdown {
 				artificialEvent.target.value = "";
 				handleKeypress(artificialEvent);
 			});
-
-		let form = searchHolder.append("form");
-		form.append("h4").html("Sort by");
-		let sortType = form.append("div").attr("class", "sortType");
-		let div1 = sortType.append("input")
-			.attr("type", "radio")
-			.attr("name", "sortType " + name)
-			.attr("checked", true)
-			.attr("id", "total" + name)
-			.on("click", () => this.changeSort("total"));
-		sortType.append("label").attr("for", "total" + name).html("total");
-
-		let div2 = sortType.append("input")
-			.attr("type", "radio")
-			.attr("name", "sortType " + name)
-			.attr("id", "filtered" + name)
-			.on("click", () => this.changeSort("filtered"));
-		sortType.append("label").attr("for", "filtered" + name).html("filtered");
-
-		let div3 = sortType.append("input")
-			.attr("type", "radio")
-			.attr("name", "sortType " + name)
-			.attr("id", "alphabetic" + name)
-			.on("click", () => this.changeSort("alphabetic"));
-		sortType.append("label").attr("for", "alphabetic" + name).html("alphabetic");
 
 		let resultHolder = results.append("div").attr("class", "resultHolder");
 		this.selectedHolder = resultHolder.append("div").attr("class", "selectedHolder");

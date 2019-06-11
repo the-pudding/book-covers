@@ -115,7 +115,7 @@ function filterData(){
 	let unfilteredData = data.filter(x => !filteredData.includes(x));
 
 	osd.updateData(filteredData, unfilteredData, selections);
-	// drawFilters();
+	drawFilters();
 }
 
 function setup(){
@@ -132,6 +132,11 @@ function setup(){
     //clear all filters when we click this
 	d3.select("#clearAll").on("click", function(d){
 		clickCallback();
+	});
+
+	d3.select("#filter").on("click", function(d){
+		let filters = d3.select("#filters");
+		filters.classed("collapsed", filters.classed("collapsed") ? false : true);
 	})
 }
 
@@ -198,9 +203,8 @@ function initControls(data, filteredData){
 	genreDropdown.init("genre");
 	motifDropdown.init("motif");
 	fictionalityDropdown.init("fictionality");
-	// drawFilters();
+	drawFilters();
 }
-
 
 
 function drawFilters(){
