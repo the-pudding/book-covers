@@ -64,6 +64,18 @@ input {
     flex: 0 1;
 }
 
+#zoomer {
+	flex: 0 0 4.5em;
+}
+
+#zoomer div{
+	height: 1.75em;
+	width: 2em;
+	display: inline-block;
+	cursor: pointer;
+	background-color: #222;
+}
+
 .barItem img {
 
 	height: 1.75em;
