@@ -218,7 +218,10 @@ h2, h3 {
 #openseadragon {
 	width: 100%;
     height: calc(100% - 4em);
-    margin-top: 2em;
+    top: 2em;
+    position: absolute;
+    margin-bottom: 0px;
+    padding: 0px;
 }
 
 /*dropdown stuff*/
