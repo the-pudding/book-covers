@@ -28,6 +28,7 @@ let genderDropdown = new Dropdown();
 let genreDropdown = new Dropdown();
 let fictionalityDropdown = new Dropdown();
 let motifDropdown = new Dropdown();
+let selectedDropdown = new Dropdown();
 let searcher = new Searcher();
 
 let osd = new OSD();
@@ -54,11 +55,22 @@ function clickCallback(selectionName, selection){
 		}
 
 	} else {
-		if (!selections[selectionName].find(function(d){ return d === selection})){
-			selections[selectionName].push(selection);
+		if (selectionName === "all"){
+			let selectionArray = ["gender", "genre", "fictionality", "motifs"];
+			for (var i = 0; i < selectionArray.length; i++){
+				let selectName = selectionArray[i];
+				if (selections[selectName].find(function(d){ return d === selection})){
+					let spliceIndex = selections[selectName].findIndex(function(d){ return d === selection});
+					selections[selectName].splice(spliceIndex, 1);
+				}
+			}
 		} else {
-			let spliceIndex = selections[selectionName].findIndex(function(d){ return d === selection});
-			selections[selectionName].splice(spliceIndex, 1);
+			if (!selections[selectionName].find(function(d){ return d === selection})){
+				selections[selectionName].push(selection);
+			} else {
+				let spliceIndex = selections[selectionName].findIndex(function(d){ return d === selection});
+				selections[selectionName].splice(spliceIndex, 1);
+			}
 		}
 	}
 	filterData();
@@ -203,6 +215,7 @@ function initControls(data, filteredData){
 	genreDropdown.init("genre");
 	motifDropdown.init("motif");
 	fictionalityDropdown.init("fictionality");
+	selectedDropdown.init("selected");
 	drawFilters();
 }
 
@@ -226,7 +239,32 @@ function drawFilters(){
 	let fictionalityFiltered = formatFictionality(filteredData);
 	fictionalityDropdown.setData(fictionalityTotal, fictionalityFiltered, selections["fictionality"], (newVal) => clickCallback("fictionality", newVal));
 
+	let selectedFiltered = countSelected(genresFiltered, genderFiltered, fictionalityFiltered, flatMotifsFiltered);
+	let selectedTotal = countSelected(genresTotal, genderTotal, fictionalityTotal, flatMotifsTotal);
+	selectedDropdown.setData(selectedTotal, selectedFiltered, 
+		selections["fictionality"].concat(selections["genre"].concat(selections["gender"].concat(selections["motifs"]))),
+		(newVal) => clickCallback("all", newVal));
 }
 
+function countSelected(genreArray, genderArray, fictArray, motifArray){
+	let totalArray = [];
+
+	totalArray = totalArray.concat(simpleFilter(genreArray, "genre"));
+	totalArray = totalArray.concat(simpleFilter(genderArray, "gender"));
+	totalArray = totalArray.concat(simpleFilter(fictArray, "fictionality"));
+	totalArray = totalArray.concat(simpleFilter(motifArray, "motifs"));
+
+	function simpleFilter(array, selectionVal){
+		let innerArray = []
+		for (var i = 0; i < selections[selectionVal].length; i++){
+			let matchingVal = array.find(function(d){
+				return d.key === selections[selectionVal][i];
+			})
+			innerArray.push(matchingVal);
+		}
+		return innerArray;
+	}
+	return totalArray;
+}
 
 

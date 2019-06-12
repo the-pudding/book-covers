@@ -40,6 +40,7 @@ class Dropdown {
 		this.holder = d3.select("#" + name);
 		this.name = name;
 		this.holder.append("h3").html(name);
+
 		let theSelect = this.holder.append("select");
 		theSelect.attr("id", name + "select");
 		theSelect.append("option").attr("value", "alphabetic").html("Sort Alphabetically");
@@ -56,7 +57,7 @@ class Dropdown {
 
 		let results = this.holder.append("div").attr("class", "results");
 
-		let searchHolder = results.append("div").attr("class", "searchHolder");
+		let searchHolder = results.append("div").attr("class", "searchHolder iconBefore");
 		
 		this.input = searchHolder.append("div").attr("style", "position: relative");
 		
@@ -76,8 +77,6 @@ class Dropdown {
 
 		let resultHolder = results.append("div").attr("class", "resultHolder");
 		this.selectedHolder = resultHolder.append("div").attr("class", "selectedHolder");
-		this.unselectedHolder = resultHolder.append("div").attr("class", "unselectedHolder");
-
 	}
 
 	changeSort(name){
@@ -105,16 +104,7 @@ class Dropdown {
 			})
 		}
 
-		this.selectedValues = [];
-		this.unselectedValues = [];
-
-		for (var i = 0; i < theSortByData.length; i++){
-			if (this.selection.includes(theSortByData[i]["key"])){
-				this.selectedValues.push(theSortByData[i]);
-			} else {
-				this.unselectedValues.push(theSortByData[i]);
-			}
-		}
+		this.selectedValues = theSortByData;
 
 		this.draw();
 	}
@@ -166,28 +156,43 @@ class Dropdown {
 
 	draw(){
 		this.drawOnePanel(this.selectedHolder, this.selectedValues, this.callback);
-		this.drawOnePanel(this.unselectedHolder, this.unselectedValues, this.callback);
 	}
 
 	drawOnePanel(holder, values, callback){
+		let theSelected = this.selection;
+
 		let panel = holder
 			.selectAll(".result")
-			.data(values, function(d){ return d});
+			.data(values, function(d){ return d.key});
 
 		panel.exit().remove();
 
-		panel.each(function(d){
+		panel
+		.style("top", function(d, i){ return i * 2 + "em"})
+		.each(function(d){
 				let theThis = d3.select(this);
 				theThis.select(".valName").select("p").html(d.key);
 				theThis.select(".count").select("p").html(d.filteredValue + "/" + d.value);
+				
+				if (theSelected.includes(d.key)) {
+					theThis.select(".checker").classed("checked", true);
+				} else {
+					theThis.select(".checker").classed("checked", false);
+				}
 			})
 
 		panel.enter()
 			.append("div")
 			.attr("class", "result")
+			.style("top", function(d, i){ return i * 2 + "em"})
 			.each(function(d){
 				let theThis = d3.select(this);
-				theThis.append("div").append("p").attr("class", "checker iconAfter");
+				if (theSelected.includes(d.key)) {
+					theThis.append("div").append("p").attr("class", "checker checked iconAfter");
+				} else {
+					theThis.append("div").append("p").attr("class", "checker iconAfter");
+				}
+				
 				theThis.append("div").attr("class", "valName").append("p").html(d.key);
 				theThis.append("div").attr("class", "count").append("p").html(d.filteredValue + "/" + d.value);
 			}).on("click", function(d){

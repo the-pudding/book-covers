@@ -147,6 +147,7 @@ h2, h3 {
 }
 
 .overlay h2 {
+
 	font-size: 1.25rem;
 }
 
@@ -184,6 +185,21 @@ h2, h3 {
 
 #searchHolder {
 	flex: 2 0;
+}
+
+.searchHolder {
+	margin-bottom: 0.6em;
+}
+
+.searchHolder::before {
+	-webkit-mask-image:  url("~./../images/search.svg");
+    mask-image:  url("~./../images/search.svg");
+    font-size: 0.8em;
+}
+
+.searchHolder > div {
+	width: calc(100% - 2em);
+	display: inline-block;
 }
 
 #bookSearch {
@@ -281,13 +297,12 @@ h2, h3 {
 .results {
 	color: #000;
 	font-size: 0.8rem;
-    padding: 0.5em;
-    margin-left: -0.4em;
     z-index: 10000;
+    margin-top: 0.6em;
 }
 
 .resultHolder {
-	max-height: 150px;
+	height: 150px;
 	overflow: auto;
 }
 
@@ -295,16 +310,17 @@ h2, h3 {
 	margin-right: 10px;
 }
 
-.selectedHolder {
-	border-bottom: 1px solid #000;
-}
-
 #searchHolder input.searchBar {
 	width: calc(100% - 7px);
 }
 
+.selectedHolder {
+	position: relative;
+}
+
 .results input.searchBar {
-	width: calc(100% - 0.4em);
+	width: calc(100% - 0.3em);
+	font-size: 0.9em;
 }
 
 .searchBar:placeholder-shown + .searchClearer::after,  
@@ -312,11 +328,8 @@ h2, h3 {
 	display: none;
 }
 
-.selectedHolder:empty {
-	border: none;
-}
-
 .result {
+	position: absolute;
 	display: flex;
 	margin: 0.2em 0em;
 }
@@ -329,7 +342,14 @@ h2, h3 {
 	white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    max-width: 125px;
 }
+
+.result div:nth-child(3n){
+	font-size: 0.65em;
+	line-height: 2.6em;
+}
+
 
 .result div p {
 	white-space: nowrap;
@@ -400,7 +420,7 @@ h2, h3 {
     mask-image:  url("~./../images/square.svg");
 }
 
-.selectedHolder .checker::after {
+.checker.checked::after {
 	-webkit-mask-image:  url("~./../images/check-square.svg");
     mask-image:  url("~./../images/check-square.svg");
 }
@@ -462,7 +482,8 @@ h2, h3 {
 	background-color:#fff; 
 	border-top: 1px solid #444;
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	padding-top: 0.2em;
 }
 
 #filters.collapsed {
@@ -481,6 +502,12 @@ h2, h3 {
     text-transform: uppercase;
     font-weight: 700;
     text-align: left;
+    font-size: 1.1em;
+}
+
+#filters .barItem {
+	padding-left:1em;
+	white-space: nowrap;
 }
 
 /*active filters styles*/
@@ -568,11 +595,15 @@ h2, h3 {
 }
 
 #zoomIn {
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
 	-webkit-mask-image:  url("~./../images/plus.svg");
 	mask-image:  url("~./../images/plus.svg");
 }
 
 #zoomOut {
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
 	-webkit-mask-image:  url("~./../images/minus.svg");
 	mask-image:  url("~./../images/minus.svg");
 }
