@@ -10,6 +10,7 @@ class Dropdown {
 		this.input;
 		this.fuse;
 		this.searchEmpty = true;
+		this.hasSearch = true;
 
 		this.name;
 
@@ -36,10 +37,14 @@ class Dropdown {
 
 	}
 
-	init(name){
+	init(name, hasSearch){
 		this.holder = d3.select("#" + name);
 		this.name = name;
 		this.holder.append("h3").html(name);
+
+		if (hasSearch !== undefined){
+			this.hasSearch = hasSearch;
+		}
 
 		let theSelect = this.holder.append("select");
 		theSelect.attr("id", name + "select");
@@ -56,24 +61,35 @@ class Dropdown {
 		let handleKeypress = this.handleKeypress;
 
 		let results = this.holder.append("div").attr("class", "results");
+		
+		if (this.hasSearch){
+			let searchHolder = results.append("div").attr("class", "searchHolder iconBefore");
 
-		let searchHolder = results.append("div").attr("class", "searchHolder iconBefore");
+			this.input = searchHolder.append("div")
+				.attr("style", "position: relative");
 		
-		this.input = searchHolder.append("div").attr("style", "position: relative");
-		
-		this.input.append("input")
-			.attr("class", "searchBar")
-			.attr("placeholder", name === "fictionality" ? "Search fictionalities" : "Search " + name + "s");
-		
-		this.input.append("div")
-			.attr("class", "searchClearer iconAfter")
-			.on("click", function(d){
-				holder.select("input.searchBar").node().value = "";
-				let artificialEvent = new Object();
-				artificialEvent.target = new Object();
-				artificialEvent.target.value = "";
-				handleKeypress(artificialEvent);
-			});
+			this.input.append("input")
+				.attr("class", "searchBar")
+				.attr("placeholder", function(){
+					if (name === "fictionality"){
+						return "Search fictionalities";
+					} else if (name === "selected"){
+						return "Search selected";
+					} else {
+						return "Search " + name + "s";
+					}
+				});
+			
+			this.input.append("div")
+				.attr("class", "searchClearer iconAfter")
+				.on("click", function(d){
+					holder.select("input.searchBar").node().value = "";
+					let artificialEvent = new Object();
+					artificialEvent.target = new Object();
+					artificialEvent.target.value = "";
+					handleKeypress(artificialEvent);
+				});
+		}
 
 		let resultHolder = results.append("div").attr("class", "resultHolder");
 		this.selectedHolder = resultHolder.append("div").attr("class", "selectedHolder");
@@ -138,17 +154,19 @@ class Dropdown {
 			}
 		});
 
-		this.fuse = new Fuse(this.compiledData, 
-			{keys: ["key"],
-			threshold: 0.3
-			}
-		);
+		if (this.hasSearch){
+			this.fuse = new Fuse(this.compiledData, 
+				{keys: ["key"],
+				threshold: 0.3
+				}
+			);
 
-		let handleKeypress = this.handleKeypress;
+			let handleKeypress = this.handleKeypress;
 
-		this.input.node().addEventListener('keyup', function (evt) {
-		    handleKeypress(evt);
-		});
+			this.input.node().addEventListener('keyup', function (evt) {
+			    handleKeypress(evt);
+			});
+		}
 
 		this.doSort();
 

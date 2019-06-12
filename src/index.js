@@ -211,10 +211,10 @@ function formatFictionality(array){
 
 function initControls(data, filteredData){
 
-	genderDropdown.init("gender");
+	genderDropdown.init("gender", false);
 	genreDropdown.init("genre");
 	motifDropdown.init("motif");
-	fictionalityDropdown.init("fictionality");
+	fictionalityDropdown.init("fictionality", false);
 	selectedDropdown.init("selected");
 	drawFilters();
 }

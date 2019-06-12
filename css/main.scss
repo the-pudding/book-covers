@@ -302,7 +302,7 @@ h2, h3 {
 }
 
 .resultHolder {
-	height: 150px;
+	height: 10em;
 	overflow: auto;
 }
 
@@ -332,6 +332,7 @@ h2, h3 {
 	position: absolute;
 	display: flex;
 	margin: 0.2em 0em;
+	width: 100%;
 }
 .result div {
 	white-space: nowrap;
@@ -342,12 +343,12 @@ h2, h3 {
 	white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    max-width: 125px;
+    max-width: 15vw;
 }
 
 .result div:nth-child(3n){
 	font-size: 0.65em;
-	line-height: 2.6em;
+	line-height: 2.8em;
 }
 
 
