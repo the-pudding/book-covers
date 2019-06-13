@@ -78,13 +78,18 @@ class Dropdown {
 			this.input.append("input")
 				.attr("class", "searchBar")
 				.attr("placeholder", function(){
-					if (name === "fictionality"){
-						return "Search fictionalities";
-					} else if (name === "selected"){
-						return "Search selected";
+					if (window.innerWidth > 450){
+						if (name === "fictionality"){
+							return "Search fictionalities";
+						} else if (name === "selected"){
+							return "Search selected";
+						} else {
+							return "Search " + name + "s";
+						}
 					} else {
-						return "Search " + name + "s";
+						return "Search...";
 					}
+					
 				});
 			
 			this.input.append("div")

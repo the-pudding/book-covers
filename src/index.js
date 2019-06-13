@@ -161,7 +161,9 @@ function setup(){
 	d3.select("#filter").on("click", function(d){
 		let filters = d3.select("#filters");
 		filters.classed("collapsed", filters.classed("collapsed") ? false : true);
-	})
+	});
+
+	d3.select("#clearAll").on("click", clickCallback);
 }
 
 
