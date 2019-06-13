@@ -55,7 +55,19 @@ function clickCallback(selectionName, selection){
 		}
 
 	} else {
-		if (selectionName === "all"){
+		if (selection.length === 0){
+			if (selectionName === "all"){
+				selections = 
+				{
+					"motifs": [],
+					"genre": [],
+					"fictionality": [],
+					"gender": []
+				};
+			} else {
+				selections[selectionName] = [];
+			}
+		} else if (selectionName === "all"){
 			let selectionArray = ["gender", "genre", "fictionality", "motifs"];
 			for (var i = 0; i < selectionArray.length; i++){
 				let selectName = selectionArray[i];
@@ -244,6 +256,7 @@ function drawFilters(){
 	selectedDropdown.setData(selectedTotal, selectedFiltered, 
 		selections["fictionality"].concat(selections["genre"].concat(selections["gender"].concat(selections["motifs"]))),
 		(newVal) => clickCallback("all", newVal));
+
 }
 
 function countSelected(genreArray, genderArray, fictArray, motifArray){

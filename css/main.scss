@@ -301,6 +301,18 @@ h2, h3 {
     margin-top: 0.6em;
 }
 
+.results button {
+	appearance: none;
+	-webkit-appearance: none;
+    width: calc(100% - 1.6em);
+    font-family: "Publica";
+    border: 1px solid #222;
+    font-family: 'Atlas Grotesk Web', sans-serif;
+    cursor: pointer;
+    position: absolute;
+    bottom: -2em;
+}
+
 .resultHolder {
 	height: 10em;
 	overflow: auto;
@@ -485,6 +497,7 @@ h2, h3 {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	padding-top: 0.2em;
+	padding-bottom: 1.6em;
 }
 
 #filters.collapsed {

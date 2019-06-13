@@ -48,9 +48,16 @@ class Dropdown {
 
 		let theSelect = this.holder.append("select");
 		theSelect.attr("id", name + "select");
-		theSelect.append("option").attr("value", "alphabetic").html("Sort Alphabetically");
-		theSelect.append("option").attr("value", "total").attr("selected", "true").html("Sort by Total Count");
-		theSelect.append("option").attr("value", "filtered").html("Sort by Filtered Count");
+
+		theSelect.append("option").attr("value", "alphabetic")
+			.html("Sort Alphabetically");
+
+		theSelect.append("option").attr("value", "total")
+			.attr("selected", "true")
+			.html("Sort by Total Count");
+
+		theSelect.append("option").attr("value", "filtered")
+			.html("Sort by Filtered Count");
 		
 		let changeSort = this.changeSort;
 		theSelect.on("change", function(d, e){
@@ -91,8 +98,22 @@ class Dropdown {
 				});
 		}
 
-		let resultHolder = results.append("div").attr("class", "resultHolder");
-		this.selectedHolder = resultHolder.append("div").attr("class", "selectedHolder");
+		let resultHolder = results.append("div")
+			.attr("class", "resultHolder");
+		this.selectedHolder = resultHolder.append("div")
+			.attr("class", "selectedHolder");
+	
+		let clearButton = results.append("button")
+			.text(function(){
+				if (name === "fictionality"){
+					return "Clear selected fictionalities";
+				} else if (name === "selected"){
+					return "Clear all selected";
+				} else {
+					return "Clear selected " + name + "s";
+				}
+			});
+
 	}
 
 	changeSort(name){
@@ -140,7 +161,9 @@ class Dropdown {
 
 		this.compiledData = this.totalData.map(function(d){
 			let filteredValue = filtered.find(function(e){
-				return e.key === d.key;
+				if (e && d && e.key && d.key){
+					return e.key === d.key;
+				}
 			});
 			let returnedObject = new Object();
 			returnedObject = d;
@@ -167,6 +190,13 @@ class Dropdown {
 			    handleKeypress(evt);
 			});
 		}
+
+		let cb = this.callback;
+
+		this.holder.select("button")
+			.on("click", function(){
+				cb([]);
+			});
 
 		this.doSort();
 
