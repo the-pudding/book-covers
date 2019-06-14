@@ -15,7 +15,7 @@
 				<input id="bookSearch" type="text" name="name" required minlength="4" placeholder="Search book titles and authors">
 				<div class="searchClearer iconAfter"></div>
 				<div class="searchResults hidden">
-					<div class="resultHolder"></div>
+					<div class="searchResultHolder"></div>
 				</div>
 			</div>
 		</div>
@@ -78,7 +78,7 @@
 				<p>
 					Book genres were determined using the GoodReads API. We looked at the most popular shelves on GoodReads and extracted any that were genre-related. Then we added “food” and “travel” as other options, as these seemed to be under-represented values potentially relating to non-fiction. A book’s genre is determined by which genre-related shelf the book appears most frequently on. Multiple spellings within the top shelves (e.g., “sci-fi” and “science fiction”) were consolidated into a single genre, as were sub-genres (e.g., “urban-fantasy” counted towards “fantasy). Shelves that represent hybrid genres, such as “historical-romance” were counted as points towards both genres (i.e. both “history” and “romance”).
 				</p>
-				<h4>Motif</h4>
+				<h4>Motifs</h4>
 				<p>
 					Motifs were extracted using the Google Vision API on the collected images. The top seven most frequently occuring motifs ("Font", "Poster", "Text", "Book cover", "Novel", "Movie", and "Book") were filtered out as they pointed to attempts to identify the nature of the image itself as opposed to the contents of the image.
 				</p>

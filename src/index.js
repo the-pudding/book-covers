@@ -149,7 +149,7 @@ function setup(){
     initControls(data, filteredData);
     searcher.init(
     	d3.select("#bookSearch").node(), 
-    	d3.select("#mainSearch .searchResults .resultHolder").node(), 
+    	d3.select("#mainSearch .searchResults .searchResultHolder").node(), 
     	loaded_data,
     	data_point => osd.goToBook(data_point));
 

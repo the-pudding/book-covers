@@ -110,7 +110,7 @@ a {
 }
 
 #bottomBar.fullyExpanded #projectDescription {
-	height: calc(100% - 4.2em);
+	height: calc(100% - 5em);
 	overflow: scroll;
 }
 
@@ -254,6 +254,7 @@ h2, h3 {
 
 #searchHolder {
 	flex: 2 0;
+	z-index: 2;
 }
 
 .searchHolder {
@@ -276,11 +277,13 @@ h2, h3 {
 }
 
 .searchResults {
-    color: #000;
-    padding: 0.5em;
+    color: #222;
     z-index: 100000000000000;
-    margin-top: 0.5em;
     margin-left: -0.5em;
+    margin-top: calc(0.2em + 1px);
+    background-color: #fff;
+    border-top: 1px solid #222;
+    padding: 0px;
 }
 
 .hidden{
@@ -388,6 +391,11 @@ h2, h3 {
 
 .resultHolder {
 	height: 10em;
+	overflow: auto;
+}
+
+.searchResultHolder {
+	max-height: 22em;
 	overflow: auto;
 }
 
@@ -827,123 +835,3 @@ h2, h3 {
 
 
 }
-/*
-@media (max-width: 600px), (max-device-width: 600px) {
-	html, body, .main {
-		font-size: calc(0.8em + 0.6vw);
-	}
-
-	.results {
-		right: 0px;
-	}
-
-	#gender .results, #fictionality .results {
-		left: 0px;
-		margin-left: 0px;
-		right: unset;
-	}
-
-	.controlBar {
-		display: grid;
-		grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-		grid-template-rows: 50% 50%;
-		grid-template-areas: 
-		    "search search search search search"
-		    "gender fictionality genre motif clear";
-	}
-
-	.barItem {
-		-webkit-flex: none;
-		-moz-flex: none;
-		-ms-flex: none;
-		-o-flex: none;
-		flex: none;
-		padding: 0.5em 0.3em;
-	}
-
-	#searchHolder {
-		grid-area: search;
-		margin: 0.2em;
-		border: none;
-	}
-
-	.barItem:not(#searchHolder){
-		border-top: solid 1px #222;
-	}
-
-	#gender {
-		grid-area: gender;
-	}
-
-	#fictionality {
-		grid-area: fictionality;
-	}
-
-	#genre {
-		grid-area: genre;
-	}
-
-	#motif {
-		grid-area: motif;
-	}
-
-	#clearAll {
-		grid-area: clear;
-	}
-
-	#clearAll h3:before {
-		content: "clear";
-	}
-
-	#mainSearch {
-		width: 100%;
-	}
-
-	#bookSearch {
-		width: calc(100% - 2em);
-	}
-
-	.results {
-		margin-top: 0.6em;
-	}
-
-	.results {
-		font-size: unset;
-	}
-
-	.result {
-		margin: 0.6em 0em;
-    	font-size: 1.1em;
-	}
-}
-
-@media (max-width: 450px){
-	.searchResults {
-		width: 100%;
-	}
-}
-
-@media (max-width: 375px){
-	.barItem h3 {
-		font-size: 1em;
-		line-height: 1.5em;
-	}
-	.iconAfter:after {
-		height: 1.5em;
-	}
-
-	#zoomBar {
-	    width: 3em;
-	    height: 6em;
-	}
-
-	#zoomBar > div {
-		height: 3em;
-	}
-
-	#zoomBar div > div {
-		height: 3em;
-	}
-}
-
-*/
