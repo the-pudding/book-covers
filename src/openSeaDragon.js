@@ -44,7 +44,7 @@ class OSD{
 		    zoomPerScroll:      1.2,
 		    zoomPerClick: 1,
 		    animationTime: 1,
-		    navigatorPosition:   "BOTTOM_LEFT",
+		    showNavigator: false,
 		    showHomeControl: false,
 		    showFullPageControl: false,
 		    showZoomControl: false,

@@ -16,9 +16,15 @@ input {
 	font-family: 'Atlas Grotesk Web', sans-serif;
 }
 
-h3, .barItem h3 {
+h3, .barItem h3, #projectDescription h3, h4 {
 	font-family: 'Canela Web';
     font-weight: 700;
+}
+
+a {
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    color: currentColor;
 }
 
 .main {
@@ -56,10 +62,57 @@ h3, .barItem h3 {
 }
 
 #bottomBar {
+	display: block;
 	bottom: 0px;
 	padding-bottom:0.2em;
+	overflow: hidden;
 }
 
+#bottomBar.readMore {
+	height: unset;
+}
+
+#bottomBar.fullyExpanded {
+	height: 100%;
+}
+
+#bottomBar .projectMethods {
+	display: none;
+}
+
+#bottomBar.fullyExpanded .projectMethods {
+	display: block;
+	height: calc(100% - 5em);
+}
+
+#bottomBarHolder {
+	display: flex;
+	border-bottom: 1px #222 solid;
+}
+
+#projectDescription {
+	padding: 0.2em;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#projectDescription h3 {
+	text-align: center;
+}
+
+.methodTitle {
+	cursor: pointer;
+}
+
+.methodTitle::after {
+	-webkit-mask-image:  url("~./../images/chevron-up.svg");
+    mask-image:  url("~./../images/chevron-up.svg");
+}
+
+#bottomBar.fullyExpanded #projectDescription {
+	height: calc(100% - 4.2em);
+	overflow: scroll;
+}
 
 .barItem {
     display: inline-block;
@@ -68,6 +121,10 @@ h3, .barItem h3 {
     color: #222;
     position: relative;
     flex: 0 1;
+}
+
+.byline {
+	text-align: center;
 }
 
 #zoomer {
@@ -97,6 +154,7 @@ h3, .barItem h3 {
 	font-family: 'Canela Web';
     font-weight: 700;
     padding-left: 0.2em;
+    cursor: pointer;
 }
 
 #title h3{
@@ -463,6 +521,11 @@ h2, h3 {
     mask-image:  url("~./../images/help-circle.svg");
 }
 
+.readMore #title h3::before, .fullyExpanded #title h3::before {
+    -webkit-mask-image: url("~./../images/x-circle.svg");
+    mask-image: url("~./../images/x-circle.svg");
+}
+
 .searchClearer {
 	position: absolute;
 	right: 0.2em;
@@ -637,6 +700,15 @@ h2, h3 {
 	mask-image:  url("~./../images/minus.svg");
 }
 
+#hiddenLogo {
+	position: absolute;
+	bottom: 4.5em;
+    width: 6em;
+	left: 0.4em;
+	display: none;
+	filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.8));
+}
+
 @media (max-width: 800px){
 	#filters {
 		grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -720,6 +792,10 @@ h2, h3 {
 
 	#logo {
 		display: none;
+	}
+
+	#hiddenLogo {
+		display: block;
 	}
 
 	#title h3 {

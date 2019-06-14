@@ -159,11 +159,34 @@ function setup(){
 	});
 
 	d3.select("#filter").on("click", function(d){
+		//toggle the button's class so as to switch the caret direction
+		d3.select(this).classed("closed", d3.select(this).classed("closed") ? false : true);
+		//collapse/expand the filter div
 		let filters = d3.select("#filters");
 		filters.classed("collapsed", filters.classed("collapsed") ? false : true);
 	});
 
 	d3.select("#clearAll").on("click", clickCallback);
+
+	//expand our bottom bar so we see our little description
+	d3.select("#title").on("click", function(){
+		if (!d3.select("#bottomBar").classed("readMore") && !d3.select("#bottomBar").classed("fullyExpanded")){
+			d3.select("#bottomBar").classed("readMore", true);
+		} else {
+			d3.select("#bottomBar").classed("readMore", false);
+			d3.select("#bottomBar").classed("fullyExpanded", false);
+		}
+	});
+
+	//expand our bottom bar so it fills the whole screen
+	d3.select(".readMore").on("click", function(){
+		d3.select("#bottomBar").classed("fullyExpanded", true);
+	});
+
+	//close the method stuff when we click the "method" heading
+	d3.select(".methodTitle").on("click", function(){
+		d3.select("#bottomBar").classed("fullyExpanded", false);
+	});
 }
 
 
