@@ -16,6 +16,7 @@ class OSD{
 		this.selections;
 		this.cb; //on click callback to passed to overlay
 		this.zoomLevel; //variable to keep track of zoom level;
+		this.clickedBookData = null;
 
 		this.handleClick = this.handleClick.bind(this);
 		this.findBook = this.findBook.bind(this);
@@ -113,11 +114,14 @@ class OSD{
 		})
 	}
 
+	//called from index.js when things are filtered
 	updateData(unfilteredData, filteredData, selections){
 		this.filteredData = filteredData;
 		this.unfilteredData = unfilteredData;
 		this.selections = selections;
-		updateOverlay(this.selections);
+		if (this.clickedBookData){
+			updateOverlay(this.clickedBookData, this.selections);
+		}
 		this.updateFilterOverlays();
 	}
 
@@ -132,11 +136,13 @@ class OSD{
 			let padding = viewer.viewport.getZoom() <= 2.5 ? 5 : 2;
 
 		    canvas.context2d().fillStyle =  "rgba(0, 0, 0, 0.8)";
+		    //draw rectangles over filtered out books
 		    for (var i = 0; i < filteredData.length; i++){
 		    	let x = filteredData[i]["grid_point"][0]/85 * 28050;
 		    	let y = filteredData[i]["grid_point"][1]/64 * 31680;
 		    	canvas.context2d().fillRect(x - padding, y - padding, 28050/85 + padding * 2, 31680/64 + padding * 2);            
 		    }
+		    //draw a rect around the grid so we don't get a bright outline
 		    if (viewer.viewport.getZoom() < 10) {
 		    	canvas.context2d().strokeStyle =  "rgba(0, 0, 0, 1)";
 			    canvas.context2d().lineWidth = 100;
@@ -165,6 +171,9 @@ class OSD{
 				closeOpenThings();
 			}
 			
+			//we'll pass the data to the overlay inside the timeout so "closeOpenThings" doesn't nullifying it inadvertently
+			let setClickedBookData = (val) => this.clickedBookData = val;
+
 			//handle mobile-like screens a bit differently
 			if (window.innerWidth > 450){
 				this.viewer.viewport.zoomTo(30, new OpenSeadragon.Point(gridPos[0]/85 + (1/85/2), gridPos[1] * (1.13/64) + 1.13/64/2));
@@ -187,9 +196,18 @@ class OSD{
 						closeOpenThings();
 					}
 
+					setClickedBookData(clickedBook);
+					//we compute the overlay position and width using osd
+					//it can be a pain compared to using css, but trying
+					//to get around it is more difficult
 					let overlayLocation;
+					//display the overlay in diff positions based on screen dimensions
 					if (window.innerWidth > 450){
-						overlayLocation = new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05) + 0.0015, gridPos[1] * (1.13/64) + (1.13/64/3));
+						if (window.innerHeight > 400){
+							overlayLocation = new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05) + 0.0015, gridPos[1] * (1.13/64) + (1.13/64/3));
+						} else {
+							overlayLocation = new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05) + 0.0015, gridPos[1] * (1.13/64) + (1.13/64/20));
+						}
 					} else {
 						let bounds = viewer.viewport.getBounds();
 						overlayLocation = new OpenSeadragon.Point(gridPos[0]/85 - 0.00235, bounds.y + bounds.height/2);
@@ -207,6 +225,7 @@ class OSD{
 		}
 	}
 
+	//if we click on the canvas, try to find what book we're on
 	handleClick(event){
 		if (event.originalEvent.target.tagName === "CANVAS"){
 			let position = [event.position.x, event.position.y];
@@ -240,17 +259,18 @@ class OSD{
 		this.zoomLevel = event.zoom;	
 	}	
 
+	//hide search results if we start panning around
 	handlePan(event){
 		if (d3.select("#mainSearch .searchResults").classed("hidden") === false) {
 			d3.select("#mainSearch .searchResults").classed("hidden", true);
 		}
 	}
 
-
+	//close the search and remove existing overlay
 	closeOpenThings(){
 		this.viewer.removeOverlay("currentOverlay");
-		d3.selectAll(".dropDown").classed("closed", true);
 		d3.select("#mainSearch .searchResults").classed("hidden", true);
+		this.clickedBookData = null;
 	}
 
 

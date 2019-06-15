@@ -237,8 +237,15 @@ h2, h3 {
 .overlayInfoDiv > p span:first-child {
 	font-weight: bold;
 }
+
 .overlayInfoDiv p span:not(:first-child) {
 	text-transform: lowercase;
+}
+
+.filteredOutMessage{
+	color: #666;
+	font-style: italic;
+	margin-top: 0px;
 }
 
 #mainSearch {
@@ -564,10 +571,6 @@ h2, h3 {
 
 #clearAll h3:before {
 	content: "clear all";
-}
-
-.spacer {
-  flex-grow: 1;
 }
 
 .closed .results{

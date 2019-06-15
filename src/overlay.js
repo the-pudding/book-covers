@@ -2,6 +2,7 @@ import * as d3 from "d3-selection";
 
 function makeOverlay(data, selections, callback, closeCallback)
 {
+	let isFilteredOut = checkIfFilteredOut(data, selections);
 	let elt = document.createElement("div");
 	let element = d3.select(elt)
 				.attr("class", "overlay")
@@ -36,10 +37,17 @@ function makeOverlay(data, selections, callback, closeCallback)
 
 	}
 
+
 	let closer = element.append("div")
 		.attr("class", "closer iconAfter")
-		.on("click", closeCallback)
+		.on("click", closeCallback);
 
+	//make a little message we show if it's filtered out
+	let filteredOut = element.append("p")
+		.attr("class", isFilteredOut ? "filteredOutMessage" : "filteredOutMessage hidden")
+		.html("(Currently hidden based on current filter selections.)");
+
+	//make some lists of chips that can be clicked to filter data
 	let fictionalityDiv = element.append("div")
 		.attr("class", "overlayInfoDiv")
 		.attr("id", "fictionalityOverlayDiv");
@@ -71,7 +79,56 @@ function makeOverlay(data, selections, callback, closeCallback)
 	return elt;
 }
 
-function updateOverlay(selections){
+//check if the book is filtered out
+function checkIfFilteredOut(data, selections){
+	if (selections["genre"].length === 0 && selections["gender"].length === 0 &&
+		selections["fictionality"].length === 0 && selections["motifs"].length === 0){
+		return false;
+	} else {
+		//if we're filtering out by fiction/non-fiction, go by that
+		if (selections["fictionality"].length === 1){
+			if (selections["fictionality"][0] === "fiction"){
+				if (data["is_fiction"] === 0){
+					return true;
+				}
+			} else {
+				if (data["is_fiction"] === 1){
+					return true;
+				}
+			}
+		};
+		
+		if (selections["gender"].length > 0){
+			if (!selections["gender"].includes(data["gender"])){
+				return true;
+			}
+		}
+
+		if (selections["genre"].length > 0){
+			if (!selections["genre"].includes(data["genre"])){
+				return true;
+			}
+		}
+
+		if (selections["motifs"].length > 0){
+			if (selections["motifs"].filter(value => data["labels"].includes(value)).length === 0){
+				return true;
+			}
+		}
+
+		return false;
+	}
+}
+
+function updateOverlay(data, selections){
+	let isFilteredOut = checkIfFilteredOut(data, selections);
+
+	if (isFilteredOut){
+		d3.select(".filteredOutMessage").classed("hidden", false);
+	} else {
+		d3.select(".filteredOutMessage").classed("hidden", true);
+	}
+
 	if (d3.select("#currentOverlay").node()){
 		updateChipClass("genderOverlayDiv", selections["gender"]);
 
@@ -84,6 +141,7 @@ function updateOverlay(selections){
 	}
 }
 
+//did we just toggle this value from unselected > selected or vise versa?
 function updateChipClass(holder, selectionArray){
 	d3.select("#" + holder)
 		.selectAll(".chip")
