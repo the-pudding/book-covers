@@ -16,9 +16,9 @@ input {
 	font-family: 'Atlas Grotesk Web', sans-serif;
 }
 
-h3, .barItem h3, #projectDescription h3, h4 {
+h1, h2, h3, h4, .barItem h3, #projectDescription h3 {
 	font-family: 'Canela Web';
-    font-weight: 700;
+    font-weight: 700 !important;
 }
 
 a {
@@ -59,13 +59,14 @@ a {
 
 #topBar {
     top: 0px;
+    border-bottom: 1px solid #222;
 }
 
 #bottomBar {
 	display: block;
 	bottom: 0px;
-	padding-bottom:0.2em;
 	overflow: hidden;
+	border-top: 1px solid #222;
 }
 
 #bottomBar.readMore {
@@ -178,8 +179,8 @@ a {
 
 .closer {
 	position: absolute;
-    top: 0.1em;
-    right: 0.1em;
+    top: 0.2em;
+    right: 0.2em;
     font-size: 1.5em;
     cursor: pointer;
 }
@@ -199,25 +200,24 @@ h2, h3 {
 }
 
 
-
-
 .overlay {
 	background-color: #fff;
 	width: 50%;
-    padding: 1em 0.75em;
+    padding: 0.75em;
     z-index: 100000;
     border: 2px solid;
     font-size: 0.8rem;
 }
 
 .overlay h1 {
-	font-size: 1.5rem;
-	border-bottom: 2px solid #444;
+	font-size: 1.75em;
+	border-bottom: 1px solid #222;
 }
 
 .overlay h2 {
-
-	font-size: 1.25rem;
+	font-size: 1.25em;
+	display: inline-block;
+	margin-right: 0.5em;
 }
 
 .overlayHeader {
@@ -226,6 +226,7 @@ h2, h3 {
 
 .overlayInfoDiv {
 	margin-bottom: 0px;
+	display: inline-block;
 }
 
 .overlayInfoDiv p {
@@ -584,6 +585,7 @@ h2, h3 {
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	padding-top: 0.2em;
 	padding-bottom: 1.6em;
+	border-bottom: 1px solid #222;
 }
 
 #filters.collapsed {
@@ -622,6 +624,7 @@ h2, h3 {
 	background-color: #444;
     color: #fff;
     border: 2px solid #444;
+    font-size: 0.8em;
 }
 
 .chip.unselectedFilter {

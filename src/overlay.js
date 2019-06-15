@@ -12,24 +12,33 @@ function makeOverlay(data, selections, callback, closeCallback)
 		.append("h1")
 		.html(data.title);
 
+	//like /one/ book doesn't have an author associated
 	if (data["author"]){
 		let byline = element.append("div")
-			.attr("class", "overlayHeader")
+			.attr("class", "overlayHeader");
+
+		byline
 			.append("h2")
-			.html("by " + data.author);
+			.html("by " + data.author + " ");
+
+		makeChip(byline, data["gender"], selections["gender"],
+					 (val) => callback("gender", val));
+	} else {
+		//if there's no author, display gender like the other chips
+		let genderDiv = element.append("div")
+		.attr("class", "overlayInfoDiv")
+		.attr("id", "genderOverlayDiv");
+
+		let genderP = genderDiv.append("p");
+		genderP.append("span").html("Author's Gender: ");
+		makeChip(genderDiv, data["gender"], selections["gender"],
+					 (val) => callback("gender", val));
+
 	}
 
 	let closer = element.append("div")
 		.attr("class", "closer iconAfter")
 		.on("click", closeCallback)
-
-	let genderDiv = element.append("div")
-		.attr("class", "overlayInfoDiv")
-		.attr("id", "genderOverlayDiv");
-	let genderP = genderDiv.append("p");
-	genderP.append("span").html("Author's Gender: ");
-	makeChip(genderDiv, data["gender"], selections["gender"],
-				 (val) => callback("gender", val));
 
 	let fictionalityDiv = element.append("div")
 		.attr("class", "overlayInfoDiv")

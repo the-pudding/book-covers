@@ -189,10 +189,10 @@ class OSD{
 
 					let overlayLocation;
 					if (window.innerWidth > 450){
-						overlayLocation = new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05) + 0.0015, gridPos[1] * (1.13/64));
+						overlayLocation = new OpenSeadragon.Point(gridPos[0]/85 + (1/85/1.05) + 0.0015, gridPos[1] * (1.13/64) + (1.13/64/3));
 					} else {
 						let bounds = viewer.viewport.getBounds();
-						overlayLocation = new OpenSeadragon.Point(gridPos[0]/85 - 0.00225, bounds.y + bounds.height/2 + 0.00015);
+						overlayLocation = new OpenSeadragon.Point(gridPos[0]/85 - 0.00235, bounds.y + bounds.height/2);
 					}
 
 					viewer.addOverlay({
@@ -210,7 +210,7 @@ class OSD{
 	handleClick(event){
 		if (event.originalEvent.target.tagName === "CANVAS"){
 			let position = [event.position.x, event.position.y];
-			if ((Math.abs(position[0] - this.currentPos[0]) < 10) && (Math.abs(position[1] - this.currentPos[1]) < 10)){
+			if ((Math.abs(position[0] - this.currentPos[0]) < 15) && (Math.abs(position[1] - this.currentPos[1]) < 15)){
 				let pointPos = this.viewer.viewport.pointFromPixel(event.position);
 				let percentPos = [pointPos.x/1, pointPos.y/1.13];
 				//we know from our python file that our grid has 85 columns and 64 rows
