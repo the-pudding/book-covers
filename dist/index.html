@@ -60,27 +60,27 @@
 				<h3 class="iconAfter methodTitle">Methods</h3>
 				<h4>Criteria for Inclusion</h4>
 				<p>
-					The books included in this piece come from the New York Times books API. These books appeared on the "Best Selling" and "Also Selling" lists between June 2008 (the first list accessible via API) and June 2019. Only books on the hardcover fiction and non-fiction lists are included. This is to avoid instances of multiple entries of both the hardcover and softcover version of the same book, despite the face that it may introduce a bias against books that were published only in softcover.
+					The books included in this piece come from the <a href="https://developer.nytimes.com/docs/books-product/1/overview" target="_blank">New York Times books API</a>. These books appeared on the "Best Selling" and "Also Selling" lists between June 2008 (the first list accessible via API) and June 2019. Only books on the hardcover fiction and non-fiction lists are included. This is to avoid instances of multiple entries of both the hardcover and softcover version of the same book, despite the face that it may introduce a bias against books that were published only in softcover.
 				</p>
 				<h4>Imagery</h4>
 				<p>
-					Wherever possible, the cover image used for each book comes from the NYT API response associated with the first recorded entry of a given book. Some books have either no cover image included in their API response, or the image is a publisher’s placeholder photo for an upcoming release. For these books, we used various sources, including Open Library and archive.org.
+					Wherever possible, the cover image used for each book comes from the NYT API response associated with the first recorded entry of a given book. Some books have either no cover image included in their API response, or the image is a publisher’s placeholder photo for an upcoming release. For these books, we used various sources, including <a href="https://openlibrary.org/" target="_blank">Open Library</a> and <a href="https://archive.org/" target="_blank">archive.org</a>.
 				</p>
 				<h4>Arrangement</h4>
 				<p>
-					The covers were arranged by visual similarity using the t-distributed stochastic neighbor embedding (t-SNE) algorithm, and then placed in a grid using Mario Klingemann’s RasterFairy library. The resulting image is made explorable using the OpenSeadragon library.
+					The covers were arranged by visual similarity using the t-distributed stochastic neighbor embedding (t-SNE) algorithm, and then placed in a grid using <a href="https://github.com/Quasimondo/RasterFairy" target="_blank">Mario Klingemann’s RasterFairy library</a>. The resulting image is made explorable using the <a href="https://openseadragon.github.io/" target="_blank">OpenSeadragon library</a>.
 				</p>
 				<h4>Gender</h4>
 				<p>
-					Each author’s likely gender was determined using the genderize API. Authors were either determined to be male, female, indeterminable or collaborations. There are some limitations to this method, as it would result in well-known authors writing under pseudonyms, like J.K. Rowling, to be misclassified. Similarly, authors with non-Western names, like Norwegian author Jo Nesbø, are incorrectly gendered. Non-binary authors are also not identified. Despite these problems, the results are uncorrected so as to correspond to what a shopper might immediately assume on first glance at a book cover.
+					Each author’s likely gender was determined using the <a href="https://genderize.io/" target="_blank">genderize API</a>. Authors were either determined to be male, female, indeterminable or collaborations. There are some limitations to this method, as it would result in well-known authors writing under pseudonyms, like J.K. Rowling, to be misclassified. Similarly, authors with non-Western names, like Norwegian author Jo Nesbø, are incorrectly gendered. Non-binary authors are also not identified. Despite these problems, the results are uncorrected so as to correspond to what a shopper might immediately assume on first glance at a book cover.
 				</p>
 				<h4>Genre</h4>
 				<p>
-					Book genres were determined using the GoodReads API. We looked at the most popular shelves on GoodReads and extracted any that were genre-related. Then we added “food” and “travel” as other options, as these seemed to be under-represented values potentially relating to non-fiction. A book’s genre is determined by which genre-related shelf the book appears most frequently on. Multiple spellings within the top shelves (e.g., “sci-fi” and “science fiction”) were consolidated into a single genre, as were sub-genres (e.g., “urban-fantasy” counted towards “fantasy). Shelves that represent hybrid genres, such as “historical-romance” were counted as points towards both genres (i.e. both “history” and “romance”).
+					Book genres were determined using the <a href="https://www.goodreads.com/api" target="_blank">GoodReads API</a>. We looked at the most popular shelves on GoodReads and extracted any that were genre-related. Then we added “food” and “travel” as other options, as these seemed to be under-represented values potentially relating to non-fiction. A book’s genre is determined by which genre-related shelf the book appears most frequently on. Multiple spellings within the top shelves (e.g., “sci-fi” and “science fiction”) were consolidated into a single genre, as were sub-genres (e.g., “urban-fantasy” counted towards “fantasy). Shelves that represent hybrid genres, such as “historical-romance” were counted as points towards both genres (i.e. both “history” and “romance”).
 				</p>
 				<h4>Motifs</h4>
 				<p>
-					Motifs were extracted using the Google Vision API on the collected images. The top seven most frequently occuring motifs ("Font", "Poster", "Text", "Book cover", "Novel", "Movie", and "Book") were filtered out as they pointed to attempts to identify the nature of the image itself as opposed to the contents of the image.
+					Motifs were extracted using the <a href="https://cloud.google.com/vision/" target="_blank">Google Vision API</a> on the collected images. The top seven most frequently occuring motifs ("Font", "Poster", "Text", "Book cover", "Novel", "Movie", and "Book") were filtered out as they pointed to attempts to identify the nature of the image itself as opposed to the contents of the image.
 				</p>
 			</div>
 		</div>
