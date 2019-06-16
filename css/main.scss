@@ -266,6 +266,7 @@ h2, h3 {
 }
 
 .searchHolder {
+	height: 1.2em;
 	margin-bottom: 0.6em;
 }
 
@@ -379,18 +380,18 @@ h2, h3 {
 	font-size: 0.8rem;
     z-index: 10000;
     margin-top: 0.6em;
+    position: relative;
 }
 
 .results button, #clearAll {
 	appearance: none;
 	-webkit-appearance: none;
-    width: calc(100% - 1.6em);
+    width: 100%;
     font-family: "Publica";
     border: 1px solid #222;
     font-family: 'Atlas Grotesk Web', sans-serif;
     cursor: pointer;
-    position: absolute;
-    bottom: -2em;
+    margin-top: 0.6em;
 }
 
 #clearAll {
@@ -400,6 +401,11 @@ h2, h3 {
 .resultHolder {
 	height: 10em;
 	overflow: auto;
+	margin-bottom:1.8em;
+}
+
+.searchHolder + .resultHolder {
+	margin-bottom: 0px;
 }
 
 .searchResultHolder {
@@ -587,7 +593,6 @@ h2, h3 {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	padding-top: 0.2em;
-	padding-bottom: 1.6em;
 	border-bottom: 1px solid #222;
 }
 
@@ -733,14 +738,13 @@ h2, h3 {
 	}
 
 	.results button {
-		width: calc(100% - 2em);
 		font-size: 0.65em;
 		padding: 1px 2px 2px;
 	}
 
 }
 
-@media (max-width: 725px){
+@media (max-width: 600px){
 	#bottomBar {
 		height: 3em;
 	}
@@ -794,10 +798,16 @@ h2, h3 {
     	padding-left: 0.5em;
 	}
 
+	#filters {
+		padding-bottom: 2em;
+	}
+
 	#clearAll {
 		display: block;
 		bottom: 0.5em;
     	margin-left: 0.8em;
+    	width: calc(100% - 1.6em);
+	    position: absolute;
 	}
 
 	.resultHolder {
