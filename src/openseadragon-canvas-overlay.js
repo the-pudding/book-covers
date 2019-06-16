@@ -1,3 +1,8 @@
+/*
+not my code -- see https://github.com/altert/OpenSeadragonCanvasOverlay
+did modify to add ability to redraw on command
+*/
+
 // OpenSeadragon canvas Overlay plugin 0.0.2 based on svg overlay plugin
 
 (function() {

@@ -10,7 +10,7 @@ class Searcher{
 		this.fuse;
 		this.results = [];
 
-		this.callback; //unbound function
+		this.callback; //unbound function from index
 
 		this.init = this.init.bind(this);
 		this.handleKeypress = this.handleKeypress.bind(this);
@@ -22,6 +22,7 @@ class Searcher{
 		this.searchHolder = searchHolder;
 		this.resultsHolder = resultsHolder;
 		this.callback = callback;
+		//simplify data so it's easier to search etc.
 		this.data = data.map(obj =>{ 
 		   var newObj = {};
 		   newObj["author"] = obj.author;
@@ -29,6 +30,8 @@ class Searcher{
 		   newObj["grid_point"] = obj.grid_point;
 		   return newObj;
 		});
+
+		//searcher
 		this.fuse = new Fuse(this.data, 
 				{keys: ["author", "title"],
 				threshold: 0.3

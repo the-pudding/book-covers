@@ -4,23 +4,21 @@ import Fuse from "fuse.js";
 
 class Dropdown {
 	constructor() {
-		this.holder;
-		this.selectedHolder;
-		this.unselectedHolder;
-		this.input;
+		this.holder;//top-level holder
+		this.selectedHolder;//where the options in the list go
+		this.input;//the search bar, if we have it
 		this.fuse;
 		this.searchEmpty = true;
 		this.hasSearch = true;
 
-		this.name;
+		this.name;//i.e. gender, genre etc.
 
-		this.totalData;
+		this.totalData;//unfiltered
         this.filteredData;
-        this.selection = [];
-        this.compiledData;
-        this.selectedValues = [];
-        this.unselectedValues = [];
-        this.results = [];
+        this.selection = [];//values selected in index.js
+        this.compiledData;//data we've formatted/operated on
+        this.selectedValues = [];//formatted values representing what is currently selected
+        this.results = [];//the div that holds the selectable values
 
         this.callback;
 
@@ -30,7 +28,7 @@ class Dropdown {
        	this.handleKeypress = this.handleKeypress.bind(this);
         this.setData = this.setData.bind(this);
         this.draw = this.draw.bind(this);
-        this.drawOnePanel = this.drawOnePanel.bind(this);
+        this.drawOnePanel = this.drawOnePanel.bind(this);//draw our selections
         this.changeSort = this.changeSort.bind(this);
         this.doSort = this.doSort.bind(this);
 
@@ -42,10 +40,13 @@ class Dropdown {
 		this.name = name;
 		this.holder.append("h3").html(name);
 
+		//we want the option to not have things searchable
+		//if we knot for sure it's a short list of options
 		if (hasSearch !== undefined){
 			this.hasSearch = hasSearch;
 		}
 
+		//sort toggle
 		let theSelect = this.holder.append("select");
 		theSelect.attr("id", name + "select");
 
@@ -67,7 +68,6 @@ class Dropdown {
 
 		let holder = this.holder;
 		let handleKeypress = this.handleKeypress;
-
 
 		let results = this.holder.append("div").attr("class", "results");
 		
@@ -94,6 +94,7 @@ class Dropdown {
 					
 				});
 			
+			//empty the search area when we click the clear icon
 			this.input.append("div")
 				.attr("class", "searchClearer iconAfter")
 				.on("click", function(d){
@@ -105,6 +106,7 @@ class Dropdown {
 				});
 		}
 
+		//little legend... no functionality
 		let legend = results.append("div")
 			.attr("class", "filtTotal")
 			.append("p")
@@ -115,6 +117,8 @@ class Dropdown {
 		this.selectedHolder = resultHolder.append("div")
 			.attr("class", "selectedHolder");
 
+		//buttons at the bottom of each column to clear selections
+		//functionality added in setData
 		let clearButton = results.append("button")
 			.text(function(){
 				if (name === "fictionality"){
@@ -135,7 +139,7 @@ class Dropdown {
 	}
 
 	doSort(){
-		//are we searching by the compiledData or filtered data
+		//are we searching by the total data or filtered data or alphabetically?
 		let theSortByData = this.searchEmpty ? this.compiledData : this.results;
 		if (this.sort === "total"){
 			theSortByData = theSortByData.sort(function(a, b){
@@ -158,7 +162,7 @@ class Dropdown {
 		this.draw();
 	}
 
-
+	//called from index on load, and when selection filters have changed
 	setData(total, filtered, selection, callback){
 
 		if (selection.length === 0){
@@ -171,6 +175,7 @@ class Dropdown {
 		this.selection = selection;
 		this.callback = callback;
 
+		//format the data
 		this.compiledData = this.totalData.map(function(d){
 			let filteredValue = filtered.find(function(e){
 				if (e && d && e.key && d.key){
@@ -189,6 +194,7 @@ class Dropdown {
 			}
 		});
 
+		//make a search object using the fuse library and add a key listener
 		if (this.hasSearch){
 			this.fuse = new Fuse(this.compiledData, 
 				{keys: ["key"],
@@ -205,11 +211,13 @@ class Dropdown {
 
 		let cb = this.callback;
 
+		//when we hit the clear button at the bottom, set selection to []
 		this.holder.select("button")
 			.on("click", function(){
 				cb([]);
 			});
 
+		//resort
 		this.doSort();
 
 	}
@@ -218,6 +226,7 @@ class Dropdown {
 		this.drawOnePanel(this.selectedHolder, this.selectedValues, this.callback);
 	}
 
+	//draw out options :)
 	drawOnePanel(holder, values, callback){
 		let theSelected = this.selection;
 
@@ -227,6 +236,8 @@ class Dropdown {
 
 		panel.exit().remove();
 
+		//doing this as absolutely positioned so we can update the vals rather than 
+		//redrawing everything
 		panel
 		.style("top", function(d, i){ return i * 2 + "em"})
 		.each(function(d){
@@ -261,6 +272,7 @@ class Dropdown {
 	}
 
 
+	//handle input in search bar
 	handleKeypress(event){
 		if (event.target.value.length > 2){
 			this.results = this.fuse.search(event.target.value);
@@ -276,7 +288,7 @@ class Dropdown {
 		if (event.keycode || event.which){
 			var code = (event.keyCode ? event.keyCode : event.which);
 			if(code == 13) { 
-			   //Enter keycode
+			   //Enter keycode -- no need rn
 			}
 		}
 	}

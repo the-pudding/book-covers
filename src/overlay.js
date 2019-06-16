@@ -1,5 +1,6 @@
 import * as d3 from "d3-selection";
 
+//draw the little pop-up that appears when we click on a book
 function makeOverlay(data, selections, callback, closeCallback)
 {
 	let isFilteredOut = checkIfFilteredOut(data, selections);
@@ -37,7 +38,7 @@ function makeOverlay(data, selections, callback, closeCallback)
 
 	}
 
-
+	//close the popup
 	let closer = element.append("div")
 		.attr("class", "closer iconAfter")
 		.on("click", closeCallback);
@@ -120,6 +121,7 @@ function checkIfFilteredOut(data, selections){
 	}
 }
 
+//update the chips
 function updateOverlay(data, selections){
 	let isFilteredOut = checkIfFilteredOut(data, selections);
 

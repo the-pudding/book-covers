@@ -70,6 +70,7 @@ class OSD{
 		    new OpenSeadragon.MouseTracker({
 		        element: 'openseadragon',
 		        scrollHandler: function(event) {
+		        	//if we scroll while a popup is open, hide it
 		        	let openHandler = document.querySelector(".overlay");
 		        	if (openHandler){
 		        		closeOpenThings();
@@ -125,6 +126,7 @@ class OSD{
 		this.updateFilterOverlays();
 	}
 
+	//update the little squares that go over filtered out books
 	updateFilterOverlays(){
 		let canvas = this.canvas;
 		let viewer = this.viewer;
@@ -153,8 +155,8 @@ class OSD{
 		};
 		this.canvas.redraw();
 
-
 	}
+
 
 	goToBook(gridPos){
 		let viewport = this.viewer.viewport;
@@ -171,7 +173,7 @@ class OSD{
 				closeOpenThings();
 			}
 			
-			//we'll pass the data to the overlay inside the timeout so "closeOpenThings" doesn't nullifying it inadvertently
+			//we'll pass the data to the overlay inside the timeout so "closeOpenThings" doesn't nullify it inadvertently
 			let setClickedBookData = (val) => this.clickedBookData = val;
 
 			//handle mobile-like screens a bit differently

@@ -1,18 +1,18 @@
 import 'array-flat-polyfill';
 import {select, selectAll} from "d3-selection";
 import {nest} from "d3-collection";
-const d3 = {select, selectAll, nest};
-
+const d3 = {select, selectAll, nest}; //to simplify how we call these funcs
 import countby from 'lodash.countby';
 import OSD from "./openSeaDragon.js";
 
+//our classes
 import Dropdown from "./dropdown.js";
 import Searcher from "./search.js";
 
 import css from './../css/main.scss';
 import loaded_data from "./../data/json_output.json";
 
-let data = [];
+let data = []; //unfiltered
 let filteredData = [];
 
 //selections
@@ -24,11 +24,13 @@ let selections =
 	"gender": []
 }
 
+//our filters... haven't updated the nomanclature despite change in appearance
 let genderDropdown = new Dropdown();
 let genreDropdown = new Dropdown();
 let fictionalityDropdown = new Dropdown();
 let motifDropdown = new Dropdown();
 let selectedDropdown = new Dropdown();
+
 let searcher = new Searcher();
 
 let osd = new OSD();
@@ -51,6 +53,7 @@ function clickCallback(selectionName, selection){
 				"gender": []
 			};
 		} else {
+			//we can also clear just one type of selection
 			selections[selectionName] = [];
 		}
 
@@ -69,6 +72,9 @@ function clickCallback(selectionName, selection){
 			}
 		} else if (selectionName === "all"){
 			let selectionArray = ["gender", "genre", "fictionality", "motifs"];
+			//thankfully, all our options have unique names, 
+			//so when we're deselecting from "all" selection menu, we
+			//can just search by name... worth keeping an eye on though
 			for (var i = 0; i < selectionArray.length; i++){
 				let selectName = selectionArray[i];
 				if (selections[selectName].find(function(d){ return d === selection})){
@@ -77,6 +83,7 @@ function clickCallback(selectionName, selection){
 				}
 			}
 		} else {
+			//add or remove selections
 			if (!selections[selectionName].find(function(d){ return d === selection})){
 				selections[selectionName].push(selection);
 			} else {
@@ -88,6 +95,8 @@ function clickCallback(selectionName, selection){
 	filterData();
 }
 
+//a simplified function to filter out values when a gender or genre is
+//selected as an input value
 function doSelectionFilter(value, cat){
 	if (selections[value].length > 0){
 		filteredData = filteredData.filter(function(d){
@@ -100,6 +109,7 @@ function doSelectionFilter(value, cat){
 	}
 }
 
+//upper level function to filter data when selections are changed
 function filterData(){
 	filteredData = data;
 	if (selections["motifs"].length > 0){
@@ -146,7 +156,8 @@ function setup(){
 
 	data = loaded_data.filter(function(e){ return e["grid_point"] !== undefined});
     filteredData = data;
-    initControls(data, filteredData);
+    initControls(data, filteredData); //draw our filters
+    //initialize our main searcher at the top of the page
     searcher.init(
     	d3.select("#bookSearch").node(), 
     	d3.select("#mainSearch .searchResults .searchResultHolder").node(), 
@@ -166,6 +177,8 @@ function setup(){
 		filters.classed("collapsed", filters.classed("collapsed") ? false : true);
 	});
 
+	//clear all selections when the big clearAll button is clicked
+	//(note > only visible on smaller screens)
 	d3.select("#clearAll").on("click", clickCallback);
 
 	//expand our bottom bar so we see our little description
@@ -189,7 +202,20 @@ function setup(){
 	});
 }
 
+function initControls(data, filteredData){
 
+	genderDropdown.init("gender", false);
+	genreDropdown.init("genre");
+	motifDropdown.init("motif");
+	fictionalityDropdown.init("fictionality", false);
+	selectedDropdown.init("selected");
+	drawFilters();
+}
+
+/*start of helper functions for finding how many books
+match given filter*/
+
+//helper function to see how many books fit the selection's criteria
 function rollupAndCount(attribute, data){
 	let thisData = d3.nest()
 					.key(function(d){ return d[attribute]})
@@ -201,6 +227,7 @@ function rollupAndCount(attribute, data){
 
 }
 
+//another helper for when data is nested
 function rollupAndCountNested(attribute1, attribute2, data){
 	let thisData = d3.nest()
 					.key(function(d){ return d[attribute1][attribute2]})
@@ -212,6 +239,7 @@ function rollupAndCountNested(attribute1, attribute2, data){
 
 }
 
+//sees how many books fit a given selected motif filter
 function formatMotifs(array){
 	let newArray = [];
 	for (var i = 0; i < array.length; i++){
@@ -231,6 +259,29 @@ function formatMotifs(array){
 	return newArray;
 }
 
+//helper for the "selected" coumn -- looks at all selections
+function countSelected(genreArray, genderArray, fictArray, motifArray){
+	let totalArray = [];
+
+	totalArray = totalArray.concat(simpleFilter(genreArray, "genre"));
+	totalArray = totalArray.concat(simpleFilter(genderArray, "gender"));
+	totalArray = totalArray.concat(simpleFilter(fictArray, "fictionality"));
+	totalArray = totalArray.concat(simpleFilter(motifArray, "motifs"));
+
+	function simpleFilter(array, selectionVal){
+		let innerArray = []
+		for (var i = 0; i < selections[selectionVal].length; i++){
+			let matchingVal = array.find(function(d){
+				return d.key === selections[selectionVal][i];
+			})
+			innerArray.push(matchingVal);
+		}
+		return innerArray;
+	}
+	return totalArray;
+}
+
+
 function formatFictionality(array){
 	let fictional = 0;
 	let nonfictional = 0;
@@ -246,15 +297,7 @@ function formatFictionality(array){
 	return [{"key": "fiction", "value": fictional}, {"key": "nonfiction", "value": nonfictional}]
 }
 
-function initControls(data, filteredData){
-
-	genderDropdown.init("gender", false);
-	genreDropdown.init("genre");
-	motifDropdown.init("motif");
-	fictionalityDropdown.init("fictionality", false);
-	selectedDropdown.init("selected");
-	drawFilters();
-}
+/*end of helper functions*/
 
 
 function drawFilters(){
@@ -284,25 +327,5 @@ function drawFilters(){
 
 }
 
-function countSelected(genreArray, genderArray, fictArray, motifArray){
-	let totalArray = [];
-
-	totalArray = totalArray.concat(simpleFilter(genreArray, "genre"));
-	totalArray = totalArray.concat(simpleFilter(genderArray, "gender"));
-	totalArray = totalArray.concat(simpleFilter(fictArray, "fictionality"));
-	totalArray = totalArray.concat(simpleFilter(motifArray, "motifs"));
-
-	function simpleFilter(array, selectionVal){
-		let innerArray = []
-		for (var i = 0; i < selections[selectionVal].length; i++){
-			let matchingVal = array.find(function(d){
-				return d.key === selections[selectionVal][i];
-			})
-			innerArray.push(matchingVal);
-		}
-		return innerArray;
-	}
-	return totalArray;
-}
 
 
