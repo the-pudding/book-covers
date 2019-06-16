@@ -1,6 +1,7 @@
 @import "fonts.scss";
 
-html, body, .main {
+/*---generic stuff---*/
+html, body {
 	width: 100%;
 	height: 100%;
 	margin:0 auto;
@@ -21,31 +22,53 @@ h1, h2, h3, h4, .barItem h3, #projectDescription h3 {
     font-weight: 700 !important;
 }
 
+h2, h3 {
+	margin-top: 0px;
+}
+
 a {
     text-decoration: none;
     border-bottom: 1px solid currentColor;
     color: currentColor;
 }
 
-.main {
-	position: absolute;
-	left: 0px;
-	width: 100%;
+.hidden{
+	display: none;
 }
 
-.main #mainCanvas {
-	width: 100%;
-	height: 100%;
+.iconAfter:after {
+	display: inline-block;
+	width: 1.25em;
+	height: 1.25em;
+	content: "";
+	padding-left: 0.2em;
+	background-color: currentColor;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    vertical-align: top;
 }
 
-.filterControls {
-	overflow: hidden;
+.iconBefore:before {
+	display: inline-block;
+	width: 1.25em;
+	height: 1.25em;
+	content: "";
+	padding-right: 0.2em;
+	background-color: currentColor;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    vertical-align: top;
 }
 
-.filterList .widgetHolder {
-	overflow: visible;
-}
-
+/*---header and footer---*/
 .controlBar {
 	width: 100%;
     position: absolute;
@@ -69,52 +92,7 @@ a {
 	border-top: 1px solid #222;
 }
 
-#bottomBar.readMore {
-	height: unset;
-}
-
-#bottomBar.fullyExpanded {
-	height: 100%;
-}
-
-#bottomBar .projectMethods {
-	display: none;
-}
-
-#bottomBar.fullyExpanded .projectMethods {
-	display: block;
-	height: calc(100% - 5em);
-}
-
-#bottomBarHolder {
-	display: flex;
-	border-bottom: 1px #222 solid;
-}
-
-#projectDescription {
-	padding: 0.2em;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-#projectDescription h3 {
-	text-align: center;
-}
-
-.methodTitle {
-	cursor: pointer;
-}
-
-.methodTitle::after {
-	-webkit-mask-image:  url("~./../images/chevron-up.svg");
-    mask-image:  url("~./../images/chevron-up.svg");
-}
-
-#bottomBar.fullyExpanded #projectDescription {
-	height: calc(100% - 5em);
-	overflow: scroll;
-}
-
+/*a unit used a lot in the top and bottom bar*/
 .barItem {
     display: inline-block;
     padding: 0.5em 0.4em;
@@ -122,48 +100,6 @@ a {
     color: #222;
     position: relative;
     flex: 0 1;
-}
-
-.byline {
-	text-align: center;
-}
-
-#zoomer {
-	flex: 0 0 4.5em;
-}
-
-#zoomer div{
-	height: 1.75em;
-	width: 2em;
-	display: inline-block;
-	cursor: pointer;
-	background-color: #222;
-}
-
-.barItem img {
-
-	height: 1.75em;
-}
-
-#mainSearchHolder, #clearAll {
-	background-color: unset;
-	color: unset;
-}
-
-#title {
-	flex: 2 0;
-	font-family: 'Canela Web';
-    font-weight: 700;
-    padding-left: 0.2em;
-    cursor: pointer;
-}
-
-#title h3{
-	font-weight: 700;
-}
-
-#title h3::before {
-	padding-right: 0.6em;
 }
 
 .barItem h3 {
@@ -190,64 +126,128 @@ a {
     mask-image:  url("~./../images/x.svg");
 }
 
-
-h1, h2, h3 {
-	font-weight: normal;
+/*---mostly footer stuff---*/
+#bottomBar.readMore {
+	height: unset;
 }
 
-h2, h3 {
-	margin-top: 0px;
+#bottomBar.fullyExpanded {
+	height: 100%;
 }
 
-
-.overlay {
-	background-color: #fff;
-	width: 50%;
-    padding: 0.75em;
-    z-index: 100000;
-    border: 2px solid;
-    font-size: 0.8rem;
+#bottomBar .projectMethods {
+	display: none;
 }
 
-.overlay h1 {
-	font-size: 1.75em;
-	border-bottom: 1px solid #222;
+#bottomBar.fullyExpanded .projectMethods {
+	display: block;
+	height: calc(100% - 5em);
 }
 
-.overlay h2 {
-	font-size: 1.25em;
+#bottomBarHolder {
+	display: flex;
+	border-bottom: 1px #222 solid;
+}
+
+#zoomIn {
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	-webkit-mask-image:  url("~./../images/plus.svg");
+	mask-image:  url("~./../images/plus.svg");
+}
+
+#zoomOut {
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	-webkit-mask-image:  url("~./../images/minus.svg");
+	mask-image:  url("~./../images/minus.svg");
+}
+
+#hiddenLogo {
+	position: absolute;
+	bottom: 4.5em;
+    width: 6em;
+	left: 0.4em;
+	display: none;
+	filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.8));
+}
+
+#projectDescription {
+	padding: 0.2em;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#projectDescription h3 {
+	text-align: center;
+}
+
+.byline {
+	text-align: center;
+}
+
+.methodTitle {
+	cursor: pointer;
+}
+
+.methodTitle::after {
+	-webkit-mask-image:  url("~./../images/chevron-up.svg");
+    mask-image:  url("~./../images/chevron-up.svg");
+}
+
+#bottomBar.fullyExpanded #projectDescription {
+	height: calc(100% - 5em);
+	overflow: scroll;
+}
+
+#zoomer {
+	flex: 0 0 4.5em;
+}
+
+#zoomer div{
+	height: 1.75em;
+	width: 2em;
 	display: inline-block;
-	margin-right: 0.5em;
+	cursor: pointer;
+	background-color: #222;
 }
 
-.overlayHeader {
-	width:100%;
+#title {
+	flex: 2 0;
+	font-family: 'Canela Web';
+    font-weight: 700;
+    padding-left: 0.2em;
+    cursor: pointer;
 }
 
-.overlayInfoDiv {
-	margin-bottom: 0px;
-	display: inline-block;
+#title h3{
+	font-weight: 700;
 }
 
-.overlayInfoDiv p {
-	margin: 0.5rem 0.2rem;
-	display: inline-block;
+#title h3::before {
+	padding-right: 0.6em;
+	-webkit-mask-image:  url("~./../images/help-circle.svg");
+    mask-image:  url("~./../images/help-circle.svg");
 }
 
-.overlayInfoDiv > p span:first-child {
-	font-weight: bold;
+.readMore #title h3::before, .fullyExpanded #title h3::before {
+    -webkit-mask-image: url("~./../images/x-circle.svg");
+    mask-image: url("~./../images/x-circle.svg");
 }
 
-.overlayInfoDiv p span:not(:first-child) {
-	text-transform: lowercase;
+/*for pudding logo*/
+.barItem img {
+	height: 1.75em;
 }
 
-.filteredOutMessage{
-	color: #666;
-	font-style: italic;
-	margin-top: 0px;
+
+/*---mostly header stuff---*/
+#mainSearchHolder, #clearAll {
+	background-color: unset;
+	color: unset;
 }
 
+/*---the big search at the top of the page---*/
 #mainSearch {
 	box-sizing: border-box;
 	position: relative;
@@ -258,6 +258,11 @@ h2, h3 {
 
 #mainSearch input {
 	width: calc(100% - 1.7em);
+}
+
+#mainSearch::before {
+	-webkit-mask-image:  url("~./../images/search.svg");
+    mask-image:  url("~./../images/search.svg");
 }
 
 #mainSearchHolder {
@@ -281,6 +286,11 @@ h2, h3 {
 	display: inline-block;
 }
 
+.searchResultHolder {
+	max-height: 22em;
+	overflow: auto;
+}
+
 #bookSearch {
 	box-sizing: border-box;
 }
@@ -295,9 +305,6 @@ h2, h3 {
     padding: 0px;
 }
 
-.hidden{
-	display: none;
-}
 .searchEntry {
 	border-bottom: 1px solid #222;
 	cursor: pointer;
@@ -312,17 +319,7 @@ h2, h3 {
 	font-weight: normal;
 }
 
-#openseadragon {
-	width: 100%;
-    height: calc(100% - 4em);
-    top: 2em;
-    position: absolute;
-    margin-bottom: 0px;
-    padding: 0px;
-}
-
-/*dropdown stuff*/
-
+/*---things in the filters panel---*/
 .searchHolder h4 {
 	margin-bottom: 0.25em;
     margin-top: 0.5em;
@@ -404,10 +401,7 @@ h2, h3 {
     margin-top: 0.6em;
 }
 
-#clearAll {
-	display: none;
-}
-
+/*not to be confused with searchResultHolder*/
 .resultHolder {
 	height: 10em;
 	overflow: auto;
@@ -418,17 +412,30 @@ h2, h3 {
 	margin-bottom: 0px;
 }
 
-.searchResultHolder {
-	max-height: 22em;
-	overflow: auto;
+#clearAll {
+	display: none;
+	border-left: solid 1px #222;
+}
+
+#clearAll h3:before {
+	content: "clear all";
 }
 
 .valName {
 	margin-right: 10px;
+	flex-grow: 1;
+	white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 15vw;
 }
 
-#searchHolder input.searchBar {
-	width: calc(100% - 7px);
+.count {
+	text-align: right;
+	float: right;
+	display: inline-block;
+	font-size: 0.65em;
+	line-height: 2.8em;
 }
 
 .selectedHolder {
@@ -455,20 +462,6 @@ h2, h3 {
 	white-space: nowrap;
 }
 
-.result div:nth-child(2n){
-	flex-grow: 1;
-	white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    max-width: 15vw;
-}
-
-.result div:nth-child(3n){
-	font-size: 0.65em;
-	line-height: 2.8em;
-}
-
-
 .result div p {
 	white-space: nowrap;
     text-overflow: ellipsis;
@@ -476,42 +469,21 @@ h2, h3 {
     margin: 0.2em 0em;
 }
 
-.count {
-	text-align: right;
-	float: right;
-	display: inline-block;
+.searchClearer {
+	position: absolute;
+	right: 0.2em;
+	top:0px;
 }
 
-.iconAfter:after {
-	display: inline-block;
-	width: 1.25em;
-	height: 1.25em;
-	content: "";
-	padding-left: 0.2em;
-	background-color: currentColor;
-    -webkit-mask-position: center;
-    mask-position: center;
-    -webkit-mask-size: contain;
-    mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    vertical-align: top;
-}
-
-.iconBefore:before {
-	display: inline-block;
-	width: 1.25em;
-	height: 1.25em;
-	content: "";
-	padding-right: 0.2em;
-	background-color: currentColor;
-    -webkit-mask-position: center;
-    mask-position: center;
-    -webkit-mask-size: contain;
-    mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    vertical-align: top;
+.searchClearer:after{
+	cursor: pointer;
+	-webkit-mask-image:  url("~./../images/x.svg");
+    mask-image:  url("~./../images/x.svg");
+	position: absolute;
+    right: 0.2em;
+    color: #444;
+    line-height: 1.5em;
+    height: 1.65em;
 }
 
 .dropDown {
@@ -543,50 +515,9 @@ h2, h3 {
     mask-image:  url("~./../images/check-square.svg");
 }
 
-#mainSearch::before {
-	-webkit-mask-image:  url("~./../images/search.svg");
-    mask-image:  url("~./../images/search.svg");
-}
-
-#title h3::before {
-	-webkit-mask-image:  url("~./../images/help-circle.svg");
-    mask-image:  url("~./../images/help-circle.svg");
-}
-
-.readMore #title h3::before, .fullyExpanded #title h3::before {
-    -webkit-mask-image: url("~./../images/x-circle.svg");
-    mask-image: url("~./../images/x-circle.svg");
-}
-
-.searchClearer {
-	position: absolute;
-	right: 0.2em;
-	top:0px;
-}
-
-
-.searchClearer:after{
-	cursor: pointer;
-	-webkit-mask-image:  url("~./../images/x.svg");
-    mask-image:  url("~./../images/x.svg");
-	position: absolute;
-    right: 0.2em;
-    color: #444;
-    line-height: 1.5em;
-    height: 1.65em;
-}
-
 #clearAll h3::after {
 	-webkit-mask-image:  url("~./../images/x.svg");
     mask-image:  url("~./../images/x.svg");
-}
-
-#clearAll {
-	border-left: solid 1px #222;
-}
-
-#clearAll h3:before {
-	content: "clear all";
 }
 
 .closed .results{
@@ -616,7 +547,6 @@ h2, h3 {
 	vertical-align: bottom;
 }
 
-
 #filters .barItem h3 {
 	font-family: 'Canela Web';
     text-transform: uppercase;
@@ -630,7 +560,57 @@ h2, h3 {
 	white-space: nowrap;
 }
 
-/*active filters styles*/
+
+/*---popup with book info---*/
+.overlay {
+	background-color: #fff;
+	width: 50%;
+    padding: 0.75em;
+    z-index: 100000;
+    border: 2px solid;
+    font-size: 0.8rem;
+}
+
+.overlay h1 {
+	font-size: 1.75em;
+	border-bottom: 1px solid #222;
+}
+
+.overlay h2 {
+	font-size: 1.25em;
+	display: inline-block;
+	margin-right: 0.5em;
+}
+
+.overlayHeader {
+	width:100%;
+}
+
+.overlayInfoDiv {
+	margin-bottom: 0px;
+	display: inline-block;
+}
+
+.overlayInfoDiv p {
+	margin: 0.5rem 0.2rem;
+	display: inline-block;
+}
+
+.overlayInfoDiv > p span:first-child {
+	font-weight: bold;
+}
+
+.overlayInfoDiv p span:not(:first-child) {
+	text-transform: lowercase;
+}
+
+.filteredOutMessage{
+	color: #666;
+	font-style: italic;
+	margin-top: 0px;
+}
+
+/*---chips in the overlay---*/
 .chipHolder {
 	display: inline-block;
 	cursor: default;
@@ -673,70 +653,16 @@ h2, h3 {
 	width: 100%;
 }
 
-/*override rectangular region in navigator*/
-.displayregion {
-	border: 2px solid rgb(255, 255, 255) !important;
-}
-
-/*custom zoom button holders*/
-#zoomBar {
-	position: fixed;
-    bottom: 0.2em;
-    right: 0.2em;
-    width: 2em;
-    height: 4em;
-    background-color: #444;
-    box-sizing: border-box;
-}
-
-#zoomBar div:first-child {
-	border-bottom: solid 1px #222;
-}
-
-#zoomBar > div {
-	height: 2em;
-}
-
-#zoomBar div > div {
-	display: inline-block;
-	margin: 0px;
-	padding: 0px;
-	height: 2em;
+/*---our openseadragan canvas---*/
+#openseadragon {
 	width: 100%;
-    background-size: cover;
-    background-color: #fff;
-    -webkit-mask-position: center;
-    mask-position: center;
-    -webkit-mask-size: contain;
-    mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    box-sizing: border-box;
-    cursor: pointer;
+    height: calc(100% - 4em);
+    top: 2em;
+    position: absolute;
+    margin-bottom: 0px;
+    padding: 0px;
 }
 
-#zoomIn {
-	-webkit-mask-repeat: no-repeat;
-	mask-repeat: no-repeat;
-	-webkit-mask-image:  url("~./../images/plus.svg");
-	mask-image:  url("~./../images/plus.svg");
-}
-
-#zoomOut {
-	-webkit-mask-repeat: no-repeat;
-	mask-repeat: no-repeat;
-	-webkit-mask-image:  url("~./../images/minus.svg");
-	mask-image:  url("~./../images/minus.svg");
-}
-
-#hiddenLogo {
-	position: absolute;
-	bottom: 4.5em;
-    width: 6em;
-	left: 0.4em;
-	display: none;
-	filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.8));
-}
 
 @media (max-width: 800px){
 	#filters {
@@ -789,7 +715,7 @@ h2, h3 {
 		margin-left: 0.75em;
 	}
 
-	.result div:nth-child(2n){
+	.valName{
 		max-width: 21vw;
 	}
 
