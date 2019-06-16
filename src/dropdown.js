@@ -64,8 +64,10 @@ class Dropdown {
 			changeSort(this.value);
 		});
 
+
 		let holder = this.holder;
 		let handleKeypress = this.handleKeypress;
+
 
 		let results = this.holder.append("div").attr("class", "results");
 		
@@ -103,11 +105,16 @@ class Dropdown {
 				});
 		}
 
+		let legend = results.append("div")
+			.attr("class", "filtTotal")
+			.append("p")
+			.html("# filtered/# total");
+
 		let resultHolder = results.append("div")
 			.attr("class", "resultHolder");
 		this.selectedHolder = resultHolder.append("div")
 			.attr("class", "selectedHolder");
-	
+
 		let clearButton = results.append("button")
 			.text(function(){
 				if (name === "fictionality"){

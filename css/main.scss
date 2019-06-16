@@ -375,6 +375,16 @@ h2, h3 {
   display: none;
 }
 
+.filtTotal {
+	text-align: right;
+    font-size: 0.65em;
+    color: #666;
+}
+
+.filtTotal p{
+	margin: 0px;
+}
+
 .results {
 	color: #000;
 	font-size: 0.8rem;
@@ -404,7 +414,7 @@ h2, h3 {
 	margin-bottom:1.8em;
 }
 
-.searchHolder + .resultHolder {
+.searchHolder ~ .resultHolder {
 	margin-bottom: 0px;
 }
 
@@ -765,6 +775,10 @@ h2, h3 {
 
 	.results .valName {
 		margin-right: 0px;
+	}
+
+	.filtTotal {
+		display: none;
 	}
 
 	#filters .barItem h3 {
