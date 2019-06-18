@@ -17,9 +17,10 @@ input {
 	font-family: 'Atlas Grotesk Web', sans-serif;
 }
 
-h1, h2, h3, h4, .barItem h3, #projectDescription h3 {
-	font-family: 'Canela Web';
-    font-weight: 700 !important;
+#projectDescription h3 {
+    font-weight: 700;
+		font-size:22px;
+		max-width:530px;
 }
 
 h2, h3 {
@@ -36,11 +37,28 @@ a {
 	display: none;
 }
 
+#logo{
+	margin-left: 1rem;
+	position:absolute;
+}
+
+#filter h3{
+	font-family:'Atlas Grotesk Web';
+	font-size: 18px;
+	font-weight: 400;
+}
+
+.result .iconAfter:after {
+	margin-top:0px;
+}
+
 .iconAfter:after {
 	display: inline-block;
 	width: 1.25em;
 	height: 1.25em;
 	content: "";
+	opacity:.5;
+	margin-top:2px;
 	padding-left: 0.2em;
 	background-color: currentColor;
     -webkit-mask-position: center;
@@ -54,18 +72,22 @@ a {
 
 .iconBefore:before {
 	display: inline-block;
-	width: 1.25em;
-	height: 1.25em;
+	width: 1em;
+	height: 1em;
 	content: "";
-	padding-right: 0.2em;
+	margin-left: 6px;
+	top:50%;
+	transform: translate(100%,-50%);
+	position:absolute;
+	right: 0px;
 	background-color: currentColor;
-    -webkit-mask-position: center;
-    mask-position: center;
-    -webkit-mask-size: contain;
-    mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    vertical-align: top;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  vertical-align: top;
 }
 
 /*---header and footer---*/
@@ -78,18 +100,17 @@ a {
     background-color: #fff;
     display: flex;
     height: 2em;
+		transition: height .25s;
 }
 
 #topBar {
     top: 0px;
-    border-bottom: 1px solid #222;
 }
 
 #bottomBar {
 	display: block;
 	bottom: 0px;
 	overflow: hidden;
-	border-top: 1px solid #222;
 }
 
 /*a unit used a lot in the top and bottom bar*/
@@ -107,6 +128,7 @@ a {
 	white-space: nowrap;
 	text-align: center;
 	display: inline-block;
+	position:relative;
 }
 
 .dropdown {
@@ -128,7 +150,8 @@ a {
 
 /*---mostly footer stuff---*/
 #bottomBar.readMore {
-	height: unset;
+	height: 200px;
+	transition: height .25s;
 }
 
 #bottomBar.fullyExpanded {
@@ -141,12 +164,12 @@ a {
 
 #bottomBar.fullyExpanded .projectMethods {
 	display: block;
-	height: calc(100% - 5em);
+	    padding-bottom: 100px;
 }
 
 #bottomBarHolder {
 	display: flex;
-	border-bottom: 1px #222 solid;
+	margin: 0 auto;
 }
 
 #zoomIn {
@@ -174,16 +197,39 @@ a {
 
 #projectDescription {
 	padding: 0.2em;
-    max-width: 800px;
-    margin: 0 auto;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#projectDescription p {
+	padding: 0.2em;
+  max-width: 800px;
+  margin: 0 auto;
+	font-size: 16px;
+	max-width: 530px;
+	margin: 0 auto;
+	line-height: 1.6;
+	margin-bottom:1rem;
 }
 
 #projectDescription h3 {
 	text-align: center;
 }
 
-.byline {
+#projectDescription h4 {
+	font-family: 'Atlas Grotesk Web';
+font-size: 18px;
+max-width: 530px;
+font-weight: 500;
+margin: 0 auto;
+margin-bottom: 30px;
+}
+
+#projectDescription .byline {
 	text-align: center;
+font-size: 14px;
+margin-bottom: 10px;
+margin-top: 6px;
 }
 
 .methodTitle {
@@ -196,12 +242,18 @@ a {
 }
 
 #bottomBar.fullyExpanded #projectDescription {
-	height: calc(100% - 5em);
+	height: calc(100%);
 	overflow: scroll;
+}
+
+.fullyExpanded .methodTitle{
+	display:none;
 }
 
 #zoomer {
 	flex: 0 0 4.5em;
+	position:absolute;
+	right:0px;
 }
 
 #zoomer div{
@@ -215,13 +267,16 @@ a {
 #title {
 	flex: 2 0;
 	font-family: 'Canela Web';
-    font-weight: 700;
-    padding-left: 0.2em;
-    cursor: pointer;
+	font-weight: 700;
+  cursor: pointer;
+	font-size:19px;
+	padding:0px;
+
 }
 
 #title h3{
-	font-weight: 700;
+	padding:0px;
+	line-height: 1.8;
 }
 
 #title h3::before {
@@ -253,16 +308,23 @@ a {
 	position: relative;
 	display: inline-block;
 	white-space: nowrap;
-	width: 100%;
+	width: 300px;
+	margin-left:37px;
 }
 
 #mainSearch input {
-	width: calc(100% - 1.7em);
+	width:100%;
 }
 
 #mainSearch::before {
 	-webkit-mask-image:  url("~./../images/search.svg");
-    mask-image:  url("~./../images/search.svg");
+  mask-image:  url("~./../images/search.svg");
+	left:-5px;
+	top:50%;
+	transform:translate(-100%,-50%);
+	right:auto;
+	margin-left: 0px;
+	margin-right: 0px;
 }
 
 #mainSearchHolder {
@@ -273,17 +335,31 @@ a {
 .searchHolder {
 	height: 1.2em;
 	margin-bottom: 0.6em;
+	position:relative;
+}
+
+#filters .searchHolder > div {
+	width:100%;
+	margin-left: 19px;
 }
 
 .searchHolder::before {
 	-webkit-mask-image:  url("~./../images/search.svg");
     mask-image:  url("~./../images/search.svg");
     font-size: 0.8em;
+		right:auto;
+		left:0px;
+		transform:translate(-100%, -50%);
+		right: auto;
+		left: -3px;
+		transform: translate(0%, -50%);
+		top: 10px;
 }
 
 .searchHolder > div {
-	width: calc(100% - 2em);
+	width: 200px;
 	display: inline-block;
+	margin-left:37px;
 }
 
 .searchResultHolder {
@@ -374,7 +450,7 @@ a {
 
 .filtTotal {
 	text-align: right;
-    font-size: 0.65em;
+    font-size: 12px;
     color: #666;
 }
 
@@ -393,12 +469,15 @@ a {
 .results button, #clearAll {
 	appearance: none;
 	-webkit-appearance: none;
-    width: 100%;
-    font-family: "Publica";
-    border: 1px solid #222;
-    font-family: 'Atlas Grotesk Web', sans-serif;
-    cursor: pointer;
-    margin-top: 0.6em;
+  width: 100%;
+  border: 1px solid #222;
+  font-family: 'Atlas Grotesk Web', sans-serif;
+  cursor: pointer;
+  margin-top: 0.6em;
+	font-size:12px;
+border-radius: 4px;
+background: #f1f0f0;
+border: none;
 }
 
 /*not to be confused with searchResultHolder*/
@@ -422,20 +501,25 @@ a {
 }
 
 .valName {
-	margin-right: 10px;
 	flex-grow: 1;
 	white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    max-width: 15vw;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 15vw;
+}
+
+.valName p{
+	font-size: 14px;
+	text-transform:capitalize;
 }
 
 .count {
 	text-align: right;
 	float: right;
 	display: inline-block;
-	font-size: 0.65em;
-	line-height: 2.8em;
+	font-size: 12px;
+	opacity:.4;
+	font-weight:500;
 }
 
 .selectedHolder {
@@ -447,16 +531,16 @@ a {
 	font-size: 0.9em;
 }
 
-.searchBar:placeholder-shown + .searchClearer::after,  
+.searchBar:placeholder-shown + .searchClearer::after,
 #bookSearch:placeholder-shown + .searchClearer::after{
 	display: none;
 }
 
 .result {
-	position: absolute;
 	display: flex;
 	margin: 0.2em 0em;
 	width: 100%;
+	margin-bottom:5px;
 }
 .result div {
 	white-space: nowrap;
@@ -464,9 +548,9 @@ a {
 
 .result div p {
 	white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    margin: 0.2em 0em;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	margin:0 auto;
 }
 
 .searchClearer {
@@ -484,6 +568,10 @@ a {
     color: #444;
     line-height: 1.5em;
     height: 1.65em;
+		top:50%;
+		margin-top:0px;
+		transform:translate(0,-50%);
+		margin-top: 13px;
 }
 
 .dropDown {
@@ -529,12 +617,10 @@ a {
 	width: 100%;
 	left: 0px;
 	top:2em;
-	background-color:#fff; 
-	border-top: 1px solid #444;
+	background-color:#fff;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	padding-top: 0.2em;
-	border-bottom: 1px solid #222;
 }
 
 #filters.collapsed {
@@ -548,9 +634,9 @@ a {
 }
 
 #filters .barItem h3 {
-	font-family: 'Canela Web';
-    text-transform: uppercase;
-    font-weight: 700;
+	font-family: 'Atlas Grotesk Web';
+    text-transform: capitalize;
+    font-weight: 500;
     text-align: left;
     font-size: 1.1em;
 }
@@ -674,7 +760,7 @@ a {
 	}
 
 	.results button {
-		font-size: 0.65em;
+		font-size: 12px;
 		padding: 1px 2px 2px;
 	}
 
