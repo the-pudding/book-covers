@@ -192,7 +192,7 @@ function setup(){
 	});
 
 	//expand our bottom bar so it fills the whole screen
-	d3.select(".readMore").on("click", function(){
+	d3.select(".readMoreButton").on("click", function(){
 		d3.select("#bottomBar").classed("fullyExpanded", true);
 	});
 
