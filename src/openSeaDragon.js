@@ -148,7 +148,7 @@ class OSD{
 		    if (viewer.viewport.getZoom() < 10) {
 		    	canvas.context2d().strokeStyle =  "rgba(0, 0, 0, 1)";
 			    canvas.context2d().lineWidth = 100;
-			    canvas.context2d().strokeRect(0, 0, 27060, 34155);
+			    canvas.context2d().strokeRect(0, 0, 27080, 34210);
 			}
 
 		    clearBeforeRedraw:true
@@ -177,17 +177,18 @@ class OSD{
 			let setClickedBookData = (val) => this.clickedBookData = val;
 
 			//handle mobile-like screens a bit differently
+			//note!! 1.262 comes from dividing the height of the image by the width
 			if (window.innerWidth > 450){
-				this.viewer.viewport.zoomTo(30, new OpenSeadragon.Point(gridPos[0]/82 + (1/82/2), gridPos[1] * (1.13/69) + 1.13/69/2));
+				this.viewer.viewport.zoomTo(30, new OpenSeadragon.Point(gridPos[0]/82 + (1/82/2), gridPos[1] * (1.262/69) + 1.262/69/2));
 			} else {
-				this.viewer.viewport.zoomTo(60, new OpenSeadragon.Point(gridPos[0]/82 + (1/82/2), gridPos[1] * (1.13/69) + 1.13/69/2));
+				this.viewer.viewport.zoomTo(60, new OpenSeadragon.Point(gridPos[0]/82 + (1/82/2), gridPos[1] * (1.262/69) + 1.262/69/2));
 			}
 			setTimeout( function() {
 				//pan to the location after a bit. fitbounds isn't working as expected, so work in stages
 			    if (window.innerWidth > 450){
-			    	viewport.panTo(new OpenSeadragon.Point(gridPos[0]/82 + (1/82/1.05) + 0.005, gridPos[1] * (1.13/69) + 1.13/69/2 - 0.001));
+			    	viewport.panTo(new OpenSeadragon.Point(gridPos[0]/82 + (1/82/1.05) + 0.005, gridPos[1] * (1.262/69) + 1.262/69/2 - 0.001));
 				} else {
-					viewport.panTo(new OpenSeadragon.Point(gridPos[0]/82 + (1/82/2), gridPos[1] * (1.13/69) + 1.13/69/1.5));
+					viewport.panTo(new OpenSeadragon.Point(gridPos[0]/82 + (1/82/2), gridPos[1] * (1.262/69) + 1.262/69/1.5));
 				}
 				//after another delay, create an overlay
 			    setTimeout( function() {
@@ -206,9 +207,9 @@ class OSD{
 					//display the overlay in diff positions based on screen dimensions
 					if (window.innerWidth > 450){
 						if (window.innerHeight > 400){
-							overlayLocation = new OpenSeadragon.Point(gridPos[0]/82 + (1/82/1.05) + 0.0015, gridPos[1] * (1.13/69) + (1.13/69/3));
+							overlayLocation = new OpenSeadragon.Point(gridPos[0]/82 + (1/82/1.05) + 0.0015, gridPos[1] * (1.262/69) + (1.262/69/3));
 						} else {
-							overlayLocation = new OpenSeadragon.Point(gridPos[0]/82 + (1/82/1.05) + 0.0015, gridPos[1] * (1.13/69) + (1.13/69/20));
+							overlayLocation = new OpenSeadragon.Point(gridPos[0]/82 + (1/82/1.05) + 0.0015, gridPos[1] * (1.262/69) + (1.262/69/20));
 						}
 					} else {
 						let bounds = viewer.viewport.getBounds();
@@ -233,7 +234,7 @@ class OSD{
 			let position = [event.position.x, event.position.y];
 			if ((Math.abs(position[0] - this.currentPos[0]) < 15) && (Math.abs(position[1] - this.currentPos[1]) < 15)){
 				let pointPos = this.viewer.viewport.pointFromPixel(event.position);
-				let percentPos = [pointPos.x/1, pointPos.y/1.13];
+				let percentPos = [pointPos.x/1, pointPos.y/1.262];
 				//we know from our python file that our grid has 82 columns and 69 rows
 				let gridPos = [Math.floor(percentPos[0] * 82), Math.floor(percentPos[1] * 69)];
 				
