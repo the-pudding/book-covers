@@ -148,7 +148,7 @@ class OSD{
 		    if (viewer.viewport.getZoom() < 10) {
 		    	canvas.context2d().strokeStyle =  "rgba(0, 0, 0, 1)";
 			    canvas.context2d().lineWidth = 100;
-			    canvas.context2d().strokeRect(0, 0, 27080, 34210);
+			    canvas.context2d().strokeRect(0, 0, 27080, 34215);
 			}
 
 		    clearBeforeRedraw:true
