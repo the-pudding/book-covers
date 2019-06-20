@@ -45,6 +45,9 @@ class OSD{
 		    zoomPerScroll:      1.2,
 		    zoomPerClick: 1,
 		    animationTime: 1,
+		    minZoomLevel: 0.6,
+		    maxZoomLevel: 30,
+		    defaultZoomLevel: 0.6,
 		    showNavigator: false,
 		    showHomeControl: false,
 		    showFullPageControl: false,
@@ -104,8 +107,8 @@ class OSD{
 		d3.select("#zoomOut").on("click", function(d){
 			let prevZoom = viewer.viewport.getZoom();
 			let newZoom = prevZoom / 2;
-			if (newZoom < 0.5){
-				newZoom = 0.5;
+			if (newZoom < 0.6){
+				newZoom = 0.6;
 			}
 			viewer.viewport.zoomTo(newZoom);
 			let openHandler = document.querySelector(".overlay");
