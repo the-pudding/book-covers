@@ -1,5 +1,7 @@
 @import "fonts.scss";
 
+$iconHighlight: #e21441;
+
 /*---generic stuff---*/
 html, body {
 	width: 100%;
@@ -191,6 +193,7 @@ a {
 }
 
 .methodTitle::after {
+	color: $iconHighlight;
 	-webkit-mask-image:  url("~./../images/chevron-up.svg");
     mask-image:  url("~./../images/chevron-up.svg");
 }
@@ -225,6 +228,7 @@ a {
 }
 
 #title h3::before {
+	color: $iconHighlight;
 	padding-right: 0.6em;
 	-webkit-mask-image:  url("~./../images/help-circle.svg");
     mask-image:  url("~./../images/help-circle.svg");
@@ -245,6 +249,10 @@ a {
 #mainSearchHolder, #clearAll {
 	background-color: unset;
 	color: unset;
+}
+
+#filter h3::after{
+	color: $iconHighlight;
 }
 
 /*---the big search at the top of the page---*/
