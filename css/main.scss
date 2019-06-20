@@ -629,6 +629,10 @@ a {
 	text-transform: lowercase;
 }
 
+.overlay .closer::after{
+	color: $iconHighlight;
+}
+
 .filteredOutMessage{
 	color: #666;
 	font-style: italic;
