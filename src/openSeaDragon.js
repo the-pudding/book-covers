@@ -47,7 +47,7 @@ class OSD{
 		    animationTime: 1,
 		    minZoomLevel: 0.6,
 		    maxZoomLevel: 30,
-		    defaultZoomLevel: window.innerWidth < 450 ? 1.2 : 0.6,
+		    defaultZoomLevel: window.innerWidth < 450 ? 0.85 : 0.6,
 		    showNavigator: false,
 		    showHomeControl: false,
 		    showFullPageControl: false,
