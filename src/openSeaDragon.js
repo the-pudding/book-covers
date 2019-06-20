@@ -78,6 +78,8 @@ class OSD{
 		        	if (openHandler){
 		        		closeOpenThings();
 		        	}
+		        					d3.select("#bottomBar").classed("readMore", false);
+
 		        }
 		    });
 		});
@@ -234,13 +236,15 @@ class OSD{
 	//if we click on the canvas, try to find what book we're on
 	handleClick(event){
 		if (event.originalEvent.target.tagName === "CANVAS"){
+
+			d3.select("#bottomBar").classed("readMore", false);
+
 			let position = [event.position.x, event.position.y];
 			if ((Math.abs(position[0] - this.currentPos[0]) < 15) && (Math.abs(position[1] - this.currentPos[1]) < 15)){
 				let pointPos = this.viewer.viewport.pointFromPixel(event.position);
 				let percentPos = [pointPos.x/1, pointPos.y/1.262];
 				//we know from our python file that our grid has 82 columns and 69 rows
 				let gridPos = [Math.floor(percentPos[0] * 82), Math.floor(percentPos[1] * 69)];
-				
 				this.goToBook(gridPos);
 			} 
 		}
