@@ -79,7 +79,7 @@ a {
     z-index: 1000000;
     background-color: #fff;
     display: flex;
-    height: 2em;
+    max-height: 2em;
 }
 
 #topBar {
@@ -90,7 +90,6 @@ a {
 #bottomBar {
 	display: block;
 	bottom: 0px;
-	overflow: hidden;
 	border-top: 1px solid #222;
 }
 
@@ -146,8 +145,16 @@ a {
   }
 }
 
+#projectDescription {
+	display: none;
+}
+
 #bottomBar.readMore {
-	height: unset;
+	max-height: unset;
+}
+
+#bottomBar.readMore #projectDescription {
+	display: block;
 }
 
 #bottomBar.fullyExpanded {
@@ -165,6 +172,9 @@ a {
 
 #bottomBarHolder {
 	display: flex;
+}
+
+#bottomBar.readMore #bottomBarHolder {
 	border-bottom: 1px #222 solid;
 }
 
@@ -183,12 +193,19 @@ a {
 }
 
 #hiddenLogo {
-	position: absolute;
-	bottom: 4.5em;
-    width: 6em;
-	left: 0.4em;
+	position: relative;
+    width: 0px;
+    height: 0px;
 	display: none;
+}
+
+#hiddenLogo img {
+	position: absolute;
+	width: 6em;
+	height: auto;
 	filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.8));
+	left: 0.4em;
+    bottom: 0.4em;
 }
 
 #projectDescription {
@@ -711,7 +728,7 @@ a {
 
 @media (max-width: 600px){
 	#bottomBar {
-		height: 3em;
+		max-height: 3.4em;
 	}
 
 	.barItem#title h3{
@@ -806,7 +823,7 @@ a {
 
 @media (max-width: 360px), (max-device-width: 360px){
 	#bottomBar {
-		height: 4.4em;
+		max-height: 4.4em;
 	}
 
 	#title h3::before {

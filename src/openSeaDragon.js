@@ -46,7 +46,7 @@ class OSD{
 		    zoomPerClick: 1,
 		    animationTime: 1,
 		    minZoomLevel: 0.6,
-		    maxZoomLevel: 30,
+		    maxZoomLevel: window.innerWidth < 450 ? 60 : 30,
 		    defaultZoomLevel: window.innerWidth < 450 ? 0.85 : 0.6,
 		    showNavigator: false,
 		    showHomeControl: false,
@@ -211,14 +211,10 @@ class OSD{
 					let overlayLocation;
 					//display the overlay in diff positions based on screen dimensions
 					if (window.innerWidth > 450){
-						if (window.innerHeight > 400){
-							overlayLocation = new OpenSeadragon.Point(gridPos[0]/82 + (1/82/1.05) + 0.0015, gridPos[1] * (1.262/69) + (1.262/69/3));
-						} else {
-							overlayLocation = new OpenSeadragon.Point(gridPos[0]/82 + (1/82/1.05) + 0.0015, gridPos[1] * (1.262/69) + (1.262/69/20));
-						}
+						overlayLocation = new OpenSeadragon.Point(gridPos[0]/82 + (1/82/1.05) + 0.001, gridPos[1] * (1.262/69) + (1.262/69/3));
 					} else {
 						let bounds = viewer.viewport.getBounds();
-						overlayLocation = new OpenSeadragon.Point(gridPos[0]/82 - 0.00235, bounds.y + bounds.height/2);
+						overlayLocation = new OpenSeadragon.Point(gridPos[0]/82 - 0.0021, bounds.y + bounds.height/2);
 					}
 
 					viewer.addOverlay({
