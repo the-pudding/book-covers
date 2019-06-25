@@ -47,8 +47,12 @@
 				<h3 class="iconBefore">11 Years of Top-selling Book Covers, Visually Sorted by an Algorithm</h3>
 			</div>
 			<div class="barItem" id="zoomer">
-				<div id="zoomIn"></div>
-				<div id="zoomOut"></div>
+				<div class="zoom-button-container">
+					<div class="zoom-button" id="zoomIn"></div>
+				</div>
+				<div class="zoom-button-container">
+					<div class="zoom-button" id="zoomOut"></div>
+				</div>
 			</div>
 		</div>
 
@@ -58,6 +62,10 @@
 			<p>Judge over 5,000 books by their covers in this landscape of titles from the New York Times "Best Selling" and "Also Selling" lists. Read more about our <a href="#" class="readMore">methods</a>.</p>
 			<div class = "projectMethods">
 				<h3 class="iconAfter methodTitle">Methods</h3>
+				<h4>Arrangement</h4>
+				<p>
+					The covers were arranged by visual similarity using the t-distributed stochastic neighbor embedding (t-SNE) algorithm, and then placed in a grid using <a href="https://github.com/Quasimondo/RasterFairy" target="_blank">Mario Klingemann’s RasterFairy library</a>. The resulting image is made explorable using the <a href="https://openseadragon.github.io/" target="_blank">OpenSeadragon library</a>.
+				</p>
 				<h4>Criteria for Inclusion</h4>
 				<p>
 					The books included in this piece come from the <a href="https://developer.nytimes.com/docs/books-product/1/overview" target="_blank">New York Times books API</a>. These books appeared on the "Best Selling" and "Also Selling" lists between June 2008 (the first list accessible via API) and June 2019. Only books on the hardcover fiction and non-fiction lists are included. This is to avoid instances of multiple entries of both the hardcover and softcover version of the same book, despite the face that it may introduce a bias against books that were published only in softcover.
@@ -66,10 +74,7 @@
 				<p>
 					Wherever possible, the cover image used for each book comes from the NYT API response associated with the first recorded entry of a given book. Some books have either no cover image included in their API response, or the image is a publisher’s placeholder photo for an upcoming release. For these books, we used various sources, including <a href="https://openlibrary.org/" target="_blank">Open Library</a> and <a href="https://archive.org/" target="_blank">archive.org</a>.
 				</p>
-				<h4>Arrangement</h4>
-				<p>
-					The covers were arranged by visual similarity using the t-distributed stochastic neighbor embedding (t-SNE) algorithm, and then placed in a grid using <a href="https://github.com/Quasimondo/RasterFairy" target="_blank">Mario Klingemann’s RasterFairy library</a>. The resulting image is made explorable using the <a href="https://openseadragon.github.io/" target="_blank">OpenSeadragon library</a>.
-				</p>
+
 				<h4>Gender</h4>
 				<p>
 					Each author’s likely gender was determined using the <a href="https://genderize.io/" target="_blank">genderize API</a>. Authors were either determined to be male, female, indeterminable or collaborations. There are some limitations to this method, as it would result in well-known authors writing under pseudonyms, like J.K. Rowling, to be misclassified. Similarly, authors with non-Western names, like Norwegian author Jo Nesbø, are incorrectly gendered. Non-binary authors are also not identified. Despite these problems, the results are uncorrected so as to correspond to what a shopper might immediately assume on first glance at a book cover.

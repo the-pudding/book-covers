@@ -9,6 +9,7 @@ html, body {
 	font-family: 'Atlas Grotesk Web', sans-serif;
 	background-color: #000;
 	font-size: calc(0.7em + 0.6vw);
+	overflow: hidden;
 }
 
 input {
@@ -110,7 +111,6 @@ a {
 #bottomBar {
 	display: block;
 	bottom: 0px;
-	overflow: hidden;
 }
 
 /*a unit used a lot in the top and bottom bar*/
@@ -218,11 +218,12 @@ a {
 
 #projectDescription h4 {
 	font-family: 'Atlas Grotesk Web';
-font-size: 18px;
-max-width: 530px;
-font-weight: 500;
-margin: 0 auto;
-margin-bottom: 30px;
+	font-size: 18px;
+	max-width: 530px;
+	font-weight: 500;
+	margin: 0 auto;
+	margin-bottom: 30px;
+	margin-top: 50px;
 }
 
 #projectDescription .byline {
@@ -251,18 +252,29 @@ margin-top: 6px;
 }
 
 #zoomer {
-	flex: 0 0 4.5em;
 	position:absolute;
 	right:0px;
+	bottom:2.5rem;
+	display:flex;
+	.zoom-button-container{
+		background: white;
+		margin-right:5px;
+		width:30px;
+		height:30px;
+		box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.5607)
+	}
+	.zoom-button{
+		height: 1.75em;
+		margin:0 auto;
+		width: 25px;
+		cursor: pointer;
+		background-color: #222;
+		margin-top: 3px;
+	}
 }
 
-#zoomer div{
-	height: 1.75em;
-	width: 2em;
-	display: inline-block;
-	cursor: pointer;
-	background-color: #222;
-}
+
+
 
 #title {
 	flex: 2 0;
@@ -336,6 +348,7 @@ margin-top: 6px;
 	height: 1.2em;
 	margin-bottom: 0.6em;
 	position:relative;
+	display: none;
 }
 
 #filters .searchHolder > div {
@@ -475,9 +488,15 @@ margin-top: 6px;
   cursor: pointer;
   margin-top: 0.6em;
 	font-size:12px;
-border-radius: 4px;
-background: #f1f0f0;
-border: none;
+	border-radius: 4px;
+	background: #f1f0f0;
+	border: none;
+	display:none;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	border: 3px solid white;
+	z-index: 100000000000;
 }
 
 /*not to be confused with searchResultHolder*/
@@ -487,8 +506,23 @@ border: none;
 	margin-bottom:1.8em;
 }
 
+
+
 .searchHolder ~ .resultHolder {
 	margin-bottom: 0px;
+	position: relative;
+	z-index: 0;
+}
+
+.bottom-gradient {
+	position:absolute;
+	bottom: 0px;
+	left:0px;
+	width:100%;
+	z-index:100000;
+	background: linear-gradient(0deg, white 2%, rgba(255, 255, 255, 0) 20%);
+	pointer-events: none;
+	height:100%;
 }
 
 #clearAll {
@@ -524,6 +558,7 @@ border: none;
 
 .selectedHolder {
 	position: relative;
+	padding-bottom: 30px;
 }
 
 .results input.searchBar {
@@ -551,6 +586,7 @@ border: none;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	margin:0 auto;
+	cursor:pointer;
 }
 
 .searchClearer {
@@ -621,6 +657,7 @@ border: none;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	padding-top: 0.2em;
+	border-top: 1px solid #e6e6e6;
 }
 
 #filters.collapsed {
@@ -631,55 +668,66 @@ border: none;
 	width: 1em;
 	margin-left: 1.25em;
 	vertical-align: bottom;
+	display:none;
 }
 
 #filters .barItem h3 {
 	font-family: 'Atlas Grotesk Web';
-    text-transform: capitalize;
-    font-weight: 500;
-    text-align: left;
-    font-size: 1.1em;
+  text-transform: capitalize;
+  font-weight: 500;
+  text-align: center;
+	display: block;
+  font-size: 1.1em;
 }
 
 #filters .barItem {
-	padding-left:1em;
 	white-space: nowrap;
 }
+
+
+
 
 
 /*---popup with book info---*/
 .overlay {
 	background-color: #fff;
 	width: 50%;
-    padding: 0.75em;
-    z-index: 100000;
-    border: 2px solid;
-    font-size: 0.8rem;
+  padding: 1rem;
+  z-index: 100000;
+  font-size: 0.8rem;
+	border-radius: 5px;
+  box-shadow: 0px 0px 4px 3px rgba(0, 0, 0, 0.28);
+}
+
+.overlay-wrapper{
+	display:flex;
+	flex-wrap:wrap;
 }
 
 .overlay h1 {
-	font-size: 1.75em;
-	border-bottom: 1px solid #222;
+	font-size: 18px;
+	margin: 0;
 }
 
 .overlay h2 {
-	font-size: 1.25em;
+	font-size: 18px;
 	display: inline-block;
 	margin-right: 0.5em;
 }
 
 .overlayHeader {
-	width:100%;
 }
 
 .overlayInfoDiv {
 	margin-bottom: 0px;
-	display: inline-block;
+	display: flex;
+	margin-bottom:10px;
 }
 
 .overlayInfoDiv p {
-	margin: 0.5rem 0.2rem;
-	display: inline-block;
+	margin:0;
+	align-self: center;
+	margin-right:5px;
 }
 
 .overlayInfoDiv > p span:first-child {
@@ -701,20 +749,25 @@ border: none;
 	display: inline-block;
 	cursor: default;
 	position: relative;
-	margin: 0px 5px 5px 0px;
+	margin-right:10px;
 }
 
 .chip {
 	background-color: #444;
-    color: #fff;
-    border: 2px solid #444;
-    font-size: 0.8em;
+  color: #fff;
+	border-radius: 3px;
+	font-weight: 400;
+	font-size:14px;
 }
 
 .chip.unselectedFilter {
 	background-color: #fff;
-    color: #444;
-    border: 2px solid #444;
+  color: #444;
+	border-radius: 3px;
+	background: #efefef;
+	font-weight: 500;
+	color: black;
+	border: none;
 }
 
 .chip p {
@@ -729,6 +782,7 @@ border: none;
 	-webkit-mask-image:  url("~./../images/filter.svg");
     mask-image:  url("~./../images/filter.svg");
 	cursor: pointer;
+	display:none;
 }
 
 .chipSelectionHolder{
@@ -742,11 +796,25 @@ border: none;
 /*---our openseadragan canvas---*/
 #openseadragon {
 	width: 100%;
-    height: calc(100% - 4em);
-    top: 2em;
-    position: absolute;
-    margin-bottom: 0px;
-    padding: 0px;
+  height: calc(100% - 4em);
+  top: 2em;
+  position: absolute;
+  margin-bottom: 0px;
+  padding: 0px;
+	cursor: move; /* fallback if grab cursor is unsupported */
+	cursor: grab;
+	cursor: -moz-grab;
+	cursor: -webkit-grab;
+}
+
+#openseadragon:active {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+
+#selected {
+	visibility: hidden;
 }
 
 
