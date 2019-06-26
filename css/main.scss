@@ -647,16 +647,6 @@ a {
   display: none;
 }
 
-.filtTotal {
-	text-align: right;
-    font-size: 12px;
-    color: #666;
-		display: none;
-}
-
-.filtTotal p{
-	margin: 0px;
-}
 
 .results {
 	color: #000;
@@ -749,7 +739,6 @@ a {
 
 .selectedHolder {
 	position: relative;
-	padding-bottom: 30px;
 }
 
 .results input.searchBar {
@@ -855,12 +844,7 @@ a {
 	display: none;
 }
 
-#filters select {
-	width: 1em;
-	margin-left: 1.25em;
-	vertical-align: bottom;
-	display:none;
-}
+
 
 #filters .barItem h3 {
 	font-family: 'Atlas Grotesk Web';
@@ -1061,23 +1045,11 @@ a {
 		margin-right: 0px;
 	}
 
-	.filtTotal {
-		display: none;
-	}
-
 	#filters .barItem h3 {
-	}
-
-	#filters select {
-		margin-left: 0.75em;
 	}
 
 	.valName{
 		max-width: 21vw;
-	}
-
-	.barItem > select {
-		display: none;
 	}
 
 }

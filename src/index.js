@@ -208,10 +208,10 @@ function setup(){
 
 function initControls(data, filteredData){
 
-	genderDropdown.init("gender", false);
+	genderDropdown.init("gender");
 	genreDropdown.init("genre");
 	motifDropdown.init("motif");
-	fictionalityDropdown.init("fictionality", false);
+	fictionalityDropdown.init("fictionality");
 	selectedDropdown.init("selected");
 	drawFilters();
 }
