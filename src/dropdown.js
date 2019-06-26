@@ -157,7 +157,7 @@ class Dropdown {
 	//draw out options :)
 	drawOnePanel(holder, values, callback){
 
-		let numFormat = d3.format(",.2r");
+		let numFormat = d3.format(",.0r");
 		let theSelected = this.selection;
 
 		let panel = holder
