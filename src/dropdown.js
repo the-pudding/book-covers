@@ -1,4 +1,6 @@
-import * as d3 from "d3-selection";
+import {select, selectAll} from "d3-selection";
+import {format} from "d3-format";
+const d3 = {select, selectAll, format};
 import Fuse from "fuse.js";
 
 
@@ -152,6 +154,8 @@ class Dropdown {
 
 	//draw out options :)
 	drawOnePanel(holder, values, callback){
+
+		let numFormat = d3.format(",.2r");
 		let theSelected = this.selection;
 
 		let panel = holder
@@ -167,7 +171,7 @@ class Dropdown {
 		.each(function(d){
 				let theThis = d3.select(this);
 				theThis.select(".valName").select("p").html(d.key);
-				theThis.select(".count").select("p").html(d.filteredValue + " of " + d.value);
+				theThis.select(".count").select("p").html(numFormat(d.filteredValue) + " of " + numFormat(d.value));
 
 				if (theSelected.includes(d.key)) {
 					theThis.select(".checker").classed("checked", true);
@@ -189,7 +193,7 @@ class Dropdown {
 				}
 
 				theThis.append("div").attr("class", "valName").append("p").html(d.key);
-				theThis.append("div").attr("class", "count").append("p").html(d.filteredValue + " of " + d.value);
+				theThis.append("div").attr("class", "count").append("p").html(numFormat(d.filteredValue) + " of " + numFormat(d.value));
 			}).on("click", function(d){
 				callback(d.key);
 			})
