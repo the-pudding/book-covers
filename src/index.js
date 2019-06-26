@@ -329,4 +329,11 @@ function drawFilters(){
 		selections["fictionality"].concat(selections["genre"].concat(selections["gender"].concat(selections["motifs"]))),
 		(newVal) => clickCallback("all", newVal));
 
+	//don't want to run this function a second time
+	//so handling the name change here
+	if (selectedTotal.length > 0){
+		d3.select("#filter h3").html("Filtered");
+	} else {
+		d3.select("#filter h3").html("Filter");
+	}
 }
