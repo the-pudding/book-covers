@@ -31,7 +31,7 @@ class Dropdown {
 	init(name){
 		this.holder = d3.select("#" + name);
 		this.name = name;
-		this.holder.append("h3").html(name);
+		this.holder.append("h3").html(name === "fictionality" ? "(non-)fiction" : name);
 
 		let holder = this.holder;
 		let handleKeypress = this.handleKeypress;
@@ -89,10 +89,12 @@ class Dropdown {
 	setData(total, filtered, selection, callback){
 
 		if (selection.length === 0){
-			this.holder.select("h3").html(this.name);
+			this.holder.select("h3").html(this.name === "fictionality" ? "(non-)fiction" : this.name);
 
 		} else {
-			this.holder.select("h3").html(this.name + " (" + selection.length + ")");
+			this.holder.select("h3")
+				.html((this.name === "fictionality" ? "(non-)fiction" : this.name) +
+					 " (" + selection.length + ")");
 		}
 
 		if(selection.length > 0){
