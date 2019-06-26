@@ -7,12 +7,14 @@ function makeOverlay(data, selections, callback, closeCallback)
 	let elt = document.createElement("div");
 	let element = d3.select(elt)
 				.attr("class", "overlay")
-				.attr("id", "currentOverlay");
+				.attr("id", "currentOverlay")
+				.append("div")
+				.attr("class","overlay-wrapper")
+				;
 
-	let header = element.append("div")
-		.attr("class", "overlayHeader")
-		.append("h1")
-		.html(data.title);
+	// let header = element.append("h1")
+	// 	.attr("class", "overlayHeader")
+	// 	.html();
 
 	//like /one/ book doesn't have an author associated
 	if (data["author"]){
@@ -21,7 +23,7 @@ function makeOverlay(data, selections, callback, closeCallback)
 
 		byline
 			.append("h2")
-			.html("by " + data.author + " ");
+			.html(data.title+" by " + data.author + " ");
 
 		makeChip(byline, data["gender"], selections["gender"],
 					 (val) => callback("gender", val));
@@ -54,9 +56,9 @@ function makeOverlay(data, selections, callback, closeCallback)
 		.attr("id", "fictionalityOverlayDiv");
 	let fictionalityP = fictionalityDiv.append("p");
 	fictionalityP.append("span").html("Fictionality: ");
-	makeChip(fictionalityDiv, data["is_fiction"] === 1 ? "fiction" : "nonfiction", selections["fictionality"], 
+	makeChip(fictionalityDiv, data["is_fiction"] === 1 ? "fiction" : "nonfiction", selections["fictionality"],
 				(val) => callback("fictionality", val));
-	
+
 	let genreDiv = element.append("div")
 		.attr("class", "overlayInfoDiv")
 		.attr("id", "genreOverlayDiv");
@@ -98,7 +100,7 @@ function checkIfFilteredOut(data, selections){
 				}
 			}
 		};
-		
+
 		if (selections["gender"].length > 0){
 			if (!selections["gender"].includes(data["gender"])){
 				return true;

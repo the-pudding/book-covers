@@ -78,7 +78,8 @@ class OSD{
 		        	if (openHandler){
 		        		closeOpenThings();
 		        	}
-		        					d3.select("#bottomBar").classed("readMore", false);
+		        	d3.select("#bottomBar").classed("readMore", false);
+		        	d3.select("#bottomBar").classed("collapsed", true);
 
 		        }
 		    });
@@ -234,6 +235,7 @@ class OSD{
 		if (event.originalEvent.target.tagName === "CANVAS"){
 
 			d3.select("#bottomBar").classed("readMore", false);
+			d3.select("#bottomBar").classed("collapsed", true);
 
 			let position = [event.position.x, event.position.y];
 			if ((Math.abs(position[0] - this.currentPos[0]) < 15) && (Math.abs(position[1] - this.currentPos[1]) < 15)){

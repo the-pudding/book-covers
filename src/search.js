@@ -23,7 +23,7 @@ class Searcher{
 		this.resultsHolder = resultsHolder;
 		this.callback = callback;
 		//simplify data so it's easier to search etc.
-		this.data = data.map(obj =>{ 
+		this.data = data.map(obj =>{
 		   var newObj = {};
 		   newObj["author"] = obj.author;
 		   newObj["title"] = obj.title;
@@ -32,7 +32,7 @@ class Searcher{
 		});
 
 		//searcher
-		this.fuse = new Fuse(this.data, 
+		this.fuse = new Fuse(this.data,
 				{keys: ["author", "title"],
 				threshold: 0.3
 				}
@@ -51,6 +51,11 @@ class Searcher{
 			}
 		});
 
+		d3.select("#bookSearch").on("click",function(d){
+			d3.select("#filter").classed("closed",true);
+			d3.select("#filters").classed("collapsed", true);
+		})
+
 		d3.select(this.searchHolder.parentNode)
 			.select(".searchClearer").on("click", function(d){
 				searchHolder.value = "";
@@ -59,8 +64,6 @@ class Searcher{
 				artificialEvent.target.value = "";
 				handleKeypress(artificialEvent);
 			})
-
-
 	}
 
 	populateSearchResults(){
@@ -94,7 +97,7 @@ class Searcher{
 
 		if (event.keycode || event.which){
 			var code = (event.keyCode ? event.keyCode : event.which);
-			if(code == 13) { 
+			if(code == 13) {
 			   //Enter keycode
 			}
 		}

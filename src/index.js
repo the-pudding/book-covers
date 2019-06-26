@@ -16,7 +16,7 @@ let data = []; //unfiltered
 let filteredData = [];
 
 //selections
-let selections = 
+let selections =
 {
 	"motifs": [],
 	"genre": [],
@@ -45,7 +45,7 @@ function clickCallback(selectionName, selection){
 	//if the value is empty, clear that selection
 	if (!selection){
 		if (!selectionName){
-			selections = 
+			selections =
 			{
 				"motifs": [],
 				"genre": [],
@@ -60,7 +60,7 @@ function clickCallback(selectionName, selection){
 	} else {
 		if (selection.length === 0){
 			if (selectionName === "all"){
-				selections = 
+				selections =
 				{
 					"motifs": [],
 					"genre": [],
@@ -72,7 +72,7 @@ function clickCallback(selectionName, selection){
 			}
 		} else if (selectionName === "all"){
 			let selectionArray = ["gender", "genre", "fictionality", "motifs"];
-			//thankfully, all our options have unique names, 
+			//thankfully, all our options have unique names,
 			//so when we're deselecting from "all" selection menu, we
 			//can just search by name... worth keeping an eye on though
 			for (var i = 0; i < selectionArray.length; i++){
@@ -114,7 +114,7 @@ function filterData(){
 	filteredData = data;
 	if (selections["motifs"].length > 0){
 		filteredData = filteredData.filter(function(d){
-			if (selections["motifs"].find(function(e) { 
+			if (selections["motifs"].find(function(e) {
 				if (d["labels"].find(function(f){
 					return f === e;
 				})) {
@@ -128,7 +128,7 @@ function filterData(){
 				return false;
 			}
 		})
-	} 
+	}
 
 	doSelectionFilter("genre", "genre");
 	doSelectionFilter("gender", "gender");
@@ -159,8 +159,8 @@ function setup(){
     initControls(data, filteredData); //draw our filters
     //initialize our main searcher at the top of the page
     searcher.init(
-    	d3.select("#bookSearch").node(), 
-    	d3.select("#mainSearch .searchResults .searchResultHolder").node(), 
+    	d3.select("#bookSearch").node(),
+    	d3.select("#mainSearch .searchResults .searchResultHolder").node(),
     	loaded_data,
     	data_point => osd.goToBook(data_point));
 
@@ -185,15 +185,19 @@ function setup(){
 	d3.select("#title").on("click", function(){
 		if (!d3.select("#bottomBar").classed("readMore") && !d3.select("#bottomBar").classed("fullyExpanded")){
 			d3.select("#bottomBar").classed("readMore", true);
+			d3.select("#bottomBar").classed("collapsed",false);
 		} else {
 			d3.select("#bottomBar").classed("readMore", false);
 			d3.select("#bottomBar").classed("fullyExpanded", false);
+			d3.select("#bottomBar").classed("collapsed",true);
 		}
 	});
 
 	//expand our bottom bar so it fills the whole screen
-	d3.select(".readMoreButton").on("click", function(){
+
+	d3.select(".method").on("click", function(){
 		d3.select("#bottomBar").classed("fullyExpanded", true);
+		d3.select("#bottomBar").classed("collapsed",false);
 	});
 
 	//close the method stuff when we click the "method" heading
@@ -220,7 +224,7 @@ function rollupAndCount(attribute, data){
 	let thisData = d3.nest()
 					.key(function(d){ return d[attribute]})
 					.rollup(function(ids) {
-						return ids.length; 
+						return ids.length;
 					})
 					.entries(data);
 	return thisData;
@@ -232,7 +236,7 @@ function rollupAndCountNested(attribute1, attribute2, data){
 	let thisData = d3.nest()
 					.key(function(d){ return d[attribute1][attribute2]})
 					.rollup(function(ids) {
-						return ids.length; 
+						return ids.length;
 					})
 					.entries(data);
 	return thisData;
@@ -306,7 +310,7 @@ function drawFilters(){
 	genreDropdown.setData(genresTotal, genresFiltered, selections["genre"], (newVal) => clickCallback("genre", newVal));
 
 	let flatMotifsTotal = data.map(function(d){ return d.labels}).flat();
-	flatMotifsTotal = formatMotifs(flatMotifsTotal);	
+	flatMotifsTotal = formatMotifs(flatMotifsTotal);
 	let flatMotifsFiltered = filteredData.map(function(d){ return d.labels}).flat();
 	flatMotifsFiltered = formatMotifs(flatMotifsFiltered);
 	motifDropdown.setData(flatMotifsTotal, flatMotifsFiltered, selections["motifs"],(newVal) => clickCallback("motifs", newVal));
@@ -321,11 +325,8 @@ function drawFilters(){
 
 	let selectedFiltered = countSelected(genresFiltered, genderFiltered, fictionalityFiltered, flatMotifsFiltered);
 	let selectedTotal = countSelected(genresTotal, genderTotal, fictionalityTotal, flatMotifsTotal);
-	selectedDropdown.setData(selectedTotal, selectedFiltered, 
+	selectedDropdown.setData(selectedTotal, selectedFiltered,
 		selections["fictionality"].concat(selections["genre"].concat(selections["gender"].concat(selections["motifs"]))),
 		(newVal) => clickCallback("all", newVal));
 
 }
-
-
-

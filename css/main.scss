@@ -1,3 +1,5 @@
+
+
 @import "fonts.scss";
 
 $iconHighlight: #e21441;
@@ -11,6 +13,7 @@ html, body {
 	font-family: 'Atlas Grotesk Web', sans-serif;
 	background-color: #000;
 	font-size: calc(0.7em + 0.6vw);
+	overflow: hidden;
 }
 
 input {
@@ -19,9 +22,17 @@ input {
 	font-family: 'Atlas Grotesk Web', sans-serif;
 }
 
-h1, h2, h3, h4, .barItem h3, #projectDescription h3 {
-	font-family: 'Canela Web';
-    font-weight: 700 !important;
+.project-top-line{
+	width: 100%;
+	display:flex;
+	justify-content: center;
+	margin-top: 10px;
+}
+
+#projectDescription h3 {
+    font-weight: 700;
+		font-size:22px;
+		max-width:530px;
 }
 
 h2, h3 {
@@ -38,53 +49,84 @@ a {
 	display: none;
 }
 
+#logo{
+	width:100px;
+	display:block;
+	text-decoration: none;
+	border: none;
+	img{
+		width:100%;
+	}
+	@media screen and (max-width: 700px){
+		opacity: .5;
+	}
+}
+
+#filter h3{
+	font-family:'Atlas Grotesk Web';
+	font-size: 18px;
+	font-weight: 400;
+}
+
+.result .iconAfter:after {
+	margin-top:0px;
+}
+
 .iconAfter:after {
 	display: inline-block;
 	width: 1.25em;
 	height: 1.25em;
 	content: "";
+	opacity:.5;
+	margin-top:2px;
 	padding-left: 0.2em;
 	background-color: currentColor;
-    -webkit-mask-position: center;
-    mask-position: center;
-    -webkit-mask-size: contain;
-    mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    vertical-align: top;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  vertical-align: top;
+	background: #a0a0a0;
 }
 
 .iconBefore:before {
 	display: inline-block;
-	width: 1.25em;
-	height: 1.25em;
+	width: 1em;
+	height: 1em;
 	content: "";
-	padding-right: 0.2em;
+	top:.5rem;
+	transform: translate(0%, 0%);
+	position:absolute;
+	right: .5rem;
 	background-color: currentColor;
-    -webkit-mask-position: center;
-    mask-position: center;
-    -webkit-mask-size: contain;
-    mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    vertical-align: top;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  vertical-align: top;
+	@media screen and (max-width: 400px){
+		top: 12px;
+	}
 }
 
 /*---header and footer---*/
 .controlBar {
 	width: 100%;
-    position: absolute;
-    left: 0px;
-    color: #222;
-    z-index: 1000000;
-    background-color: #fff;
-    display: flex;
-    max-height: 2.2em;
+  position: absolute;
+  left: 0px;
+  color: #222;
+  z-index: 1000000;
+  background-color: #fff;
+  display: flex;
+	transition: height .25s;
 }
 
 #topBar {
     top: 0px;
-    border-bottom: 1px solid #222;
 }
 
 #bottomBar {
@@ -95,19 +137,15 @@ a {
 
 /*a unit used a lot in the top and bottom bar*/
 .barItem {
-    display: inline-block;
     padding: 0.5em 0.4em;
     font-size: 0.8rem;
     color: #222;
-    position: relative;
     flex: 0 1;
 }
 
 .barItem h3 {
 	margin-bottom: 0px;
-	white-space: nowrap;
 	text-align: center;
-	display: inline-block;
 }
 
 .dropdown {
@@ -155,6 +193,7 @@ a {
 
 #bottomBar.readMore #projectDescription {
 	display: block;
+	transition: height .25s;
 }
 
 #bottomBar.fullyExpanded {
@@ -167,7 +206,16 @@ a {
 
 #bottomBar.fullyExpanded .projectMethods {
 	display: block;
-	height: calc(100% - 5em);
+	padding-bottom: 100px;
+	h4{
+		max-width: 90%;
+	}
+	p {
+		text-align:left;
+		font-size: 16px;
+		max-width: 90%;
+		width: 90%;
+	}
 }
 
 #bottomBarHolder {
@@ -176,6 +224,8 @@ a {
 
 #bottomBar.readMore #bottomBarHolder {
 	border-bottom: 1px #222 solid;
+	margin: 0 auto;
+	flex-wrap:wrap;
 }
 
 #zoomIn {
@@ -208,18 +258,126 @@ a {
     bottom: 0.4em;
 }
 
+.collapsed{
+	height:2em;
+	.project-top-line{
+		position: absolute;
+		width:100px;
+		left:0px;
+		top:50%;
+		transform: translate(0,-50%);
+		margin-top: 3px;
+    margin-left: 15px;
+		.byline{
+			display:none;
+		}
+	}
+	#title h3{
+		font-size:22px;
+	}
+	@media screen and (max-width: 950px){
+		height:3em;
+		@media screen and (max-width: 800px){
+			height:4em;
+		}
+		@media screen and (max-width: 400px){
+			height:5em;
+		}
+		#title{
+			display:flex;
+			justify-content: flex-end;
+			h3{
+				text-align: right;
+				padding-right: 0px;
+				font-family: 'Atlas Grotesk Web';
+				font-size:20px;
+				font-size: 15px;
+				line-height: 28px;
+				max-width: 350px;
+				margin:0;
+				margin-right:1.5rem;
+				line-height: 1.4;
+				height: 3.7rem;
+				margin-top: .3em;
+				@media screen and (max-width: 700px){
+					margin-right:1.7rem;
+				}
+				@media screen and (max-width: 500px){
+					max-width: 280px;
+				}
+				@media screen and (max-width: 400px){
+					max-width: 230px;
+					font-size: 13px;
+					margin-top: 10px;
+				}
+				@media screen and (max-width: 350px){
+					max-width: 160px;
+				}
+
+			}
+		}
+
+
+	}
+}
+
 #projectDescription {
 	padding: 0.2em;
-    max-width: 800px;
-    margin: 0 auto;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#projectDescription p {
+	padding: 0.2em;
+  max-width: 800px;
+  margin: 0 auto;
+	font-size: 18px;
+	max-width: 530px;
+	margin: 0 auto;
+	line-height: 1.6;
+	text-align: center;
+	margin-bottom:1rem;
+	@media screen and (max-width: 700px){
+		font-size: 14px;
+		max-width:90%;
+	}
 }
 
 #projectDescription h3 {
 	text-align: center;
 }
 
+#projectDescription h4 {
+	font-family: 'Atlas Grotesk Web';
+	font-size: 18px;
+	max-width: 530px;
+	font-weight: 500;
+	margin: 0 auto;
+	margin-bottom: 30px;
+	margin-top: 50px;
+}
+
 .byline {
+	margin:0px;
 	text-align: center;
+	font-size: 15px;
+	margin: 0px;
+	align-self: center;
+	margin-left: 20px;
+	margin-top: -6px;
+	@media screen and (max-width: 700px){
+		display: none;
+	}
+}
+
+.byline-mobile{
+	display:none;
+	@media screen and (max-width: 700px){
+		display: initial;
+		margin-right: 5px;
+		font-weight:500;
+	}
+
 }
 
 .methodTitle {
@@ -233,33 +391,76 @@ a {
 }
 
 #bottomBar.fullyExpanded #projectDescription {
-	height: calc(100% - 5em);
+	height: calc(100%);
 	overflow: scroll;
 }
 
-#zoomer {
-	flex: 0 0 4.5em;
+.fullyExpanded .methodTitle{
+	display:none;
 }
 
-#zoomer div{
+#zoomer {
+	position: absolute;
+	    right: 0px;
+	    bottom: 2.5rem;
+	    display: flex;
+	    top: 0px;
+	    transform: translate(0,-100%);
+	    height: 33px;
+}
+
+#zoomer .zoom-button-container{
+	background: white;
+	margin-right:5px;
+	width:32px;
+	height:30px;
+	box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.5607);
+	border-radius: 2px;
+}
+#zoomer .zoom-button{
 	height: 1.75em;
-	width: 2em;
-	display: inline-block;
+	margin:0 auto;
+	width: 23px;
 	cursor: pointer;
 	background-color: #222;
+	margin-top: 3px;
 }
+
+
+
 
 #title {
 	flex: 2 0;
 	font-family: 'Canela Web';
-    font-weight: 700;
-    padding-left: 0.2em;
-    cursor: pointer;
+	font-weight: 700;
+  cursor: pointer;
+	font-size:19px;
+	padding:0px;
+
 }
 
 #title h3{
-	font-weight: 700;
+	padding:0px;
+	line-height: 1.8;
+	font-size: 32px;
+	@media screen and (max-width: 1000px) {
+		font-size: 28px;
+	}
+	@media screen and (max-width: 950px){
+		font-size: 22px;
+	}
+	@media screen and (max-width: 700px){
+		max-width: 600px;
+		font-size: 24px;
+		margin: 0 auto;
+		line-height: 1.4;
+		width:90%;
+	}
 }
+
+
+
+
 
 #title h3::before {
 	color: $iconHighlight;
@@ -295,16 +496,29 @@ a {
 	position: relative;
 	display: inline-block;
 	white-space: nowrap;
-	width: 100%;
+	width: 300px;
+	margin-left:37px;
+	height: 100%;
+	@media screen and (max-width: 600px){
+		width: 200px;
+		margin-left: 23px;
+	}
 }
 
 #mainSearch input {
-	width: calc(100% - 1.7em);
+	width:100%;
+	height: 100%;
 }
 
 #mainSearch::before {
 	-webkit-mask-image:  url("~./../images/search.svg");
-    mask-image:  url("~./../images/search.svg");
+  mask-image:  url("~./../images/search.svg");
+	left:-5px;
+	top:50%;
+	transform:translate(-100%,-50%);
+	right:auto;
+	margin-left: 0px;
+	margin-right: 0px;
 }
 
 #mainSearchHolder {
@@ -315,17 +529,32 @@ a {
 .searchHolder {
 	height: 1.2em;
 	margin-bottom: 0.6em;
+	position:relative;
+	display: none;
+}
+
+#filters .searchHolder > div {
+	width:100%;
+	margin-left: 19px;
 }
 
 .searchHolder::before {
 	-webkit-mask-image:  url("~./../images/search.svg");
     mask-image:  url("~./../images/search.svg");
     font-size: 0.8em;
+		right:auto;
+		left:0px;
+		transform:translate(-100%, -50%);
+		right: auto;
+		left: -3px;
+		transform: translate(0%, -50%);
+		top: 10px;
 }
 
 .searchHolder > div {
-	width: calc(100% - 2em);
+	width: 200px;
 	display: inline-block;
+	margin-left:37px;
 }
 
 .searchResultHolder {
@@ -338,13 +567,14 @@ a {
 }
 
 .searchResults {
-    color: #222;
-    z-index: 100000000000000;
-    margin-left: -0.5em;
-    margin-top: calc(0.2em + 1px);
-    background-color: #fff;
-    border-top: 1px solid #222;
-    padding: 0px;
+	color: #222;
+	z-index: 100000000000000;
+	margin-left: -0.5em;
+	background-color: #fff;
+	border-top: 1px solid #222;
+	padding: 0px;
+	position: absolute;
+	top: calc(100% + .5em);
 }
 
 .searchEntry {
@@ -416,8 +646,9 @@ a {
 
 .filtTotal {
 	text-align: right;
-    font-size: 0.65em;
+    font-size: 12px;
     color: #666;
+		display: none;
 }
 
 .filtTotal p{
@@ -435,28 +666,51 @@ a {
 .results button, #clearAll {
 	appearance: none;
 	-webkit-appearance: none;
-    width: 100%;
-    font-family: "Publica";
-    border: 1px solid #222;
-    font-family: 'Atlas Grotesk Web', sans-serif;
-    cursor: pointer;
-    margin-top: 0.6em;
+  width: 100%;
+  border: 1px solid #222;
+  font-family: 'Atlas Grotesk Web', sans-serif;
+  cursor: pointer;
+  margin-top: 0.6em;
+	font-size:12px;
+	border-radius: 4px;
+	background: #f1f0f0;
+	border: none;
+	display:none;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	border: 3px solid white;
+	z-index: 100000000000;
 }
 
 /*not to be confused with searchResultHolder*/
 .resultHolder {
 	height: 8em;
 	overflow: auto;
-	margin-bottom:1.8em;
 }
+
+
 
 .searchHolder ~ .resultHolder {
 	margin-bottom: 0px;
+	position: relative;
+	z-index: 0;
+}
+
+.bottom-gradient {
+	position:absolute;
+	bottom: 0px;
+	left:0px;
+	width:100%;
+	z-index:100000;
+	background: linear-gradient(0deg, white 2%, rgba(255, 255, 255, 0) 20%);
+	pointer-events: none;
+	height:100%;
 }
 
 #clearAll {
 	display: none;
-	border-left: solid 1px #222;
+	visibility: hidden;
 }
 
 #clearAll h3:before {
@@ -464,24 +718,35 @@ a {
 }
 
 .valName {
-	margin-right: 10px;
 	flex-grow: 1;
 	white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    max-width: 15vw;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 15vw;
+	padding-left: 4px;
+	margin-right:5px;
+}
+
+.valName p{
+	font-size: 14px;
+	text-transform:capitalize;
+	@media screen and (max-width: 1000px){
+		font-size: 12px;
+	}
 }
 
 .count {
 	text-align: right;
 	float: right;
 	display: inline-block;
-	font-size: 0.65em;
-	line-height: 2.8em;
+	font-size: 12px;
+	opacity:.4;
+	font-weight:500;
 }
 
 .selectedHolder {
 	position: relative;
+	padding-bottom: 30px;
 }
 
 .results input.searchBar {
@@ -489,16 +754,16 @@ a {
 	font-size: 0.9em;
 }
 
-.searchBar:placeholder-shown + .searchClearer::after,  
+.searchBar:placeholder-shown + .searchClearer::after,
 #bookSearch:placeholder-shown + .searchClearer::after{
 	display: none;
 }
 
 .result {
-	position: absolute;
 	display: flex;
 	margin: 0.2em 0em;
 	width: 100%;
+	margin-bottom:5px;
 }
 .result div {
 	white-space: nowrap;
@@ -506,9 +771,10 @@ a {
 
 .result div p {
 	white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    margin: 0.2em 0em;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	margin:0 auto;
+	cursor:pointer;
 }
 
 .searchClearer {
@@ -526,6 +792,10 @@ a {
     color: #444;
     line-height: 1.5em;
     height: 1.65em;
+		top:50%;
+		margin-top:0px;
+		transform:translate(0,-50%);
+		margin-top: 13px;
 }
 
 .dropDown {
@@ -570,13 +840,12 @@ a {
 	position: absolute;
 	width: 100%;
 	left: 0px;
-	top:2em;
-	background-color:#fff; 
-	border-top: 1px solid #444;
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-	padding-top: 0.2em;
-	border-bottom: 1px solid #222;
+	background-color: #fff;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	border-top: 1px solid #e6e6e6;
+	top: 100%;
 }
 
 #filters.collapsed {
@@ -587,59 +856,71 @@ a {
 	width: 1em;
 	margin-left: 1.25em;
 	vertical-align: bottom;
+	display:none;
 }
 
 #filters .barItem h3 {
-	font-family: 'Canela Web';
-    text-transform: uppercase;
-    font-weight: 700;
-    text-align: left;
-    font-size: 1.1em;
+	font-family: 'Atlas Grotesk Web';
+  text-transform: capitalize;
+  font-weight: 500;
+  text-align: center;
+	display: block;
+  font-size: 1.1em;
 }
 
 #filters .barItem {
-	padding-left:1em;
 	white-space: nowrap;
 }
+
+
+
 
 
 /*---popup with book info---*/
 .overlay {
 	background-color: #fff;
 	width: 50%;
-    padding: 0.75em;
-    z-index: 100000;
-    border: 2px solid;
-    font-size: 0.8rem;
+  padding: 1rem;
+  z-index: 100000;
+  font-size: 0.8rem;
+	border-radius: 5px;
+  box-shadow: 0px 0px 4px 3px rgba(0, 0, 0, 0.28);
+}
+
+.overlay-wrapper{
+	display:flex;
+	flex-wrap:wrap;
 }
 
 .overlay h1 {
-	font-size: 1.75em;
-	border-bottom: 1px solid #222;
+	font-size: 18px;
+	margin: 0;
 }
 
 .overlay h2 {
-	font-size: 1.25em;
+	font-size: 16px;
 	display: inline-block;
 	margin-right: 0.5em;
+	font-weight: 600;
 }
 
 .overlayHeader {
-	width:100%;
 }
 
 .overlayInfoDiv {
 	margin-bottom: 0px;
-	display: inline-block;
+	display: flex;
+	margin-bottom:10px;
+	flex-wrap:wrap;
 }
 
 .overlayInfoDiv p {
-	margin: 0.5rem 0.2rem;
-	display: inline-block;
+	margin:0;
+	align-self: center;
+	margin-right:5px;
 }
 
 .overlayInfoDiv > p span:first-child {
-	font-weight: bold;
 }
 
 .overlayInfoDiv p span:not(:first-child) {
@@ -661,20 +942,24 @@ a {
 	display: inline-block;
 	cursor: default;
 	position: relative;
-	margin: 0px 5px 5px 0px;
+	margin-right:10px;
 }
 
 .chip {
 	background-color: #444;
-    color: #fff;
-    border: 2px solid #444;
-    font-size: 0.8em;
+  color: #fff;
+	border-radius: 3px;
+	font-weight: 400;
+	font-size:14px;
 }
 
 .chip.unselectedFilter {
 	background-color: #fff;
-    color: #444;
-    border: 2px solid #444;
+  color: #444;
+	border-radius: 3px;
+	background: #efefef;
+	color: black;
+	border: none;
 }
 
 .chip p {
@@ -689,6 +974,7 @@ a {
 	-webkit-mask-image:  url("~./../images/filter.svg");
     mask-image:  url("~./../images/filter.svg");
 	cursor: pointer;
+	display:none;
 }
 
 .chipSelectionHolder{
@@ -702,25 +988,45 @@ a {
 /*---our openseadragan canvas---*/
 #openseadragon {
 	width: 100%;
-    height: calc(100% - 4em);
-    top: 2em;
-    position: absolute;
-    margin-bottom: 0px;
-    padding: 0px;
+  height: calc(100% - 4em);
+  top: 2em;
+  position: absolute;
+  margin-bottom: 0px;
+  padding: 0px;
+	cursor: move; /* fallback if grab cursor is unsupported */
+	cursor: grab;
+	cursor: -moz-grab;
+	cursor: -webkit-grab;
+}
+
+#openseadragon:active {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+
+#selected {
+	visibility: hidden;
 }
 
 
 @media (max-width: 800px){
 	#filters {
-		grid-template-columns: 1fr 1fr 1fr 1fr;
+		.barItem{
+			width:23%;
+			@media (max-width: 700px){
+			}
+		}
 	}
 
 	#selected {
 		display: none;
 	}
 
+
+
 	.results button {
-		font-size: 0.65em;
+		font-size: 12px;
 		padding: 1px 2px 2px;
 	}
 
@@ -730,6 +1036,7 @@ a {
 	#bottomBar {
 		max-height: 3.4em;
 	}
+
 
 	.barItem#title h3{
 		white-space: normal;
@@ -754,7 +1061,6 @@ a {
 	}
 
 	#filters .barItem h3 {
-		font-size: 1em;
 	}
 
 	#filters select {
@@ -773,7 +1079,6 @@ a {
 
 @media (max-width: 475px), (max-device-width: 500px){
 	#filters {
-		grid-template-columns: 0.8fr 1fr 1fr 1fr;
 	}
 
 	.results button {
@@ -782,6 +1087,9 @@ a {
 
 	#filters .barItem {
     	padding-left: 0.5em;
+			button {
+				visibility: hidden;
+			}
 	}
 
 	#filters {
@@ -789,36 +1097,17 @@ a {
 	}
 
 	#clearAll {
-		display: block;
+		display: none;
 		bottom: 0.5em;
-    	margin-left: 0.8em;
-    	width: calc(100% - 1.6em);
-	    position: absolute;
+  	margin-left: 0.8em;
+  	width: calc(100% - 1.6em);
+    position: absolute;
+		visibility: visible;
 	}
 
 	.resultHolder {
 		font-size: 0.85em;
 	}
-
-	#logo {
-		display: none;
-	}
-
-	#hiddenLogo {
-		display: block;
-	}
-
-	#title h3 {
-		text-align: left;
-	}
-
-	#title h3::before {
-		float: left;
-		height: 2em;
-		margin-right: 0.8em;
-	}
-
-
 }
 
 @media (max-width: 360px), (max-device-width: 360px){
@@ -827,12 +1116,9 @@ a {
 	}
 
 	#title h3::before {
-		height: 2em;
-    	margin-bottom: 1em;
 	}
 
 	#filters .barItem h3 {
-		font-size: 0.8em;
 	}
 
 
