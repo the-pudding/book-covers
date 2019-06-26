@@ -975,8 +975,8 @@ a {
 /*---our openseadragan canvas---*/
 #openseadragon {
 	width: 100%;
-  height: calc(100% - 4em);
-  top: 2em;
+  height: calc(100% - 3.5em);
+  top: 1.5em;
   position: absolute;
   margin-bottom: 0px;
   padding: 0px;
@@ -1055,8 +1055,6 @@ a {
 }
 
 @media (max-width: 475px), (max-device-width: 500px){
-	#filters {
-	}
 
 	.results button {
 		display: none;
@@ -1088,11 +1086,12 @@ a {
 }
 
 @media (max-width: 360px), (max-device-width: 360px){
+	#filters .barItem {
+    	padding-left: 0.2em;
+    }
+
 	#bottomBar {
 		max-height: 5em;
-	}
-
-	#title h3::before {
 	}
 
 	#filters .barItem h3 {
