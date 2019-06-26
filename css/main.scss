@@ -1,3 +1,5 @@
+
+
 @import "fonts.scss";
 
 /*---generic stuff---*/
@@ -16,6 +18,13 @@ input {
 	font-size: 1.1em;
 	border: none;
 	font-family: 'Atlas Grotesk Web', sans-serif;
+}
+
+.project-top-line{
+	width: 100%;
+	display:flex;
+	justify-content: center;
+	margin-top: 10px;
 }
 
 #projectDescription h3 {
@@ -39,8 +48,16 @@ a {
 }
 
 #logo{
-	margin-left: 1rem;
-	position:absolute;
+	width:100px;
+	display:block;
+	text-decoration: none;
+	border: none;
+	img{
+		width:100%;
+	}
+	@media screen and (max-width: 700px){
+		opacity: .5;
+	}
 }
 
 #filter h3{
@@ -62,13 +79,14 @@ a {
 	margin-top:2px;
 	padding-left: 0.2em;
 	background-color: currentColor;
-    -webkit-mask-position: center;
-    mask-position: center;
-    -webkit-mask-size: contain;
-    mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    vertical-align: top;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  vertical-align: top;
+	background: #a0a0a0;
 }
 
 .iconBefore:before {
@@ -76,11 +94,10 @@ a {
 	width: 1em;
 	height: 1em;
 	content: "";
-	margin-left: 6px;
-	top:50%;
-	transform: translate(100%,-50%);
+	top:.5rem;
+	transform: translate(0%, 0%);
 	position:absolute;
-	right: 0px;
+	right: .5rem;
 	background-color: currentColor;
   -webkit-mask-position: center;
   mask-position: center;
@@ -89,19 +106,21 @@ a {
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   vertical-align: top;
+	@media screen and (max-width: 400px){
+		top: 12px;
+	}
 }
 
 /*---header and footer---*/
 .controlBar {
 	width: 100%;
-    position: absolute;
-    left: 0px;
-    color: #222;
-    z-index: 1000000;
-    background-color: #fff;
-    display: flex;
-    height: 2em;
-		transition: height .25s;
+  position: absolute;
+  left: 0px;
+  color: #222;
+  z-index: 1000000;
+  background-color: #fff;
+  display: flex;
+	transition: height .25s;
 }
 
 #topBar {
@@ -115,20 +134,15 @@ a {
 
 /*a unit used a lot in the top and bottom bar*/
 .barItem {
-    display: inline-block;
     padding: 0.5em 0.4em;
     font-size: 0.8rem;
     color: #222;
-    position: relative;
     flex: 0 1;
 }
 
 .barItem h3 {
 	margin-bottom: 0px;
-	white-space: nowrap;
 	text-align: center;
-	display: inline-block;
-	position:relative;
 }
 
 .dropdown {
@@ -150,7 +164,6 @@ a {
 
 /*---mostly footer stuff---*/
 #bottomBar.readMore {
-	height: 200px;
 	transition: height .25s;
 }
 
@@ -164,12 +177,22 @@ a {
 
 #bottomBar.fullyExpanded .projectMethods {
 	display: block;
-	    padding-bottom: 100px;
+	padding-bottom: 100px;
+	h4{
+		max-width: 90%;
+	}
+	p {
+		text-align:left;
+		font-size: 16px;
+		max-width: 90%;
+		width: 90%;
+	}
 }
 
 #bottomBarHolder {
 	display: flex;
 	margin: 0 auto;
+	flex-wrap:wrap;
 }
 
 #zoomIn {
@@ -195,6 +218,69 @@ a {
 	filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.8));
 }
 
+.collapsed{
+	height:2em;
+	.project-top-line{
+		position: absolute;
+		width:100px;
+		left:0px;
+		top:50%;
+		transform: translate(0,-50%);
+		margin-top: 3px;
+    margin-left: 15px;
+		.byline{
+			display:none;
+		}
+	}
+	#title h3{
+		font-size:22px;
+	}
+	@media screen and (max-width: 950px){
+		height:3em;
+		@media screen and (max-width: 800px){
+			height:4em;
+		}
+		@media screen and (max-width: 400px){
+			height:5em;
+		}
+		#title{
+			display:flex;
+			justify-content: flex-end;
+			h3{
+				text-align: right;
+				padding-right: 0px;
+				font-family: 'Atlas Grotesk Web';
+				font-size:20px;
+				font-size: 15px;
+				line-height: 28px;
+				max-width: 350px;
+				margin:0;
+				margin-right:1.5rem;
+				line-height: 1.4;
+				height: 3.7rem;
+				margin-top: .3em;
+				@media screen and (max-width: 700px){
+					margin-right:1.7rem;
+				}
+				@media screen and (max-width: 500px){
+					max-width: 280px;
+				}
+				@media screen and (max-width: 400px){
+					max-width: 230px;
+					font-size: 13px;
+					margin-top: 10px;
+				}
+				@media screen and (max-width: 350px){
+					max-width: 160px;
+				}
+
+			}
+		}
+
+
+	}
+}
+
 #projectDescription {
 	padding: 0.2em;
   max-width: 800px;
@@ -205,11 +291,16 @@ a {
 	padding: 0.2em;
   max-width: 800px;
   margin: 0 auto;
-	font-size: 16px;
+	font-size: 18px;
 	max-width: 530px;
 	margin: 0 auto;
 	line-height: 1.6;
+	text-align: center;
 	margin-bottom:1rem;
+	@media screen and (max-width: 700px){
+		font-size: 14px;
+		max-width:90%;
+	}
 }
 
 #projectDescription h3 {
@@ -226,11 +317,27 @@ a {
 	margin-top: 50px;
 }
 
-#projectDescription .byline {
+.byline {
+	margin:0px;
 	text-align: center;
-font-size: 14px;
-margin-bottom: 10px;
-margin-top: 6px;
+	font-size: 15px;
+	margin: 0px;
+	align-self: center;
+	margin-left: 20px;
+	margin-top: -6px;
+	@media screen and (max-width: 700px){
+		display: none;
+	}
+}
+
+.byline-mobile{
+	display:none;
+	@media screen and (max-width: 700px){
+		display: initial;
+		margin-right: 5px;
+		font-weight:500;
+	}
+
 }
 
 .methodTitle {
@@ -252,25 +359,30 @@ margin-top: 6px;
 }
 
 #zoomer {
-	position:absolute;
-	right:0px;
-	bottom:2.5rem;
-	display:flex;
-	.zoom-button-container{
-		background: white;
-		margin-right:5px;
-		width:30px;
-		height:30px;
-		box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.5607)
-	}
-	.zoom-button{
-		height: 1.75em;
-		margin:0 auto;
-		width: 25px;
-		cursor: pointer;
-		background-color: #222;
-		margin-top: 3px;
-	}
+	position: absolute;
+	    right: 0px;
+	    bottom: 2.5rem;
+	    display: flex;
+	    top: 0px;
+	    transform: translate(0,-100%);
+	    height: 33px;
+}
+
+#zoomer .zoom-button-container{
+	background: white;
+	margin-right:5px;
+	width:32px;
+	height:30px;
+	box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.5607);
+	border-radius: 2px;
+}
+#zoomer .zoom-button{
+	height: 1.75em;
+	margin:0 auto;
+	width: 23px;
+	cursor: pointer;
+	background-color: #222;
+	margin-top: 3px;
 }
 
 
@@ -289,10 +401,27 @@ margin-top: 6px;
 #title h3{
 	padding:0px;
 	line-height: 1.8;
+	font-size: 32px;
+	@media screen and (max-width: 1000px) {
+		font-size: 28px;
+	}
+	@media screen and (max-width: 950px){
+		font-size: 22px;
+	}
+	@media screen and (max-width: 700px){
+		max-width: 600px;
+		font-size: 24px;
+		margin: 0 auto;
+		line-height: 1.4;
+		width:90%;
+	}
 }
 
+
+
+
+
 #title h3::before {
-	padding-right: 0.6em;
 	-webkit-mask-image:  url("~./../images/help-circle.svg");
     mask-image:  url("~./../images/help-circle.svg");
 }
@@ -322,10 +451,16 @@ margin-top: 6px;
 	white-space: nowrap;
 	width: 300px;
 	margin-left:37px;
+	height: 100%;
+	@media screen and (max-width: 600px){
+		width: 200px;
+		margin-left: 23px;
+	}
 }
 
 #mainSearch input {
 	width:100%;
+	height: 100%;
 }
 
 #mainSearch::before {
@@ -385,13 +520,14 @@ margin-top: 6px;
 }
 
 .searchResults {
-    color: #222;
-    z-index: 100000000000000;
-    margin-left: -0.5em;
-    margin-top: calc(0.2em + 1px);
-    background-color: #fff;
-    border-top: 1px solid #222;
-    padding: 0px;
+	color: #222;
+	z-index: 100000000000000;
+	margin-left: -0.5em;
+	background-color: #fff;
+	border-top: 1px solid #222;
+	padding: 0px;
+	position: absolute;
+	top: calc(100% + .5em);
 }
 
 .searchEntry {
@@ -465,6 +601,7 @@ margin-top: 6px;
 	text-align: right;
     font-size: 12px;
     color: #666;
+		display: none;
 }
 
 .filtTotal p{
@@ -503,7 +640,6 @@ margin-top: 6px;
 .resultHolder {
 	height: 10em;
 	overflow: auto;
-	margin-bottom:1.8em;
 }
 
 
@@ -527,7 +663,7 @@ margin-top: 6px;
 
 #clearAll {
 	display: none;
-	border-left: solid 1px #222;
+	visibility: hidden;
 }
 
 #clearAll h3:before {
@@ -540,11 +676,16 @@ margin-top: 6px;
   text-overflow: ellipsis;
   overflow: hidden;
   max-width: 15vw;
+	padding-left: 4px;
+	margin-right:5px;
 }
 
 .valName p{
 	font-size: 14px;
 	text-transform:capitalize;
+	@media screen and (max-width: 1000px){
+		font-size: 12px;
+	}
 }
 
 .count {
@@ -652,12 +793,12 @@ margin-top: 6px;
 	position: absolute;
 	width: 100%;
 	left: 0px;
-	top:2em;
-	background-color:#fff;
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-	padding-top: 0.2em;
+	background-color: #fff;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
 	border-top: 1px solid #e6e6e6;
+	top: 100%;
 }
 
 #filters.collapsed {
@@ -710,9 +851,10 @@ margin-top: 6px;
 }
 
 .overlay h2 {
-	font-size: 18px;
+	font-size: 16px;
 	display: inline-block;
 	margin-right: 0.5em;
+	font-weight: 600;
 }
 
 .overlayHeader {
@@ -722,6 +864,7 @@ margin-top: 6px;
 	margin-bottom: 0px;
 	display: flex;
 	margin-bottom:10px;
+	flex-wrap:wrap;
 }
 
 .overlayInfoDiv p {
@@ -731,7 +874,6 @@ margin-top: 6px;
 }
 
 .overlayInfoDiv > p span:first-child {
-	font-weight: bold;
 }
 
 .overlayInfoDiv p span:not(:first-child) {
@@ -765,7 +907,6 @@ margin-top: 6px;
   color: #444;
 	border-radius: 3px;
 	background: #efefef;
-	font-weight: 500;
 	color: black;
 	border: none;
 }
@@ -820,12 +961,18 @@ margin-top: 6px;
 
 @media (max-width: 800px){
 	#filters {
-		grid-template-columns: 1fr 1fr 1fr 1fr;
+		.barItem{
+			width:23%;
+			@media (max-width: 700px){
+			}
+		}
 	}
 
 	#selected {
 		display: none;
 	}
+
+
 
 	.results button {
 		font-size: 12px;
@@ -835,10 +982,6 @@ margin-top: 6px;
 }
 
 @media (max-width: 600px){
-	#bottomBar {
-		height: 3em;
-	}
-
 	.barItem#title h3{
 		white-space: normal;
 	}
@@ -862,7 +1005,6 @@ margin-top: 6px;
 	}
 
 	#filters .barItem h3 {
-		font-size: 1em;
 	}
 
 	#filters select {
@@ -881,7 +1023,6 @@ margin-top: 6px;
 
 @media (max-width: 475px), (max-device-width: 500px){
 	#filters {
-		grid-template-columns: 0.8fr 1fr 1fr 1fr;
 	}
 
 	.results button {
@@ -890,6 +1031,9 @@ margin-top: 6px;
 
 	#filters .barItem {
     	padding-left: 0.5em;
+			button {
+				visibility: hidden;
+			}
 	}
 
 	#filters {
@@ -897,50 +1041,24 @@ margin-top: 6px;
 	}
 
 	#clearAll {
-		display: block;
+		display: none;
 		bottom: 0.5em;
-    	margin-left: 0.8em;
-    	width: calc(100% - 1.6em);
-	    position: absolute;
+  	margin-left: 0.8em;
+  	width: calc(100% - 1.6em);
+    position: absolute;
+		visibility: visible;
 	}
 
 	.resultHolder {
 		font-size: 0.85em;
 	}
-
-	#logo {
-		display: none;
-	}
-
-	#hiddenLogo {
-		display: block;
-	}
-
-	#title h3 {
-		text-align: left;
-	}
-
-	#title h3::before {
-		float: left;
-		height: 2em;
-		margin-right: 0.8em;
-	}
-
-
 }
 
 @media (max-width: 360px), (max-device-width: 360px){
-	#bottomBar {
-		height: 4.4em;
-	}
-
 	#title h3::before {
-		height: 2em;
-    	margin-bottom: 1em;
 	}
 
 	#filters .barItem h3 {
-		font-size: 0.8em;
 	}
 
 

@@ -177,12 +177,14 @@ class Dropdown {
 			if(this.holder.attr("id") == "selected"){
 				this.holder.style("visibility","visible");
 			}
+			d3.select("#clearAll").style("display","block");
 			this.holder.select("button").style("display","block");
 		}
 		else{
 			if(this.holder.attr("id") == "selected"){
 				this.holder.style("visibility",null);
 			}
+			d3.select("#clearAll").style("display",null);
 			this.holder.select("button").style("display",null);
 		}
 
@@ -239,7 +241,6 @@ class Dropdown {
 	}
 
 	draw(){
-		console.log("here");
 		this.drawOnePanel(this.selectedHolder, this.selectedValues, this.callback);
 	}
 
@@ -260,7 +261,7 @@ class Dropdown {
 		.each(function(d){
 				let theThis = d3.select(this);
 				theThis.select(".valName").select("p").html(d.key);
-				theThis.select(".count").select("p").html(d.filteredValue + "/" + d.value);
+				theThis.select(".count").select("p").html(d.filteredValue + " of " + d.value);
 
 				if (theSelected.includes(d.key)) {
 					theThis.select(".checker").classed("checked", true);
@@ -282,7 +283,7 @@ class Dropdown {
 				}
 
 				theThis.append("div").attr("class", "valName").append("p").html(d.key);
-				theThis.append("div").attr("class", "count").append("p").html(d.filteredValue + "/" + d.value);
+				theThis.append("div").attr("class", "count").append("p").html(d.filteredValue + " of " + d.value);
 			}).on("click", function(d){
 				callback(d.key);
 			})
