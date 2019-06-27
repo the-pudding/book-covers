@@ -47,12 +47,16 @@ class Dropdown {
 		//functionality added in setData
 		let clearButton = results.append("button")
 			.text(function(){
-				if (name === "fictionality"){
-					return "Clear selected fictionalities";
-				} else if (name === "selected"){
-					return "Clear all selected";
+				if (window.innerWidth < 600){
+					return "Clear selected";
 				} else {
-					return "Clear selected " + name + "s";
+					if (name === "fictionality"){
+						return "Clear selected fictionalities";
+					} else if (name === "selected"){
+						return "Clear all selected";
+					} else {
+						return "Clear selected " + name + "s";
+					}
 				}
 			});
 

@@ -679,6 +679,7 @@ a {
 .resultHolder {
 	height: 8em;
 	overflow: auto;
+	padding-bottom: 30px;
 }
 
 
@@ -738,7 +739,6 @@ a {
 
 .selectedHolder {
 	position: relative;
-	padding-bottom: 30px;
 }
 
 .results input.searchBar {
