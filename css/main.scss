@@ -122,11 +122,12 @@ a {
   z-index: 1000000;
   background-color: #fff;
   display: flex;
-	transition: height .25s;
 }
 
 #topBar {
-    top: 0px;
+  top: 0px;
+	transform: translate(0,-100%);
+	transition: transform .25s;
 }
 
 #bottomBar {
@@ -167,7 +168,6 @@ a {
 /*---mostly footer stuff---*/
 
 #bottomBar {
-	animation: 1.5s ease-out 0s 1 slideInFromBottom;
 }
 
 @keyframes slideInFromBottom {
@@ -226,7 +226,6 @@ a {
 }
 
 #bottomBar.readMore #bottomBarHolder {
-	border-bottom: 1px #222 solid;
 	margin: 0 auto;
 	flex-wrap:wrap;
 }
@@ -739,6 +738,7 @@ a {
 
 .selectedHolder {
 	position: relative;
+	padding-bottom: 30px;
 }
 
 .results input.searchBar {
@@ -1023,7 +1023,6 @@ a {
 
 @media (max-width: 600px){
 	#bottomBar {
-		max-height: 3.4em;
 	}
 
 

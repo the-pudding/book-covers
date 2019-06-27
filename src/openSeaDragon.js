@@ -78,6 +78,8 @@ class OSD{
 		        	if (openHandler){
 		        		closeOpenThings();
 		        	}
+
+							d3.select("#topBar").style("transform","translate(0,0%)");
 		        	d3.select("#bottomBar").classed("readMore", false);
 		        	d3.select("#bottomBar").classed("collapsed", true);
 
@@ -94,7 +96,7 @@ class OSD{
 		this.canvas = this.viewer.canvasOverlay({
 		    clearBeforeRedraw:true
 		});
-		
+
 		this.updateFilterOverlays();
 
 		d3.select("#zoomIn").on("click", function(d){
@@ -148,7 +150,7 @@ class OSD{
 		    for (var i = 0; i < filteredData.length; i++){
 		    	let x = filteredData[i]["grid_point"][0]/82 * 27060;
 		    	let y = filteredData[i]["grid_point"][1]/69 * 34155;
-		    	canvas.context2d().fillRect(x - padding, y - padding, 27060/82 + padding * 2, 34155/69 + padding * 2);            
+		    	canvas.context2d().fillRect(x - padding, y - padding, 27060/82 + padding * 2, 34155/69 + padding * 2);
 		    }
 		    //draw a rect around the grid so we don't get a bright outline
 		    if (viewer.viewport.getZoom() < 10) {
@@ -171,14 +173,14 @@ class OSD{
 		let selections = this.selections;
 		let cb = this.cb;
 		let closeOpenThings = this.closeOpenThings;
-			
+
 		if (clickedBook){
 			//delete open overlay if it exists (we do this twice because w/ timeouts it isn't always predictable)
 			let openHandler = document.querySelector(".overlay");
 			if (openHandler){
 				closeOpenThings();
 			}
-			
+
 			//we'll pass the data to the overlay inside the timeout so "closeOpenThings" doesn't nullify it inadvertently
 			let setClickedBookData = (val) => this.clickedBookData = val;
 
@@ -234,6 +236,7 @@ class OSD{
 	handleClick(event){
 		if (event.originalEvent.target.tagName === "CANVAS"){
 
+			d3.select("#topBar").style("transform","translate(0,0%)");
 			d3.select("#bottomBar").classed("readMore", false);
 			d3.select("#bottomBar").classed("collapsed", true);
 
@@ -244,7 +247,7 @@ class OSD{
 				//we know from our python file that our grid has 82 columns and 69 rows
 				let gridPos = [Math.floor(percentPos[0] * 82), Math.floor(percentPos[1] * 69)];
 				this.goToBook(gridPos);
-			} 
+			}
 		}
 
 	}
@@ -256,16 +259,16 @@ class OSD{
 		return theBook;
 	}
 
-	//remove overlay if we zoom out, need it for mobile :/	
-	handleZoom(event){	
-		if (this.zoomLevel && event.zoom < this.zoomLevel){	
-			let openHandler = document.querySelector(".overlay");	
+	//remove overlay if we zoom out, need it for mobile :/
+	handleZoom(event){
+		if (this.zoomLevel && event.zoom < this.zoomLevel){
+			let openHandler = document.querySelector(".overlay");
 			if (openHandler){
-				this.closeOpenThings();	
-			}	
-		}	
-		this.zoomLevel = event.zoom;	
-	}	
+				this.closeOpenThings();
+			}
+		}
+		this.zoomLevel = event.zoom;
+	}
 
 	//hide search results if we start panning around
 	handlePan(event){
