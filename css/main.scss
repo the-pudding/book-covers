@@ -886,12 +886,14 @@ a {
 
 .overlay h2 {
 	font-size: 16px;
-	display: inline-block;
+	display: inline;
 	margin-right: 0.5em;
 	font-weight: 600;
 }
 
 .overlayHeader {
+	width: 100%;
+	margin-bottom: 0.4em;
 }
 
 .overlayInfoDiv {
@@ -934,10 +936,11 @@ a {
 
 .chip {
 	background-color: #444;
-  color: #fff;
+  	color: #fff;
 	border-radius: 3px;
 	font-weight: 400;
 	font-size:14px;
+	margin: 4px 0em
 }
 
 .chip.unselectedFilter {

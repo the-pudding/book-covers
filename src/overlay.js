@@ -12,10 +12,6 @@ function makeOverlay(data, selections, callback, closeCallback)
 				.attr("class","overlay-wrapper")
 				;
 
-	// let header = element.append("h1")
-	// 	.attr("class", "overlayHeader")
-	// 	.html();
-
 	//like /one/ book doesn't have an author associated
 	if (data["author"]){
 		let byline = element.append("div")

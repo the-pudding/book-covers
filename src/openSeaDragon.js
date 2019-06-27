@@ -25,6 +25,7 @@ class OSD{
 		this.handleZoom = this.handleZoom.bind(this);
 		this.handlePan = this.handlePan.bind(this);
 		this.closeOpenThings = this.closeOpenThings.bind(this);
+		this.calcMaxZoom = this.calcMaxZoom.bind(this);
 	}
 
 	init(unfilteredData, filteredData, selections, cb){
@@ -34,19 +35,19 @@ class OSD{
 		this.selections = selections;
 		this.cb = cb;
 		this.holder = document.getElementById("openseadragon");
+		let calcMaxZoom = this.calcMaxZoom;
 
 		//see https://github.com/openseadragon/openseadragon/issues/678
 		OpenSeadragon.pixelDensityRatio = 1;
 		this.viewer  = OpenSeadragon({
 		    id:                 'openseadragon',
 		    prefixUrl:          'TileGroup/',
-		    showNavigator:      (window.innerWidth > 425 && window.innerHeight > 425),
 		    wrapHorizontal:     false,
 		    zoomPerScroll:      1.2,
 		    zoomPerClick: 1,
 		    animationTime: 1,
 		    minZoomLevel: 0.6,
-		    maxZoomLevel: window.innerWidth < 450 ? 60 : 30,
+		    maxZoomLevel: calcMaxZoom(window.innerWidth),
 		    defaultZoomLevel: window.innerWidth < 450 ? 0.85 : 0.6,
 		    showNavigator: false,
 		    showHomeControl: false,
@@ -100,7 +101,7 @@ class OSD{
 		d3.select("#zoomIn").on("click", function(d){
 			let prevZoom = viewer.viewport.getZoom();
 			let newZoom = prevZoom * 2;
-			let maxZoom = window.innerWidth < 450 ? 60 : 30;
+			let maxZoom = calcMaxZoom(window.innerWidth);
 			if (newZoom > maxZoom){
 				newZoom = maxZoom;
 			}
@@ -184,18 +185,18 @@ class OSD{
 
 			//handle mobile-like screens a bit differently
 			//note!! 1.262 comes from dividing the height of the image by the width
-			if (window.innerWidth > 450){
-				this.viewer.viewport.zoomTo(30, new OpenSeadragon.Point(gridPos[0]/82 + (1/82/2), gridPos[1] * (1.262/69) + 1.262/69/2));
-			} else {
-				this.viewer.viewport.zoomTo(60, new OpenSeadragon.Point(gridPos[0]/82 + (1/82/2), gridPos[1] * (1.262/69) + 1.262/69/2));
-			}
+			this.viewer.viewport.zoomTo(this.calcMaxZoom(window.innerWidth), new OpenSeadragon.Point(gridPos[0]/82 + (1/82/2), gridPos[1] * (1.262/69) + 1.262/69/2));
+
 			setTimeout( function() {
 				//pan to the location after a bit. fitbounds isn't working as expected, so work in stages
-			    if (window.innerWidth > 450){
+			    if (window.innerWidth > 900){
+			    	viewport.panTo(new OpenSeadragon.Point(gridPos[0]/82 + (1/82/1.25), gridPos[1] * (1.262/69) + 1.262/69/2));
+				} else if(window.innerWidth > 450) {
 			    	viewport.panTo(new OpenSeadragon.Point(gridPos[0]/82 + (1/82/1.05) + 0.005, gridPos[1] * (1.262/69) + 1.262/69/2 - 0.001));
 				} else {
 					viewport.panTo(new OpenSeadragon.Point(gridPos[0]/82 + (1/82/2), gridPos[1] * (1.262/69) + 1.262/69/1.5));
 				}
+
 				//after another delay, create an overlay
 			    setTimeout( function() {
 
@@ -211,11 +212,23 @@ class OSD{
 					//to get around it is more difficult
 					let overlayLocation;
 					//display the overlay in diff positions based on screen dimensions
-					if (window.innerWidth > 450){
-						overlayLocation = new OpenSeadragon.Point(gridPos[0]/82 + (1/82/1.05) + 0.001, gridPos[1] * (1.262/69) + (1.262/69/3));
+					if (window.innerWidth > 900){
+						overlayLocation = new OpenSeadragon.Point(gridPos[0]/82 + (1/82/1.05) + 0.002, gridPos[1] * (1.262/69) + (1.262/69/3));
+					} else if (window.innerWidth > 450){
+						overlayLocation = new OpenSeadragon.Point(gridPos[0]/82 + (1/82/1.05) + 0.001, gridPos[1] * (1.262/69) + (1.262/69/4));
 					} else {
 						let bounds = viewer.viewport.getBounds();
 						overlayLocation = new OpenSeadragon.Point(gridPos[0]/82 - 0.0021, bounds.y + bounds.height/2);
+					}
+
+					//overlay width
+					let theWidth;
+					if (window.innerWidth > 900){
+						theWidth = 0.0145;
+					} else if (window.innerWidth > 450){
+						theWidth = 0.0165;
+					} else {
+						theWidth = 0.01485;
 					}
 
 					viewer.addOverlay({
@@ -223,7 +236,7 @@ class OSD{
 				        location: overlayLocation,
 				        placement: OpenSeadragon.Placement.TOP_LEFT,
 				        rotationMode: OpenSeadragon.OverlayRotationMode.NO_ROTATION,
-				        width: window.innerWidth > 450 ? 0.0165 : 0.01535
+				        width: theWidth
 				    });
 				}, 1000);
 			}, 1000 );
@@ -279,6 +292,16 @@ class OSD{
 		this.viewer.removeOverlay("currentOverlay");
 		d3.select("#mainSearch .searchResults").classed("hidden", true);
 		this.clickedBookData = null;
+	}
+
+	calcMaxZoom(screenWidth){
+		if (screenWidth > 900){
+			return 22;
+		} else if (screenWidth > 450){
+			return 30;
+		} else {
+			return 60;
+		}
 	}
 
 
