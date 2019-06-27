@@ -1024,7 +1024,7 @@ a {
 
 }
 
-@media (max-width: 600px){
+@media (max-width: 600px), (max-device-width: 650px){
 	#bottomBar {
 	}
 
@@ -1032,15 +1032,15 @@ a {
 	.barItem#title h3{
 		white-space: normal;
 	}
+
+	.results .count {
+		display: none;
+	}
 }
 
 @media (max-width: 550px), (max-device-width: 600px){
 	html, body, .main {
 		font-size: calc(0.8em + 0.6vw);
-	}
-
-	.results .count {
-		display: none;
 	}
 
 	.results .valName {
