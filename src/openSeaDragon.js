@@ -4,6 +4,9 @@ import {makeOverlay, updateOverlay} from "./overlay";
 import * as d3 from "d3-selection";
 
 
+var makeOverlayTimeout = null;
+
+
 class OSD{
 	constructor() {
 		this.viewer;
@@ -166,7 +169,6 @@ class OSD{
 
 	}
 
-
 	goToBook(gridPos){
 		let viewport = this.viewer.viewport;
 		let viewer = this.viewer;
@@ -200,7 +202,7 @@ class OSD{
 				}
 
 				//after another delay, create an overlay
-			    setTimeout( function() {
+			  makeOverlayTimeout = setTimeout( function() {
 
 					//delete open overlay if it exists
 					let openHandler = document.querySelector(".overlay");
@@ -234,11 +236,11 @@ class OSD{
 					}
 
 					viewer.addOverlay({
-				        element: makeOverlay(clickedBook, selections, cb, closeOpenThings),
-				        location: overlayLocation,
-				        placement: OpenSeadragon.Placement.TOP_LEFT,
-				        rotationMode: OpenSeadragon.OverlayRotationMode.NO_ROTATION,
-				        width: theWidth
+			        element: makeOverlay(clickedBook, selections, cb, closeOpenThings),
+			        location: overlayLocation,
+			        placement: OpenSeadragon.Placement.TOP_LEFT,
+			        rotationMode: OpenSeadragon.OverlayRotationMode.NO_ROTATION,
+			        width: theWidth
 				    });
 				}, 1000);
 			}, 1000 );
@@ -247,6 +249,7 @@ class OSD{
 
 	//if we click on the canvas, try to find what book we're on
 	handleClick(event){
+		clearTimeout(makeOverlayTimeout)
 		if (event.originalEvent.target.tagName === "CANVAS"){
 
 			d3.select("#topBar").style("transform","translate(0,0%)");
@@ -274,6 +277,7 @@ class OSD{
 
 	//remove overlay if we zoom out, need it for mobile :/
 	handleZoom(event){
+		clearTimeout(makeOverlayTimeout)
 		if (this.zoomLevel && event.zoom < this.zoomLevel){
 			let openHandler = document.querySelector(".overlay");
 			if (openHandler){
@@ -285,6 +289,7 @@ class OSD{
 
 	//hide search results if we start panning around
 	handlePan(event){
+		clearTimeout(makeOverlayTimeout)
 		if (d3.select("#mainSearch .searchResults").classed("hidden") === false) {
 			d3.select("#mainSearch .searchResults").classed("hidden", true);
 		}

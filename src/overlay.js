@@ -3,6 +3,7 @@ import * as d3 from "d3-selection";
 //draw the little pop-up that appears when we click on a book
 function makeOverlay(data, selections, callback, closeCallback)
 {
+	console.log("making overlay");
 	let isFilteredOut = checkIfFilteredOut(data, selections);
 	let elt = document.createElement("div");
 	let element = d3.select(elt)
@@ -137,7 +138,6 @@ function updateOverlay(data, selections){
 		updateChipClass("genreOverlayDiv", selections["genre"]);
 
 		updateChipClass("motifsOverlayDiv", selections["motifs"]);
-
 	}
 }
 
