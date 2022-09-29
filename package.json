@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "array-flat-polyfill": "^1.0.1",
-    "d3": "^5.9.1",
+    "d3": "^7.6.1",
     "feather-icons": "^4.21.0",
     "fuse.js": "^3.4.4",
     "js-yaml": "^3.13.1",
